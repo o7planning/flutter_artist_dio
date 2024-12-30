@@ -29,7 +29,9 @@ class FlutterArtistDio {
 
   FlutterArtistDio({
     required String appBaseURL,
-    String? Function()? getCurrentToken,
+    required String? Function()? getCurrentToken,
+    required void Function(Map<String, dynamic> headers, String accessToken)?
+        addAuthorizationToHeaders,
   })  : _appBaseURL = appBaseURL,
         _getCurrentToken = getCurrentToken {
     dio = Dio(
@@ -46,6 +48,7 @@ class FlutterArtistDio {
       AppDioInterceptor(
         appBaseURL: appBaseURL,
         getCurrentUserToken: getCurrentToken,
+        addAuthorizationToHeaders: addAuthorizationToHeaders,
       ),
     );
   }

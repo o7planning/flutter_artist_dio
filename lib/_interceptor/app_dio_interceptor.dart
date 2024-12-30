@@ -3,11 +3,15 @@ part of '../flutter_artist_dio.dart';
 class AppDioInterceptor extends Interceptor {
   final String refreshTokenApiPath = "/refreshToken";
   final String appBaseURL;
+
   final String? Function()? getCurrentUserToken;
+  final void Function(Map<String, dynamic> headers, String accessToken)?
+      addAuthorizationToHeaders;
 
   AppDioInterceptor({
     required this.appBaseURL,
     required this.getCurrentUserToken,
+    required this.addAuthorizationToHeaders,
   });
 
   // Internal Dio Object. Used in this class only.
@@ -19,20 +23,23 @@ class AppDioInterceptor extends Interceptor {
 
     String? token = getCurrentUserToken == null ? null : getCurrentUserToken!();
     //
+    if (token != null && addAuthorizationToHeaders != null) {
+      addAuthorizationToHeaders!(options.headers, token);
+    }
     options.headers.addAll({
-      // "Content-Type": "application/json",
+       "Content-Type": "application/json",
     });
 
     //
     // Get token from the storage
     //
-    if (token != null) {
-      // WWW-Authenticate: <type> realm=<realm>
-      // WWW-Authenticate: Basic realm="myRealm"
-      options.headers.addAll({
-        "Authorization": token,
-      });
-    }
+    // if (token != null) {
+    //   // WWW-Authenticate: <type> realm=<realm>
+    //   // WWW-Authenticate: Basic realm="myRealm"
+    //   options.headers.addAll({
+    //     "Authorization": token,
+    //   });
+    // }
     restLogger.createRequestLogInfo(
       dioRequestId: dioRequestID,
       baseUrl: options.baseUrl,

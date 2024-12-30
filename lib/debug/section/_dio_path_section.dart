@@ -11,14 +11,32 @@ class _DioPathSection extends StatelessWidget {
     return _CustomAppContainer.transparent(
       padding: const EdgeInsets.all(5),
       width: double.infinity,
-      child: _IconLabelText(
-        icon: const Icon(
-          Icons.tonality_outlined,
-          size: iconSize,
-        ),
-        label: '${info.requestMethod}: ',
-        text: info.requestPath,
-        textStyle: const TextStyle(color: Colors.indigo),
+      child: Row(
+        children: [
+          Expanded(
+            child: _IconLabelText(
+              icon: const Icon(
+                Icons.tonality_outlined,
+                size: iconSize,
+              ),
+              label: '${info.requestMethod}: ',
+              text: info.requestPath,
+              textStyle: const TextStyle(color: Colors.indigo),
+            ),
+          ),
+          _SimpleSmallIconButton(
+            iconData: Icons.copy,
+            onPressed: () {
+              String text="${info.baseUrl}${info.requestPath}";
+              Clipboard.setData(ClipboardData(text: text));
+              _closeAllSnackBars(context);
+              _showSnackBar(
+                context,
+                "Copied",
+              );
+            },
+          ),
+        ],
       ),
     );
   }
