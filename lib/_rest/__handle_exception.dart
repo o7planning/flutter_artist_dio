@@ -4,7 +4,7 @@ ApiResult<D> _handleException<D>(
   dynamic e, {
   required StackTrace? stackTrace,
   required int restRequestId,
-  bool showDebug = false,
+  required bool showDebug,
 }) {
   print(stackTrace);
   String errorMessage;

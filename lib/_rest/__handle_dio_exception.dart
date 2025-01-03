@@ -40,7 +40,7 @@ ApiResult<D> _handleDioException<D>(
   DioException error, {
   required StackTrace? stackTrace,
   required int restRequestId,
-  bool showDebug = false,
+  required bool showDebug,
 }) {
   print(stackTrace);
   String? errorCause;

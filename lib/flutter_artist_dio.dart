@@ -104,12 +104,14 @@ class FlutterArtistDio {
         e,
         stackTrace: stackTrace,
         restRequestId: restRequestId,
+        showDebug: showDebug,
       );
     } catch (e, stackTrace) {
       return _handleException(
         e,
         stackTrace: stackTrace,
         restRequestId: restRequestId,
+        showDebug: showDebug,
       );
     }
   }
@@ -148,12 +150,14 @@ class FlutterArtistDio {
         e,
         stackTrace: stackTrace,
         restRequestId: restRequestId,
+        showDebug: showDebug,
       );
     } catch (e, stackTrace) {
       return _handleException(
         e,
         stackTrace: stackTrace,
         restRequestId: restRequestId,
+        showDebug: showDebug,
       );
     }
   }
@@ -195,12 +199,14 @@ class FlutterArtistDio {
         e,
         stackTrace: stackTrace,
         restRequestId: restRequestId,
+        showDebug: showDebug,
       );
     } catch (e, stackTrace) {
       return _handleException(
         e,
         stackTrace: stackTrace,
         restRequestId: restRequestId,
+        showDebug: showDebug,
       );
     }
   }
@@ -239,12 +245,14 @@ class FlutterArtistDio {
         e,
         stackTrace: stackTrace,
         restRequestId: restRequestId,
+        showDebug: showDebug,
       );
     } catch (e, stackTrace) {
       return _handleException(
         e,
         stackTrace: stackTrace,
         restRequestId: restRequestId,
+        showDebug: showDebug,
       );
     }
   }
@@ -294,12 +302,14 @@ class FlutterArtistDio {
         e,
         stackTrace: stackTrace,
         restRequestId: restRequestId,
+        showDebug: showDebug,
       );
     } catch (e, stackTrace) {
       return _handleException(
         e,
         stackTrace: stackTrace,
         restRequestId: restRequestId,
+        showDebug: showDebug,
       );
     }
   }

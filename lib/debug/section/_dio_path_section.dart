@@ -27,7 +27,7 @@ class _DioPathSection extends StatelessWidget {
           _SimpleSmallIconButton(
             iconData: Icons.copy,
             onPressed: () {
-              String text="${info.baseUrl}${info.requestPath}";
+              String text = "${info.baseUrl}${info.requestPath}";
               Clipboard.setData(ClipboardData(text: text));
               _closeAllSnackBars(context);
               _showSnackBar(

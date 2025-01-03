@@ -52,12 +52,14 @@ Future<ApiResult<D>> _get<D>(
       e,
       stackTrace: stackTrace,
       restRequestId: restRequestId,
+      showDebug: showDebug,
     );
   } catch (e, stackTrace) {
     return _handleException(
       e,
       stackTrace: stackTrace,
       restRequestId: restRequestId,
+      showDebug: showDebug,
     );
   }
 }
