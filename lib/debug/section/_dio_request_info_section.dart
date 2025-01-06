@@ -2,8 +2,13 @@ part of '../../rest_debug_screen.dart';
 
 class _DioRequestInfoSection extends StatelessWidget {
   final RequestLogInfo info;
+  final bool showToken;
 
-  const _DioRequestInfoSection({super.key, required this.info});
+  const _DioRequestInfoSection({
+    super.key,
+    required this.info,
+    required this.showToken,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +52,7 @@ class _DioRequestInfoSection extends StatelessWidget {
                 size: iconSize,
               ),
               label: 'Token:',
-              text: info.token!,
+              text: showToken ? info.token! : '[Not Show]',
               suffixIcon: _SimpleSmallIconButton(
                 iconData: Icons.copy,
                 onPressed: () {

@@ -1,9 +1,14 @@
 part of '../../rest_debug_screen.dart';
 
 class _JsonConvertSection extends StatelessWidget {
+  final bool showJson;
   final RequestLogInfo info;
 
-  const _JsonConvertSection({super.key, required this.info});
+  const _JsonConvertSection({
+    super.key,
+    required this.info,
+    required this.showJson,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +36,8 @@ class _JsonConvertSection extends StatelessWidget {
             label: 'Message:',
             text: info.errorConvertingJsonMessage ?? '',
           ),
-          const SizedBox(height: 10),
-          _DataView(data: info.mainData),
+          if (showJson) const SizedBox(height: 10),
+          if (showJson) _DataView(data: info.mainData),
         ],
       ),
     );

@@ -4,8 +4,13 @@ part of '../rest_debug_screen.dart';
 // -----------------------------------------------------------------------------
 
 class _RestDebugDialogDialog extends StatefulWidget {
+  final bool showJson;
+  final bool showToken;
+
   const _RestDebugDialogDialog({
     super.key,
+    required this.showJson,
+    required this.showToken,
   });
 
   @override
@@ -38,17 +43,26 @@ class __RestDebugDialogDialogState extends State<_RestDebugDialogDialog> {
   }
 
   Widget _buildMainWidget() {
-    return const RestDebugSection();
+    return RestDebugSection(
+      showJson: widget.showJson,
+      showToken: widget.showToken,
+      showInScrollView: true,
+    );
   }
 }
 
 Future<void> showRestDebugDialog(
-  BuildContext context,
-) async {
+  BuildContext context, {
+  required bool showJson,
+  required bool showToken,
+}) async {
   await showDialog(
     context: context,
     builder: (BuildContext context) {
-      return const _RestDebugDialogDialog();
+      return _RestDebugDialogDialog(
+        showJson: showJson,
+        showToken: showToken,
+      );
     },
   );
 }
