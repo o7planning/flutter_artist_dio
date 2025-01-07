@@ -55,14 +55,16 @@ class _DioRequestInfoSection extends StatelessWidget {
               text: showToken ? info.token! : '[Not Show]',
               suffixIcon: _SimpleSmallIconButton(
                 iconData: Icons.copy,
-                onPressed: () {
-                  Clipboard.setData(ClipboardData(text: info.token!));
-                  _closeAllSnackBars(context);
-                  _showSnackBar(
-                    context,
-                    "Copied",
-                  );
-                },
+                onPressed: showToken
+                    ? () {
+                        Clipboard.setData(ClipboardData(text: info.token!));
+                        _closeAllSnackBars(context);
+                        _showSnackBar(
+                          context,
+                          "Copied",
+                        );
+                      }
+                    : null,
               ),
             ),
           if (info.requestHeaders.isNotEmpty) const SizedBox(height: 10),
