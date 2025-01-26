@@ -15,6 +15,7 @@ ApiResult<D> _handleDioResponse<D>({
     responseStatusCode: response.statusCode,
     responseStatusMessage: response.statusMessage,
   );
+  int? statusCode = response.statusCode;
 
   //
   dynamic baseResultData;
@@ -42,6 +43,7 @@ ApiResult<D> _handleDioResponse<D>({
       baseResultData = rawResult.data;
       //
       ApiResult<D> apiResult = ApiResult.fromDynamicData<D>(
+        statusCode: response.statusCode,
         data: baseResultData,
         dataConverter: converter,
       );
@@ -57,6 +59,7 @@ ApiResult<D> _handleDioResponse<D>({
   // ResponseDataMode.realData:
   else {
     ApiResult<D> apiResult = ApiResult.fromDynamicData<D>(
+      statusCode: response.statusCode,
       data: response.data,
       dataConverter: converter,
     );
