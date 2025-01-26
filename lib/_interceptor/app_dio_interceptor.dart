@@ -26,7 +26,7 @@ class AppDioInterceptor extends Interceptor {
     if (token != null && addAuthorizationToHeaders != null) {
       addAuthorizationToHeaders!(options.headers, token);
     }
-    
+
     options.headers.addAll({"Content-Type": "application/json"});
 
     //

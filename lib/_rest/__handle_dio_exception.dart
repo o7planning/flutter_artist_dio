@@ -75,6 +75,7 @@ ApiResult<D> _handleDioException<D>(
 
     try {
       WrapApiResult? baseResult = WrapApiResult.fromDynamicData(errorData);
+
       if (baseResult == null) {
         info?.setErrorParsingJson(
           errorParsingJson: true,
@@ -85,6 +86,7 @@ ApiResult<D> _handleDioException<D>(
         }
         return ApiResult(errorMessage: "Response Error JSON is not valid!");
       } else {
+        baseResult?.errorMessage ??= "Unknown Error (TODO)";
         info?.setErrorParsingJson(
           errorParsingJson: false,
           errorParsingJsonMessage: "Response Error JSON is valid!",
