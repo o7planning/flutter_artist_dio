@@ -40,53 +40,86 @@ ApiResult<D> _handleDioResponse<D>({
       );
     } else {
       baseResultData = rawResult.data;
-    }
-  }
-  //
-  else {
-    baseResultData = response.data;
-  }
-
-  try {
-    bool isEmpty = false;
-    if (baseResultData != null) {
-      if (baseResultData is Map && baseResultData.isEmpty) {
-        baseResultData = null;
-        isEmpty = true;
-      }
-    }
-    D? data = baseResultData == null
-        ? null
-        : converter == null
-            ? null
-            : converter(baseResultData);
-    if (data == null) {
-      if (isEmpty || converter == null) {
-        return ApiResult(data: null);
-      } else {
-        info?.setErrorConvertingJson(
-          mainData: baseResultData,
-          errorConvertingJson: true,
-          errorConvertingJsonMessage: "Converter method return null",
+      //
+      ApiResult<D> apiResult = ApiResult.fromDynamicData<D>(
+        data: baseResultData,
+        dataConverter: converter,
+      );
+      if (apiResult.isError()) {
+        info?.setResponseErrorMessage(
+          responseErrorMessage: apiResult.errorMessage,
+          responseErrorDetails: apiResult.errorDetails,
         );
-        return ApiResult(errorMessage: "Converter method return null");
       }
-    } else {
-      info?.setErrorConvertingJson(
-        mainData: baseResultData,
-        errorConvertingJson: false,
-        errorConvertingJsonMessage: "Convert Successful",
+      return apiResult;
+    }
+  }
+  // ResponseDataMode.realData:
+  else {
+    ApiResult<D> apiResult = ApiResult.fromDynamicData<D>(
+      data: response.data,
+      dataConverter: converter,
+    );
+    if (apiResult.isError()) {
+      info?.setResponseErrorMessage(
+        responseErrorMessage: apiResult.errorMessage,
+        responseErrorDetails: apiResult.errorDetails,
       );
     }
-    return ApiResult(data: data);
-  } catch (e, stackTrace) {
-    print("Convert Error: $e");
-    print(stackTrace);
-    info?.setErrorConvertingJson(
-      mainData: baseResultData,
-      errorConvertingJson: true,
-      errorConvertingJsonMessage: "Convert Error: $e",
-    );
-    return ApiResult(errorMessage: "Convert Error: $e");
+    return apiResult;
   }
+
+  // try {
+  //   bool isEmpty = false;
+  //   if (baseResultData != null) {
+  //     if (baseResultData is Map && baseResultData.isEmpty) {
+  //       baseResultData = null;
+  //       isEmpty = true;
+  //     }
+  //   }
+  //   D? data = baseResultData == null
+  //       ? null
+  //       : converter == null
+  //           ? null
+  //           : converter(baseResultData);
+  //   if (data == null) {
+  //     // TODO: Not good idea.
+  //     // May be converter can not parse error!
+  //     if (responseDataMode == ResponseDataMode.realData && converter != null) {
+  //       ApiResult<D> apiResult = ApiResult.fromDynamicData(
+  //         data: response.data,
+  //         dataConverter: null,
+  //       ) as ApiResult<D>;
+  //       if (apiResult.isError()) {
+  //         return apiResult;
+  //       }
+  //     }
+  //     if (isEmpty || converter == null) {
+  //       return ApiResult(data: null);
+  //     } else {
+  //       info?.setErrorConvertingJson(
+  //         mainData: baseResultData,
+  //         errorConvertingJson: true,
+  //         errorConvertingJsonMessage: "Converter method return null",
+  //       );
+  //       return ApiResult(errorMessage: "Converter method return null");
+  //     }
+  //   } else {
+  //     info?.setErrorConvertingJson(
+  //       mainData: baseResultData,
+  //       errorConvertingJson: false,
+  //       errorConvertingJsonMessage: "Convert Successful",
+  //     );
+  //   }
+  //   return ApiResult(data: data);
+  // } catch (e, stackTrace) {
+  //   print("Convert Error: $e");
+  //   print(stackTrace);
+  //   info?.setErrorConvertingJson(
+  //     mainData: baseResultData,
+  //     errorConvertingJson: true,
+  //     errorConvertingJsonMessage: "Convert Error: $e",
+  //   );
+  //   return ApiResult(errorMessage: "Convert Error: $e");
+  // }
 }
