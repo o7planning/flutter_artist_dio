@@ -1,5 +1,7 @@
 part of '../flutter_artist_dio.dart';
 
+// DIO:
+//
 // Future<Response<T>> get<T>(
 //     String path, {
 //       Object? data,
@@ -7,7 +9,7 @@ part of '../flutter_artist_dio.dart';
 //       Options? options,
 //       CancelToken? cancelToken,
 //       ProgressCallback? onReceiveProgress,
-//     });
+// });
 Future<ApiResult<D>> _get<D>(
   Dio dio,
   String path, {
