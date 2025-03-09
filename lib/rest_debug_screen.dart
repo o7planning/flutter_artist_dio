@@ -12,7 +12,6 @@ part '_dialog/_dialog_size.dart';
 part '_dialog/_rest_debug_dialog.dart';
 part 'debug/_utils.dart';
 part 'debug/debug_section.dart';
-part 'debug/section/_dio_convert_section.dart';
 part 'debug/section/_dio_path_section.dart';
 part 'debug/section/_dio_request_info_section.dart';
 part 'debug/section/_dio_request_list_section.dart';

@@ -86,7 +86,7 @@ ApiResult<D> _handleDioException<D>(
         return ApiResult(errorMessage: "Response Error JSON is not valid!");
       }
       //
-        baseResult.errorMessage ??= "Unknown Error (TODO)";
+      baseResult.errorMessage ??= "Unknown Error (TODO)";
 
       info?._setResponseErrorMessage(
         errorType: ErrorType.parseError,

@@ -34,7 +34,6 @@ class RequestLogInfo {
 
   // (3)
   dynamic mainData;
-  bool errorConvertingJson = false;
   String? errorConvertingJsonMessage;
 
   //

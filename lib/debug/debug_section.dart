@@ -62,10 +62,6 @@ class _RestDebugSectionState extends State<RestDebugSection> {
           if (info != null) const SizedBox(height: 10),
           if (info != null) //
             _DioResponseSection(info: info!, showJson: widget.showJson),
-          //
-          if (info != null) const SizedBox(height: 10),
-          if (info != null) //
-            _JsonConvertSection(info: info!, showJson: widget.showJson),
         ],
       ),
     );

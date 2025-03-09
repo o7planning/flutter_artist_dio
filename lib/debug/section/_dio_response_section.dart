@@ -31,24 +31,29 @@ class _DioResponseSection extends StatelessWidget {
             label: 'Response Status Code:',
             text: info.responseStatusCode.toString(),
           ),
-          const SizedBox(height: 10),
-          _IconLabelText(
-            icon: const Icon(
-              Icons.text_snippet_outlined,
-              size: iconSize,
+          //
+          if (info.responseStatusMessage != null) const SizedBox(height: 10),
+          if (info.responseStatusMessage != null)
+            _IconLabelText(
+              icon: const Icon(
+                Icons.text_snippet_outlined,
+                size: iconSize,
+              ),
+              label: 'Response Status Message:',
+              text: info.responseStatusMessage!,
             ),
-            label: 'Response Status Message:',
-            text: info.responseStatusMessage ?? '',
-          ),
-          const SizedBox(height: 10),
-          _IconLabelText(
-            icon: const Icon(
-              Icons.text_snippet_outlined,
-              size: iconSize,
+          //
+          if (info.responseErrorMessage != null) const SizedBox(height: 10),
+          if (info.responseErrorMessage != null)
+            _IconLabelText(
+              icon: const Icon(
+                Icons.text_snippet_outlined,
+                size: iconSize,
+              ),
+              label: 'Error Message:',
+              text: info.responseErrorMessage!,
             ),
-            label: 'Error Message:',
-            text: info.responseErrorMessage ?? '',
-          ),
+          //
           if (info.errorParsingJsonMessage != null) const SizedBox(height: 10),
           if (info.errorParsingJsonMessage != null)
             _IconLabelText(
@@ -59,6 +64,19 @@ class _DioResponseSection extends StatelessWidget {
               ),
               label: 'JSON Parse Error: ',
               text: info.errorParsingJsonMessage ?? '',
+            ),
+          //
+          if (info.errorConvertingJsonMessage != null)
+            const SizedBox(height: 10),
+          if (info.errorConvertingJsonMessage != null)
+            _IconLabelText(
+              icon: const Icon(
+                Icons.error,
+                color: Colors.red,
+                size: iconSize,
+              ),
+              label: 'Conversion Error: ',
+              text: info.errorConvertingJsonMessage!,
             ),
           //
           const SizedBox(height: 10),
