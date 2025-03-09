@@ -3,9 +3,8 @@ part of '../flutter_artist_dio.dart';
 enum ErrorType {
   none,
   noResponse,
-  serverSideError,
   apiError,
-  clientSideError,
+  parseError,
 }
 
 class RequestLogInfo {
@@ -27,7 +26,6 @@ class RequestLogInfo {
   dynamic responseData;
 
   // (1)
-  bool errorParsingJson = false;
   String? errorParsingJsonMessage;
 
   // (2)
@@ -87,60 +85,49 @@ class RequestLogInfo {
     return errorType != ErrorType.none;
   }
 
-  // Request Successul! The Server return data.
-  void setResponseSuccessInfo({
+  // The Server return data.
+  void _setResponseSuccessInfo({
     required int dioRequestID,
     required dynamic responseData,
     required int? responseStatusCode,
     required String? responseStatusMessage,
   }) {
-    // print("-- setResponseInfo: $dioRequestID");
     assert(this.dioRequestID == dioRequestID);
+    //
     this.responseStatusCode = responseStatusCode;
     this.responseStatusMessage = responseStatusMessage;
     this.responseData = responseData;
   }
 
-  // Request Fail! The Server return error data.
-  void setResponseFailInfo({
+  // The Server return error data.
+  void _setResponseFailInfo({
     required int dioRequestID,
-    required bool isNoResponse,
+    required ErrorType errorType,
     required dynamic responseData,
     required int? responseStatusCode,
     required String? responseStatusMessage,
   }) {
-    // print("-- setResponseInfo: $dioRequestID");
     assert(this.dioRequestID == dioRequestID);
-    this.errorType = ErrorType.serverSideError;
+    //
+    this.errorType = errorType;
     this.responseStatusCode = responseStatusCode;
     this.responseStatusMessage = responseStatusMessage;
     this.responseData = responseData;
   }
 
-  void setErrorParsingJson({
-    required bool errorParsingJson,
+  void _setErrorParsingJson({
     required String? errorParsingJsonMessage,
   }) {
-    this.errorParsingJson = errorParsingJson;
+    this.errorType = ErrorType.parseError;
     this.errorParsingJsonMessage = errorParsingJsonMessage;
   }
 
-  void setErrorConvertingJson({
-    required dynamic mainData,
-    required bool errorConvertingJson,
-    required String? errorConvertingJsonMessage,
-  }) {
-    this.errorType = ErrorType.clientSideError;
-    this.mainData = mainData;
-    this.errorConvertingJson = errorConvertingJson;
-    this.errorConvertingJsonMessage = errorConvertingJsonMessage;
-  }
-
-  void setResponseErrorMessage({
+  void _setResponseErrorMessage({
+    required ErrorType errorType,
     required String? responseErrorMessage,
     required List<String>? responseErrorDetails,
   }) {
-    this.errorType = ErrorType.apiError;
+    this.errorType = errorType;
     this.responseErrorMessage = responseErrorMessage;
     this.responseErrorDetails = responseErrorDetails;
   }

@@ -9,7 +9,7 @@ ApiResult<D> _handleDioResponse<D>({
 }) {
   RequestLogInfo? info = restLogger.getRequestLogInfo(restRequestId);
   //
-  info?.setResponseSuccessInfo(
+  info?._setResponseSuccessInfo(
     dioRequestID: restRequestId,
     responseData: response.data,
     responseStatusCode: response.statusCode,
@@ -50,7 +50,8 @@ ApiResult<D> __handleResponseAsDirectData<D>({
     dataConverter: converter,
   );
   if (apiResult.isError()) {
-    info?.setResponseErrorMessage(
+    info?._setResponseErrorMessage(
+      errorType: ErrorType.apiError,
       responseErrorMessage: apiResult.errorMessage,
       responseErrorDetails: apiResult.errorDetails,
     );
@@ -72,14 +73,10 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
   WrapApiResult? rawResult = WrapApiResult.fromDynamicData(response.data);
   if (rawResult == null) {
     return ApiResult.data(null);
-  } else {
-    info?.setErrorParsingJson(
-      errorParsingJson: false,
-      errorParsingJsonMessage: "Response JSON is valid!",
-    );
   }
   if (rawResult.errorMessage != null && rawResult.errorMessage!.isNotEmpty) {
-    info?.setResponseErrorMessage(
+    info?._setResponseErrorMessage(
+      errorType: ErrorType.apiError,
       responseErrorMessage: rawResult.errorMessage,
       responseErrorDetails: rawResult.errorDetails,
     );
@@ -97,7 +94,8 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
       dataConverter: converter,
     );
     if (apiResult.isError()) {
-      info?.setResponseErrorMessage(
+      info?._setResponseErrorMessage(
+        errorType: ErrorType.apiError,
         responseErrorMessage: apiResult.errorMessage,
         responseErrorDetails: apiResult.errorDetails,
       );

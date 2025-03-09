@@ -54,14 +54,14 @@ ApiResult<D> _handleDioException<D>(
 
   //
   if (error.response != null) {
+    //
     // Map<String,dynamic> or List<dynamic> or String.
     var errorData = error.response!.data;
-
     //
-
-    info?.setResponseFailInfo(
+    //
+    info?._setResponseFailInfo(
       dioRequestID: restRequestId,
-      isNoResponse: false,
+      errorType: ErrorType.apiError,
       responseData: errorData,
       responseStatusCode: error.response!.statusCode,
       responseStatusMessage: error.response!.statusMessage,
@@ -77,22 +77,19 @@ ApiResult<D> _handleDioException<D>(
       WrapApiResult? baseResult = WrapApiResult.fromDynamicData(errorData);
 
       if (baseResult == null) {
-        info?.setErrorParsingJson(
-          errorParsingJson: true,
+        info?._setErrorParsingJson(
           errorParsingJsonMessage: "Response Error JSON is not valid!",
         );
         if (showDebug) {
           print("Response Error JSON is not valid!");
         }
         return ApiResult(errorMessage: "Response Error JSON is not valid!");
-      } else {
-        baseResult?.errorMessage ??= "Unknown Error (TODO)";
-        info?.setErrorParsingJson(
-          errorParsingJson: false,
-          errorParsingJsonMessage: "Response Error JSON is valid!",
-        );
       }
-      info?.setResponseErrorMessage(
+      //
+        baseResult.errorMessage ??= "Unknown Error (TODO)";
+
+      info?._setResponseErrorMessage(
+        errorType: ErrorType.parseError,
         responseErrorMessage: baseResult.errorMessage,
         responseErrorDetails: baseResult.errorDetails,
       );
@@ -101,29 +98,27 @@ ApiResult<D> _handleDioException<D>(
         errorDetails: baseResult.errorDetails,
       );
     } catch (e) {
-      // --------------------------------------------->
-      info?.setErrorParsingJson(
-        errorParsingJson: true,
+      info?._setErrorParsingJson(
         errorParsingJsonMessage: "Error Parsing JSON: $e",
       );
-      print("----------- $errorData");
+      //
       return ApiResult(errorMessage: "Error Parsing JSON: $e");
     }
   } else {
-    info?.setResponseFailInfo(
+    info?._setResponseFailInfo(
       dioRequestID: restRequestId,
-      isNoResponse: true,
+      errorType: ErrorType.noResponse,
       responseData: null,
       responseStatusCode: -1,
       responseStatusMessage: null,
     );
-
     // Handle no response
     String errorMessage = "No Response: $error";
     if (showDebug) {
       print(errorMessage);
     }
-    info?.setResponseErrorMessage(
+    info?._setResponseErrorMessage(
+      errorType: ErrorType.noResponse,
       responseErrorMessage: errorMessage,
       responseErrorDetails: null,
     );

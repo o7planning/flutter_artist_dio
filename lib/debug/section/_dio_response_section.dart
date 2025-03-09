@@ -20,11 +20,11 @@ class _DioResponseSection extends StatelessWidget {
         children: [
           _IconLabelText(
             icon: Icon(
-              info.errorType == ErrorType.serverSideError //
+              info.errorType == ErrorType.apiError //
                   ? Icons.error
                   : Icons.check_box_rounded,
               size: iconSize,
-              color: info.errorType == ErrorType.serverSideError //
+              color: info.errorType == ErrorType.apiError //
                   ? Colors.red
                   : Colors.blue,
             ),
@@ -49,8 +49,8 @@ class _DioResponseSection extends StatelessWidget {
             label: 'Error Message:',
             text: info.responseErrorMessage ?? '',
           ),
-          if (info.errorParsingJson) const SizedBox(height: 10),
-          if (info.errorParsingJson)
+          if (info.errorParsingJsonMessage != null) const SizedBox(height: 10),
+          if (info.errorParsingJsonMessage != null)
             _IconLabelText(
               icon: const Icon(
                 Icons.error,
