@@ -21,10 +21,6 @@ class RequestLogInfo {
   //
   ErrorType errorType = ErrorType.none;
 
-  // bool isNoResponse = false;
-  // bool isServerSideError = false;
-  // bool isClientSideError = false;
-
   //
   int? responseStatusCode;
   String? responseStatusMessage;
