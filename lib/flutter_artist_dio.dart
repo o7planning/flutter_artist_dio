@@ -4,12 +4,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_artist_rest_core/flutter_artist_rest_core.dart';
 
+part '_error_handler/__handle_dio_exception.dart';
+part '_error_handler/__handle_dio_response.dart';
+part '_error_handler/__handle_exception.dart';
 part '_interceptor/app_dio_interceptor.dart';
 part '_model/request_log_info.dart';
 part '_rest/__base.dart';
-part '_rest/__handle_dio_exception.dart';
-part '_rest/__handle_dio_response.dart';
-part '_rest/__handle_exception.dart';
 part '_rest/_binary_get.dart';
 part '_rest/_json_delete.dart';
 part '_rest/_json_get.dart';
