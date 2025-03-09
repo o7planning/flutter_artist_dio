@@ -1,5 +1,12 @@
 part of '../flutter_artist_dio.dart';
 
+enum ErrorType {
+  none,
+  noResponse,
+  serverSideError,
+  clientSideError,
+}
+
 class RequestLogInfo {
   int dioRequestID;
   String baseUrl;
@@ -11,6 +18,7 @@ class RequestLogInfo {
   late Map<String, dynamic> mapData;
 
   //
+  ErrorType errorType = ErrorType.none;
   bool isNoResponse = false;
   bool isServerSideError = false;
   bool isClientSideError = false;
