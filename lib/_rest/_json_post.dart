@@ -10,7 +10,7 @@ part of '../flutter_artist_dio.dart';
 //       ProgressCallback? onReceiveProgress,
 //     });
 
-Future<ApiResult<D>> _json_post<D>(
+Future<ApiResult<D>> _jsonPost<D>(
   Dio dio,
   String path, {
   ResponseDataMode responseDataMode = ResponseDataMode.realData,

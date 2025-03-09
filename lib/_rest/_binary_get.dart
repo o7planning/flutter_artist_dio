@@ -10,7 +10,7 @@ part of '../flutter_artist_dio.dart';
 //       CancelToken? cancelToken,
 //       ProgressCallback? onReceiveProgress,
 // });
-Future<ApiResult<D>> _binary_get_download<D>(
+Future<ApiResult<D>> _binaryGetToDownload<D>(
   Dio dio,
   String path, {
   required ResponseDataMode responseDataMode,

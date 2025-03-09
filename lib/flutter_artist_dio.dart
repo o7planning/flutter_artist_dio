@@ -95,7 +95,7 @@ class FlutterArtistDio {
     ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
   }) async {
-    return await _json_post<D>(
+    return await _jsonPost<D>(
       dio,
       path,
       responseDataMode: responseDataMode,
@@ -118,7 +118,7 @@ class FlutterArtistDio {
     ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
   }) async {
-    return _json_put<D>(
+    return _jsonPut<D>(
       dio,
       path,
       responseDataMode: responseDataMode,
@@ -141,7 +141,7 @@ class FlutterArtistDio {
     ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
   }) async {
-    return _json_delete<D>(
+    return _jsonDelete<D>(
       dio,
       path,
       responseDataMode: responseDataMode,
@@ -164,7 +164,7 @@ class FlutterArtistDio {
     ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
   }) async {
-    return _binary_get_download<D>(
+    return _binaryGetToDownload<D>(
       dio,
       path,
       responseDataMode: responseDataMode,

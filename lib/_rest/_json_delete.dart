@@ -8,7 +8,7 @@ part of '../flutter_artist_dio.dart';
 //       CancelToken? cancelToken,
 //     });
 
-Future<ApiResult<D>> _json_delete<D>(
+Future<ApiResult<D>> _jsonDelete<D>(
   Dio dio,
   String path, {
   ResponseDataMode responseDataMode = ResponseDataMode.realData,
