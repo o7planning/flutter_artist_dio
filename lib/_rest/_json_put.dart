@@ -1,22 +1,21 @@
 part of '../flutter_artist_dio.dart';
 
-// DIO:
-//
-// Future<Response<T>> get<T>(
+// Future<Response<T>> put<T>(
 //     String path, {
 //       Object? data,
 //       Map<String, dynamic>? queryParameters,
 //       Options? options,
 //       CancelToken? cancelToken,
+//       ProgressCallback? onSendProgress,
 //       ProgressCallback? onReceiveProgress,
-// });
-Future<ApiResult<D>> _get<D>(
+//     });
+Future<ApiResult<D>> _json_put<D>(
   Dio dio,
   String path, {
-  required ResponseDataMode responseDataMode,
+  ResponseDataMode responseDataMode = ResponseDataMode.realData,
   Map<String, dynamic>? headers,
   Map<String, dynamic>? queryParameters,
-  String? token,
+  dynamic data,
   required Converter<D>? converter,
   ErrorConverter errorConverter = defaultErrorConverter,
   bool showDebug = false,
@@ -26,22 +25,16 @@ Future<ApiResult<D>> _get<D>(
     headers ??= {};
     restRequestId = _addRequestIdToHeaders(headers: headers);
     //
-    if (token != null) {
-      headers["Authorization"] = token;
-    }
-    Options options = Options(
-      headers: headers,
-      contentType: 'application/json',
-      followRedirects: false,
-      validateStatus: (status) => true,
+    final response = await dio.put(
+      path,
+      options: Options(
+        headers: headers,
+        receiveTimeout: const Duration(seconds: 10),
+      ),
+      queryParameters: queryParameters,
+      data: data,
     );
     //
-    final response = await dio.get(
-      path,
-      options: options,
-      queryParameters: queryParameters,
-    );
-
     return _handleDioResponse<D>(
       responseDataMode: responseDataMode,
       response: response,

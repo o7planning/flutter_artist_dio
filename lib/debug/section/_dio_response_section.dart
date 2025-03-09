@@ -20,9 +20,13 @@ class _DioResponseSection extends StatelessWidget {
         children: [
           _IconLabelText(
             icon: Icon(
-              info.isServerSideError ? Icons.error : Icons.check_box_rounded,
+              info.errorType == ErrorType.serverSideError //
+                  ? Icons.error
+                  : Icons.check_box_rounded,
               size: iconSize,
-              color: info.isServerSideError ? Colors.red : Colors.blue,
+              color: info.errorType == ErrorType.serverSideError //
+                  ? Colors.red
+                  : Colors.blue,
             ),
             label: 'Response Status Code:',
             text: info.responseStatusCode.toString(),

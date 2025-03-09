@@ -10,10 +10,11 @@ part '_rest/__base.dart';
 part '_rest/__handle_dio_exception.dart';
 part '_rest/__handle_dio_response.dart';
 part '_rest/__handle_exception.dart';
-part '_rest/_delete.dart';
-part '_rest/_get.dart';
-part '_rest/_post.dart';
-part '_rest/_put.dart';
+part '_rest/_binary_get.dart';
+part '_rest/_json_delete.dart';
+part '_rest/_json_get.dart';
+part '_rest/_json_post.dart';
+part '_rest/_json_put.dart';
 part 'logger/rest_logger.dart';
 
 // -----------------------------------------------------------------------------
@@ -71,49 +72,17 @@ class FlutterArtistDio {
     ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
   }) async {
-    int restRequestId = 0;
-    try {
-      headers ??= {};
-      restRequestId = _addRequestIdToHeaders(headers: headers);
-      //
-      if (token != null) {
-        headers["Authorization"] = token;
-      }
-      Options options = Options(
-        headers: headers,
-        contentType: 'application/json',
-        followRedirects: false,
-        validateStatus: (status) => true,
-      );
-      //
-      final response = await dio.get(
-        path,
-        options: options,
-        queryParameters: queryParameters,
-      );
-
-      return _handleDioResponse<D>(
-        responseDataMode: responseDataMode,
-        response: response,
-        converter: converter,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    } on DioException catch (e, stackTrace) {
-      return _handleDioException(
-        e,
-        stackTrace: stackTrace,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    } catch (e, stackTrace) {
-      return _handleException(
-        e,
-        stackTrace: stackTrace,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    }
+    return _jsonGet<D>(
+      dio,
+      path,
+      responseDataMode: responseDataMode,
+      headers: headers,
+      queryParameters: queryParameters,
+      token: token,
+      converter: converter,
+      errorConverter: errorConverter,
+      showDebug: showDebug,
+    );
   }
 
   Future<ApiResult<D>> restPost<D>(
@@ -126,40 +95,17 @@ class FlutterArtistDio {
     ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
   }) async {
-    int restRequestId = 0;
-    try {
-      headers ??= {};
-      restRequestId = _addRequestIdToHeaders(headers: headers);
-      //
-      final response = await dio.post(
-        path,
-        options: Options(headers: headers),
-        queryParameters: queryParameters,
-        data: data,
-      );
-      //
-      return _handleDioResponse<D>(
-        responseDataMode: responseDataMode,
-        response: response,
-        converter: converter,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    } on DioException catch (e, stackTrace) {
-      return _handleDioException(
-        e,
-        stackTrace: stackTrace,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    } catch (e, stackTrace) {
-      return _handleException(
-        e,
-        stackTrace: stackTrace,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    }
+    return await _json_post<D>(
+      dio,
+      path,
+      responseDataMode: responseDataMode,
+      headers: headers,
+      queryParameters: queryParameters,
+      data: data,
+      converter: converter,
+      errorConverter: errorConverter,
+      showDebug: showDebug,
+    );
   }
 
   Future<ApiResult<D>> restPut<D>(
@@ -172,43 +118,17 @@ class FlutterArtistDio {
     ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
   }) async {
-    int restRequestId = 0;
-    try {
-      headers ??= {};
-      restRequestId = _addRequestIdToHeaders(headers: headers);
-      //
-      final response = await dio.put(
-        path,
-        options: Options(
-          headers: headers,
-          receiveTimeout: const Duration(seconds: 10),
-        ),
-        queryParameters: queryParameters,
-        data: data,
-      );
-      //
-      return _handleDioResponse<D>(
-        responseDataMode: responseDataMode,
-        response: response,
-        converter: converter,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    } on DioException catch (e, stackTrace) {
-      return _handleDioException(
-        e,
-        stackTrace: stackTrace,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    } catch (e, stackTrace) {
-      return _handleException(
-        e,
-        stackTrace: stackTrace,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    }
+    return _json_put<D>(
+      dio,
+      path,
+      responseDataMode: responseDataMode,
+      headers: headers,
+      queryParameters: queryParameters,
+      data: data,
+      converter: converter,
+      errorConverter: errorConverter,
+      showDebug: showDebug,
+    );
   }
 
   Future<ApiResult<D>> restDelete<D>(
@@ -221,43 +141,20 @@ class FlutterArtistDio {
     ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
   }) async {
-    int restRequestId = 0;
-    try {
-      headers ??= {};
-      restRequestId = _addRequestIdToHeaders(headers: headers);
-      //
-      final response = await dio.delete(
-        path,
-        options: Options(headers: headers),
-        queryParameters: queryParameters,
-        data: data,
-      );
-      //
-      return _handleDioResponse<D>(
-        responseDataMode: responseDataMode,
-        response: response,
-        converter: converter,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    } on DioException catch (e, stackTrace) {
-      return _handleDioException(
-        e,
-        stackTrace: stackTrace,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    } catch (e, stackTrace) {
-      return _handleException(
-        e,
-        stackTrace: stackTrace,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    }
+    return _json_delete<D>(
+      dio,
+      path,
+      responseDataMode: responseDataMode,
+      headers: headers,
+      queryParameters: queryParameters,
+      data: data,
+      converter: converter,
+      errorConverter: errorConverter,
+      showDebug: showDebug,
+    );
   }
 
-  Future<ApiResult<D>> getDownload<D>(
+  Future<ApiResult<D>> getBinaryDownload<D>(
     String path, {
     required ResponseDataMode responseDataMode,
     Map<String, dynamic>? headers,
@@ -267,50 +164,16 @@ class FlutterArtistDio {
     ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
   }) async {
-    int restRequestId = 0;
-    try {
-      headers ??= {};
-      restRequestId = _addRequestIdToHeaders(headers: headers);
-      //
-      if (token != null) {
-        headers["Authorization"] = token;
-      }
-      // Content-Type: application/octet-stream
-      // Content-Disposition: attachment; filename="picture.png"
-      Options options = Options(
-        headers: headers,
-        contentType: 'application/octet-stream',
-        followRedirects: false,
-        validateStatus: (status) => true,
-      );
-      //
-      final response = await dio.get(
-        path,
-        options: options,
-        queryParameters: queryParameters,
-      );
-
-      return _handleDioResponse<D>(
-        responseDataMode: responseDataMode,
-        response: response,
-        converter: converter,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    } on DioException catch (e, stackTrace) {
-      return _handleDioException(
-        e,
-        stackTrace: stackTrace,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    } catch (e, stackTrace) {
-      return _handleException(
-        e,
-        stackTrace: stackTrace,
-        restRequestId: restRequestId,
-        showDebug: showDebug,
-      );
-    }
+    return _binary_get_download<D>(
+      dio,
+      path,
+      responseDataMode: responseDataMode,
+      headers: headers,
+      queryParameters: queryParameters,
+      token: token,
+      converter: converter,
+      errorConverter: errorConverter,
+      showDebug: showDebug,
+    );
   }
 }

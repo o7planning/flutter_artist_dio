@@ -4,6 +4,7 @@ enum ErrorType {
   none,
   noResponse,
   serverSideError,
+  apiError,
   clientSideError,
 }
 
@@ -19,9 +20,10 @@ class RequestLogInfo {
 
   //
   ErrorType errorType = ErrorType.none;
-  bool isNoResponse = false;
-  bool isServerSideError = false;
-  bool isClientSideError = false;
+
+  // bool isNoResponse = false;
+  // bool isServerSideError = false;
+  // bool isClientSideError = false;
 
   //
   int? responseStatusCode;
@@ -85,7 +87,9 @@ class RequestLogInfo {
     }
   }
 
-  bool get isError => isNoResponse || isServerSideError || isClientSideError;
+  bool get isError {
+    return errorType != ErrorType.none;
+  }
 
   // Request Successul! The Server return data.
   void setResponseSuccessInfo({
@@ -96,8 +100,6 @@ class RequestLogInfo {
   }) {
     // print("-- setResponseInfo: $dioRequestID");
     assert(this.dioRequestID == dioRequestID);
-    isNoResponse = false;
-    isServerSideError = false;
     this.responseStatusCode = responseStatusCode;
     this.responseStatusMessage = responseStatusMessage;
     this.responseData = responseData;
@@ -113,8 +115,7 @@ class RequestLogInfo {
   }) {
     // print("-- setResponseInfo: $dioRequestID");
     assert(this.dioRequestID == dioRequestID);
-    isServerSideError = true;
-    this.isNoResponse = isNoResponse;
+    this.errorType = ErrorType.serverSideError;
     this.responseStatusCode = responseStatusCode;
     this.responseStatusMessage = responseStatusMessage;
     this.responseData = responseData;
@@ -133,6 +134,7 @@ class RequestLogInfo {
     required bool errorConvertingJson,
     required String? errorConvertingJsonMessage,
   }) {
+    this.errorType = ErrorType.clientSideError;
     this.mainData = mainData;
     this.errorConvertingJson = errorConvertingJson;
     this.errorConvertingJsonMessage = errorConvertingJsonMessage;
@@ -142,6 +144,7 @@ class RequestLogInfo {
     required String? responseErrorMessage,
     required List<String>? responseErrorDetails,
   }) {
+    this.errorType = ErrorType.apiError;
     this.responseErrorMessage = responseErrorMessage;
     this.responseErrorDetails = responseErrorDetails;
   }
@@ -152,7 +155,6 @@ class RequestLogInfo {
   }) {
     print("-- setErrorInfo: $dioRequestID");
     assert(this.dioRequestID == dioRequestID);
-    this.isNoResponse = false;
     this.error = error;
   }
 }
