@@ -1,6 +1,6 @@
 part of '../flutter_artist_dio.dart';
 
-class AppDioInterceptor extends Interceptor {
+class FlutterArtistDioInterceptor extends Interceptor {
   final String refreshTokenApiPath = "/refreshToken";
   final String appBaseURL;
 
@@ -8,7 +8,7 @@ class AppDioInterceptor extends Interceptor {
   final void Function(Map<String, dynamic> headers, String accessToken)?
       addAuthorizationToHeaders;
 
-  AppDioInterceptor({
+  FlutterArtistDioInterceptor({
     required this.appBaseURL,
     required this.getCurrentUserToken,
     required this.addAuthorizationToHeaders,

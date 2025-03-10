@@ -46,7 +46,7 @@ class FlutterArtistDio {
       ),
     );
     dio.interceptors.add(
-      AppDioInterceptor(
+      FlutterArtistDioInterceptor(
         appBaseURL: appBaseURL,
         getCurrentUserToken: getCurrentToken,
         addAuthorizationToHeaders: addAuthorizationToHeaders,
