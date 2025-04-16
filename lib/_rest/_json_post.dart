@@ -31,6 +31,7 @@ Future<ApiResult<D>> _jsonPost<D>(
       options: Options(
         headers: headers,
         receiveTimeout: const Duration(seconds: 10),
+        sendTimeout:  const Duration(seconds: 10),
       ),
       queryParameters: queryParameters,
       data: data,
