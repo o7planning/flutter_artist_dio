@@ -28,7 +28,10 @@ Future<ApiResult<D>> _jsonPost<D>(
     //
     final response = await dio.post(
       path,
-      options: Options(headers: headers),
+      options: Options(
+        headers: headers,
+        receiveTimeout: const Duration(seconds: 10),
+      ),
       queryParameters: queryParameters,
       data: data,
     );
