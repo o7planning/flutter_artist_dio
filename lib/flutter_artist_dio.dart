@@ -94,6 +94,7 @@ class FlutterArtistDio {
     required Converter<D>? converter,
     ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
+    Duration? receiveTimeout,
   }) async {
     return await _jsonPost<D>(
       dio,
@@ -105,6 +106,7 @@ class FlutterArtistDio {
       converter: converter,
       errorConverter: errorConverter,
       showDebug: showDebug,
+      receiveTimeout:receiveTimeout,
     );
   }
 
