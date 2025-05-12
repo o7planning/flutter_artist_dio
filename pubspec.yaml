@@ -12,8 +12,8 @@ dependencies:
     sdk: flutter
 
   dio: ^5.7.0
-  flutter_artist_rest_core:
-    path: ../flutter_artist_rest_core
+  flutter_artist_core:
+    path: ../flutter_artist_core
   flutter_artist_commons_ui:
     path: ../flutter_artist_commons_ui
 

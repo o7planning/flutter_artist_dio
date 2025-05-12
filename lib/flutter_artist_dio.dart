@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_artist_rest_core/flutter_artist_rest_core.dart';
+import 'package:flutter_artist_core/flutter_artist_core.dart';
 
 part 'src/_error_handler/__handle_dio_exception.dart';
 part 'src/_error_handler/__handle_dio_response.dart';
