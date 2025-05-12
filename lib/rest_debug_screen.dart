@@ -16,9 +16,7 @@ part 'src/debug/section/_dio_request_list_section.dart';
 part 'src/debug/section/_dio_response_section.dart';
 part 'src/debug/widget/_custom_app_container.dart';
 part 'src/debug/widget/_data_view.dart';
-part 'src/debug/widget/_icon_label_text.dart';
 part 'src/debug/widget/_map_key_value_view.dart';
-part 'src/debug/widget/_simple_small_icon_button.dart';
 
 class RestDebugScreen extends StatelessWidget {
   static const String routeName = "/restDebugScreen";

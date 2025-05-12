@@ -18,7 +18,7 @@ class _DioRequestInfoSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _IconLabelText(
+          IconLabelText(
             icon: const Icon(
               Icons.language,
               size: iconSize,
@@ -27,7 +27,7 @@ class _DioRequestInfoSection extends StatelessWidget {
             text: info.baseUrl,
           ),
           const SizedBox(height: 10),
-          _IconLabelText(
+          IconLabelText(
             icon: const Icon(
               Icons.link,
               size: iconSize,
@@ -36,7 +36,7 @@ class _DioRequestInfoSection extends StatelessWidget {
             text: info.requestPath,
           ),
           const SizedBox(height: 10),
-          _IconLabelText(
+          IconLabelText(
             icon: const Icon(
               Icons.tonality_outlined,
               size: iconSize,
@@ -46,14 +46,14 @@ class _DioRequestInfoSection extends StatelessWidget {
           ),
           if (info.token != null) const SizedBox(height: 10),
           if (info.token != null)
-            _IconLabelText(
+            IconLabelText(
               icon: const Icon(
                 Icons.token,
                 size: iconSize,
               ),
               label: 'Token:',
               text: showToken ? info.token! : '[Not Show]',
-              suffixIcon: _SimpleSmallIconButton(
+              suffixIcon: SimpleSmallIconButton(
                 iconData: Icons.copy,
                 onPressed: showToken
                     ? () {
@@ -69,7 +69,7 @@ class _DioRequestInfoSection extends StatelessWidget {
             ),
           if (info.requestHeaders.isNotEmpty) const SizedBox(height: 10),
           if (info.requestHeaders.isNotEmpty)
-            const _IconLabelText(
+            const IconLabelText(
               icon: Icon(Icons.topic, size: iconSize),
               label: 'Headers:',
               text: '',
@@ -81,7 +81,7 @@ class _DioRequestInfoSection extends StatelessWidget {
           if (info.requestQueryParameters.isNotEmpty)
             const SizedBox(height: 10),
           if (info.requestQueryParameters.isNotEmpty)
-            const _IconLabelText(
+            const IconLabelText(
               icon: Icon(Icons.color_lens_outlined, size: iconSize),
               label: 'Query Parameters:',
               text: '',
@@ -94,7 +94,7 @@ class _DioRequestInfoSection extends StatelessWidget {
           //
           if (info.mapData.isNotEmpty) const SizedBox(height: 10),
           if (info.mapData.isNotEmpty)
-            const _IconLabelText(
+            const IconLabelText(
               icon: Icon(Icons.topic, size: iconSize),
               label: 'Form Data:',
               text: '',

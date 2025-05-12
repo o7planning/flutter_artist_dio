@@ -14,7 +14,7 @@ class _DioPathSection extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: _IconLabelText(
+            child: IconLabelText(
               icon: const Icon(
                 Icons.tonality_outlined,
                 size: iconSize,
@@ -24,7 +24,7 @@ class _DioPathSection extends StatelessWidget {
               textStyle: const TextStyle(color: Colors.indigo),
             ),
           ),
-          _SimpleSmallIconButton(
+          SimpleSmallIconButton(
             iconData: Icons.copy,
             onPressed: () {
               String text = "${info.baseUrl}${info.requestPath}";

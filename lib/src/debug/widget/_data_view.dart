@@ -49,7 +49,7 @@ class _DataViewState extends State<_DataView> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _SimpleSmallIconButton(
+                SimpleSmallIconButton(
                   iconData: Icons.copy,
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: text));
@@ -61,7 +61,7 @@ class _DataViewState extends State<_DataView> {
                   },
                 ),
                 const SizedBox(width: 5),
-                _SimpleSmallIconButton(
+                SimpleSmallIconButton(
                   iconData: expand
                       ? Icons.keyboard_arrow_up_rounded
                       : Icons.keyboard_arrow_down,

@@ -18,7 +18,7 @@ class _DioResponseSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _IconLabelText(
+          IconLabelText(
             icon: Icon(
               info.errorType == ErrorType.apiError //
                   ? Icons.error
@@ -34,7 +34,7 @@ class _DioResponseSection extends StatelessWidget {
           //
           if (info.responseStatusMessage != null) const SizedBox(height: 10),
           if (info.responseStatusMessage != null)
-            _IconLabelText(
+            IconLabelText(
               icon: const Icon(
                 Icons.text_snippet_outlined,
                 size: iconSize,
@@ -45,7 +45,7 @@ class _DioResponseSection extends StatelessWidget {
           //
           if (info.responseErrorMessage != null) const SizedBox(height: 10),
           if (info.responseErrorMessage != null)
-            _IconLabelText(
+            IconLabelText(
               icon: const Icon(
                 Icons.text_snippet_outlined,
                 size: iconSize,
@@ -56,7 +56,7 @@ class _DioResponseSection extends StatelessWidget {
           //
           if (info.errorParsingJsonMessage != null) const SizedBox(height: 10),
           if (info.errorParsingJsonMessage != null)
-            _IconLabelText(
+            IconLabelText(
               icon: const Icon(
                 Icons.error,
                 color: Colors.red,
@@ -69,7 +69,7 @@ class _DioResponseSection extends StatelessWidget {
           if (info.errorConvertingJsonMessage != null)
             const SizedBox(height: 10),
           if (info.errorConvertingJsonMessage != null)
-            _IconLabelText(
+            IconLabelText(
               icon: const Icon(
                 Icons.error,
                 color: Colors.red,
@@ -80,7 +80,7 @@ class _DioResponseSection extends StatelessWidget {
             ),
           //
           const SizedBox(height: 10),
-          _IconLabelText(
+          IconLabelText(
             icon: Icon(
               Icons.dataset_outlined,
               size: iconSize,
