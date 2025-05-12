@@ -72,10 +72,10 @@
             </list>
           </value>
         </entry>
-        <entry key="flutter_artist_rest_core">
+        <entry key="flutter_artist_core">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../flutter_artist_rest_core/lib" />
+              <option value="$PROJECT_DIR$/../flutter_artist_core/lib" />
             </list>
           </value>
         </entry>
@@ -268,7 +268,7 @@
       <root url="file://$PROJECT_DIR$/../../../Apps/flutter/packages/flutter/lib" />
       <root url="file://$PROJECT_DIR$/../../../Apps/flutter/packages/flutter_test/lib" />
       <root url="file://$PROJECT_DIR$/../flutter_artist_commons_ui/lib" />
-      <root url="file://$PROJECT_DIR$/../flutter_artist_rest_core/lib" />
+      <root url="file://$PROJECT_DIR$/../flutter_artist_core/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
