@@ -106,7 +106,7 @@ class FlutterArtistDio {
       converter: converter,
       errorConverter: errorConverter,
       showDebug: showDebug,
-      receiveTimeout:receiveTimeout,
+      receiveTimeout: receiveTimeout,
     );
   }
 

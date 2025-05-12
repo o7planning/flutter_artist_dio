@@ -65,6 +65,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_artist_commons_ui">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../flutter_artist_commons_ui/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_artist_rest_core">
           <value>
             <list>
@@ -260,6 +267,7 @@
       <root url="file://$PROJECT_DIR$/../../../Apps/flutter/bin/cache/pkg/sky_engine/lib" />
       <root url="file://$PROJECT_DIR$/../../../Apps/flutter/packages/flutter/lib" />
       <root url="file://$PROJECT_DIR$/../../../Apps/flutter/packages/flutter_test/lib" />
+      <root url="file://$PROJECT_DIR$/../flutter_artist_commons_ui/lib" />
       <root url="file://$PROJECT_DIR$/../flutter_artist_rest_core/lib" />
     </CLASSES>
     <JAVADOC />

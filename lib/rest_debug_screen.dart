@@ -1,14 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart' as cupertino;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_artist_commons_ui/flutter_artist_commons_ui.dart';
 
 import '_utils_/json_utils.dart';
 import 'flutter_artist_dio.dart';
 
-part '_dialog/_custom_alert_dialog.dart';
-part '_dialog/_dialog_size.dart';
 part '_dialog/_rest_debug_dialog.dart';
 part 'debug/_utils.dart';
 part 'debug/debug_section.dart';

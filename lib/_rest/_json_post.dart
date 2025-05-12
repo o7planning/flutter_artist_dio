@@ -19,7 +19,7 @@ Future<ApiResult<D>> _jsonPost<D>(
   dynamic data,
   required Converter<D>? converter,
   ErrorConverter errorConverter = defaultErrorConverter,
-  bool showDebug = false, 
+  bool showDebug = false,
   Duration? receiveTimeout,
 }) async {
   int restRequestId = 0;
@@ -31,8 +31,8 @@ Future<ApiResult<D>> _jsonPost<D>(
       path,
       options: Options(
         headers: headers,
-        receiveTimeout: receiveTimeout?? const Duration(seconds: 10),
-        sendTimeout:  const Duration(seconds: 10),
+        receiveTimeout: receiveTimeout ?? const Duration(seconds: 10),
+        sendTimeout: const Duration(seconds: 10),
       ),
       queryParameters: queryParameters,
       data: data,

@@ -22,7 +22,11 @@ class _RestDebugDialogDialog extends StatefulWidget {
 class __RestDebugDialogDialogState extends State<_RestDebugDialogDialog> {
   @override
   Widget build(BuildContext context) {
-    Size size = _calculateDebugDialogSize(context);
+    Size size = calculatePreferredDialogSize(
+      context,
+      preferredWidth: 1000,
+      preferredHeight: 620,
+    );
 
     Widget contentWidget = _CustomAppContainer(
       padding: const EdgeInsets.all(2),
@@ -31,13 +35,10 @@ class __RestDebugDialogDialogState extends State<_RestDebugDialogDialog> {
       child: _buildMainWidget(),
     );
 
-    AlertDialog alert = _CustomAlertDialog(
+    FaAlertDialog alert = FaAlertDialog(
       titleText: "Rest Debug Viewer",
       content: contentWidget,
       contentPadding: EdgeInsets.zero,
-      closeDialog: () {
-        Navigator.of(context).pop();
-      },
     );
     return alert;
   }
