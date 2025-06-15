@@ -13,26 +13,29 @@ Future<ApiResult<D>> _put<D>(
   Dio dio,
   String path, {
   ResponseDataMode responseDataMode = ResponseDataMode.realData,
-  Map<String, dynamic>? headers,
-  Map<String, dynamic>? queryParameters,
-  dynamic data,
   required Converter<D>? converter,
-  ErrorConverter errorConverter = defaultErrorConverter,
   bool showDebug = false,
+  //
+  Object? data,
+  Map<String, dynamic>? queryParameters,
+  Options? options,
+  CancelToken? cancelToken,
+  ProgressCallback? onSendProgress,
+  ProgressCallback? onReceiveProgress,
 }) async {
   int restRequestId = 0;
   try {
-    headers ??= {};
+    var headers = options?.headers ?? {};
     restRequestId = _addRequestIdToHeaders(headers: headers);
     //
     final response = await dio.put(
       path,
-      options: Options(
-        headers: headers,
-        receiveTimeout: const Duration(seconds: 10),
-      ),
-      queryParameters: queryParameters,
       data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
     );
     //
     return _handleDioResponse<D>(

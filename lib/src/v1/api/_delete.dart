@@ -11,23 +11,25 @@ Future<ApiResult<D>> _delete<D>(
   Dio dio,
   String path, {
   ResponseDataMode responseDataMode = ResponseDataMode.realData,
-  Map<String, dynamic>? headers,
-  Map<String, dynamic>? queryParameters,
-  dynamic data,
   required Converter<D>? converter,
-  ErrorConverter errorConverter = defaultErrorConverter,
   bool showDebug = false,
+  //
+  Object? data,
+  Map<String, dynamic>? queryParameters,
+  Options? options,
+  CancelToken? cancelToken,
 }) async {
   int restRequestId = 0;
   try {
-    headers ??= {};
+    var headers = options?.headers ?? {};
     restRequestId = _addRequestIdToHeaders(headers: headers);
     //
     final response = await dio.delete(
       path,
-      options: Options(headers: headers),
-      queryParameters: queryParameters,
       data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
     );
     //
     return _handleDioResponse<D>(

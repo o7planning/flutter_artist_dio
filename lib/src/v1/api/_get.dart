@@ -4,44 +4,50 @@ part of '../../../flutter_artist_dio.dart';
 //
 // Future<Response<T>> get<T>(
 //     String path, {
-//       Object? data,
-//       Map<String, dynamic>? queryParameters,
-//       Options? options,
-//       CancelToken? cancelToken,
-//       ProgressCallback? onReceiveProgress,
+//     Object? data,
+//     Map<String, dynamic>? queryParameters,
+//     Options? options,
+//     CancelToken? cancelToken,
+//     ProgressCallback? onReceiveProgress,
 // });
 Future<ApiResult<D>> _get<D>(
   Dio dio,
   String path, {
   required ResponseDataMode responseDataMode,
-  Map<String, dynamic>? headers,
-  Map<String, dynamic>? queryParameters,
-  String? token,
   required Converter<D>? converter,
-  ErrorConverter errorConverter = defaultErrorConverter,
   bool showDebug = false,
+  //
+  Object? data,
+  Map<String, dynamic>? queryParameters,
+  Options? options,
+  CancelToken? cancelToken,
+  ProgressCallback? onReceiveProgress,
+  // String? token (deprecated).
 }) async {
   int restRequestId = 0;
   try {
-    headers ??= {};
+    var headers = options?.headers ?? {};
     restRequestId = _addRequestIdToHeaders(headers: headers);
     //
-    if (token != null) {
-      headers["Authorization"] = token;
-    }
-    Options options = Options(
-      headers: headers,
-      contentType: 'application/json',
-      followRedirects: false,
-      validateStatus: (status) => true,
-    );
+    // if (token != null) {
+    //   headers["Authorization"] = token;
+    // }
+    // Options options = Options(
+    //   headers: headers,
+    //   contentType: 'application/json',
+    //   followRedirects: false,
+    //   validateStatus: (status) => true,
+    // );
     //
     final response = await dio.get(
       path,
-      options: options,
+      data: data,
       queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onReceiveProgress: onReceiveProgress,
     );
-
+    //
     return _handleDioResponse<D>(
       responseDataMode: responseDataMode,
       response: response,
