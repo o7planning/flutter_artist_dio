@@ -1,4 +1,4 @@
-part of '../../rest_debug_screen.dart';
+part of '../../../../rest_debug_screen.dart';
 
 class _DioRequestListSection extends StatelessWidget {
   final void Function(int requestId) onSelectRequestId;

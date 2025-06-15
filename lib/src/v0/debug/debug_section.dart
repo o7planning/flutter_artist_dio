@@ -1,4 +1,4 @@
-part of '../rest_debug_screen.dart';
+part of '../../../rest_debug_screen.dart';
 
 class RestDebugSection extends StatefulWidget {
   final bool showJson;
