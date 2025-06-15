@@ -14,6 +14,7 @@ part 'src/v1/_error_handler/__handle_dio_response.dart';
 part 'src/v1/_error_handler/__handle_exception.dart';
 part 'src/v1/_model/request_log_info.dart';
 //
+part 'src/v1/api/_options.dart';
 part 'src/v1/api/_delete.dart';
 part 'src/v1/api/_get.dart';
 part 'src/v1/api/_post.dart';
@@ -116,6 +117,7 @@ class FlutterArtistDio {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
+    print("Chay vao day ~~~~~~~~~~~~~~~~~~~> 1");
     return await _post<D>(
       dio,
       path,

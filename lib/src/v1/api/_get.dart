@@ -26,8 +26,8 @@ Future<ApiResult<D>> _get<D>(
 }) async {
   int restRequestId = 0;
   try {
-    var headers = options?.headers ?? {};
-    restRequestId = _addRequestIdToHeaders(headers: headers);
+    options = _createOptionsWithNotNullHeaders(options);
+    restRequestId = _addRequestIdToHeaders(headers: options.headers!);
     //
     // if (token != null) {
     //   headers["Authorization"] = token;

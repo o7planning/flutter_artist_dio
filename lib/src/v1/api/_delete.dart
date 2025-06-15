@@ -21,8 +21,8 @@ Future<ApiResult<D>> _delete<D>(
 }) async {
   int restRequestId = 0;
   try {
-    var headers = options?.headers ?? {};
-    restRequestId = _addRequestIdToHeaders(headers: headers);
+    options = _createOptionsWithNotNullHeaders(options);
+    restRequestId = _addRequestIdToHeaders(headers: options.headers!);
     //
     final response = await dio.delete(
       path,

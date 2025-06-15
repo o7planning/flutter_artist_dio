@@ -25,8 +25,8 @@ Future<ApiResult<D>> _post<D>(
 }) async {
   int restRequestId = 0;
   try {
-    var headers = options?.headers ?? {};
-    restRequestId = _addRequestIdToHeaders(headers: headers);
+    options = _createOptionsWithNotNullHeaders(options);
+    restRequestId = _addRequestIdToHeaders(headers: options.headers!);
     //
     final response = await dio.post(
       path,
@@ -37,6 +37,7 @@ Future<ApiResult<D>> _post<D>(
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
+    print("Chay vao day ~~~~~~~~~~~~~~~~~~~> 4");
     //
     return _handleDioResponse<D>(
       responseDataMode: responseDataMode,
