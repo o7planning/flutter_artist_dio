@@ -17,8 +17,7 @@ part 'src/_rest_json/_options.dart';
 part 'src/_rest_json/_post.dart';
 part 'src/_rest_json/_put.dart';
 part 'src/core/__base.dart';
-part 'src/core/_read_token_from_headers.dart';
-part 'src/fa_dio_interceptor.dart';//
+part 'src/fa_dio_interceptor.dart'; //
 part 'src/logger/rest_logger.dart';
 
 class FlutterArtistDio {
