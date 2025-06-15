@@ -1,14 +1,14 @@
 part of '../../../flutter_artist_dio.dart';
 
 //
-// void writeTokenToHeaders({
-//    required Map<String, dynamic> headers,
-//    required String accessToken,
-// }) {
+// void writeTokenToHeaders(
+//    Map<String, dynamic> headers,
+//    String accessToken,
+// ) {
 //    headers['Authorization'] = 'Bearer $accessToken';
 // }
 //
-typedef WriteTokenToHeaders = Function({
-  required Map<String, dynamic> headers,
-  required String accessToken,
-});
+typedef WriteTokenToHeaders = Function(
+  Map<String, dynamic> headers,
+  String accessToken,
+);

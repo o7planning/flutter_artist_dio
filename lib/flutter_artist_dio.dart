@@ -7,6 +7,8 @@ import 'package:flutter_artist_dio/src/v1/token_storage.dart';
 
 import 'src/v1/one_future_auth_interceptor.dart';
 
+export 'src/v1/token_storage.dart';
+
 part 'src/v1/_error_handler/__handle_dio_exception.dart';
 part 'src/v1/_error_handler/__handle_dio_response.dart';
 part 'src/v1/_error_handler/__handle_exception.dart';

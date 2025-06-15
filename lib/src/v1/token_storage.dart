@@ -1,4 +1,4 @@
-class TokenStorage {
+interface class TokenStorage {
   Future<String> readAccessToken() async {
     return "";
   }

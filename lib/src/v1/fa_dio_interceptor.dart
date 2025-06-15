@@ -11,7 +11,7 @@ class FaDioInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     var dioRequestID = _getRequestIdFromHeaders(headers: options.headers!);
 
-    String? token = readTokenFromHeaders(headers: options.headers);
+    String? token = readTokenFromHeaders(options.headers);
 
     restLogger.createRequestLogInfo(
       dioRequestId: dioRequestID,

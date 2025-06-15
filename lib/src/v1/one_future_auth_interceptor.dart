@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_artist_dio/src/v1/token_storage.dart';
 
 import '../../flutter_artist_dio.dart';
 
@@ -25,7 +24,7 @@ class OneFutureAuthInterceptor extends Interceptor {
     final accessToken = await tokenStorage.readAccessToken();
     if (accessToken != null && accessToken.isNotEmpty) {
       // options.headers['Authorization'] = 'Bearer $accessToken';
-      writeTokenToHeaders(headers: options.headers, accessToken: accessToken);
+      writeTokenToHeaders(options.headers, accessToken);
     }
     handler.next(options);
   }
