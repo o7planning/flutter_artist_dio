@@ -3,11 +3,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_artist_core/flutter_artist_core.dart';
-import 'package:flutter_artist_dio/src/token_storage.dart';
 
 import 'src/one_future_auth_interceptor.dart';
-
-export 'src/token_storage.dart';
 
 part 'src/_error_handler/__handle_dio_exception.dart';
 part 'src/_error_handler/__handle_dio_response.dart';
@@ -21,9 +18,7 @@ part 'src/_rest_json/_post.dart';
 part 'src/_rest_json/_put.dart';
 part 'src/core/__base.dart';
 part 'src/core/_read_token_from_headers.dart';
-part 'src/core/_write_token_to_headers.dart';
-part 'src/fa_dio_interceptor.dart';
-//
+part 'src/fa_dio_interceptor.dart';//
 part 'src/logger/rest_logger.dart';
 
 class FlutterArtistDio {
