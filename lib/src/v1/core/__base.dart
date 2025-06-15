@@ -1,4 +1,4 @@
-part of '../fa_dio.dart';
+part of '../../../fa_dio.dart';
 
 int _dioRequestSEQ = 1;
 const String _keyDioRequestID = "__dioRequestID__";

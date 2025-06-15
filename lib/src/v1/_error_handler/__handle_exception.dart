@@ -1,4 +1,4 @@
-part of '../fa_dio.dart';
+part of '../../../fa_dio.dart';
 
 ApiResult<D> _handleException<D>(
   dynamic e, {
