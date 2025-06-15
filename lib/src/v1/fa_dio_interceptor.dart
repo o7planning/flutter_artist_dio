@@ -1,4 +1,4 @@
-part of 'fa_dio.dart';
+part of '../../fa_dio.dart';
 
 class FaDioInterceptor extends Interceptor {
   final ReadTokenFromHeaders readTokenFromHeaders;

@@ -1,4 +1,4 @@
-part of '../fa_dio.dart';
+part of '../../../fa_dio.dart';
 
 // Future<Response<T>> post<T>(
 //     String path, {
