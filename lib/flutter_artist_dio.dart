@@ -54,97 +54,151 @@ class FlutterArtistDio {
     );
   }
 
+  // Origin DIO Function:
+  // Future<Response<T>> get<T>(
+  //     String path, {
+  //     Object? data,
+  //     Map<String, dynamic>? queryParameters,
+  //     Options? options,
+  //     CancelToken? cancelToken,
+  //     ProgressCallback? onReceiveProgress,
+  // });
   Future<ApiResult<D>> restGet<D>(
     String path, {
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? queryParameters,
-    String? token,
     required Converter<D>? converter,
-    ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
+    //
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
+    // String? token (Deprecated).
   }) async {
-    return _jsonGet<D>(
+    return _get<D>(
       dio,
       path,
       responseDataMode: responseDataMode,
-      headers: headers,
-      queryParameters: queryParameters,
-      token: token,
       converter: converter,
-      errorConverter: errorConverter,
       showDebug: showDebug,
+      //
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onReceiveProgress: onReceiveProgress,
     );
   }
 
+  // Origin DIO Function:
+  // Future<Response<T>> post<T>(
+  //     String path, {
+  //     Object? data,
+  //     Map<String, dynamic>? queryParameters,
+  //     Options? options,
+  //     CancelToken? cancelToken,
+  //     ProgressCallback? onSendProgress,
+  //     ProgressCallback? onReceiveProgress,
+  // });
   Future<ApiResult<D>> restPost<D>(
     String path, {
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? queryParameters,
-    dynamic data,
     required Converter<D>? converter,
-    ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
-    Duration? receiveTimeout,
+    //
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
-    return await _jsonPost<D>(
+    return await _post<D>(
       dio,
       path,
       responseDataMode: responseDataMode,
-      headers: headers,
-      queryParameters: queryParameters,
-      data: data,
       converter: converter,
-      errorConverter: errorConverter,
       showDebug: showDebug,
-      receiveTimeout: receiveTimeout,
+      //
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
     );
   }
 
+  // Origin DIO Function:
+  // Future<Response<T>> put<T>(
+  //     String path, {
+  //     Object? data,
+  //     Map<String, dynamic>? queryParameters,
+  //     Options? options,
+  //     CancelToken? cancelToken,
+  //     ProgressCallback? onSendProgress,
+  //     ProgressCallback? onReceiveProgress,
+  // });
   Future<ApiResult<D>> restPut<D>(
     String path, {
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? queryParameters,
-    dynamic data,
     required Converter<D>? converter,
-    ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
+    //
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
-    return _jsonPut<D>(
+    return _put<D>(
       dio,
       path,
       responseDataMode: responseDataMode,
-      headers: headers,
-      queryParameters: queryParameters,
-      data: data,
       converter: converter,
-      errorConverter: errorConverter,
       showDebug: showDebug,
+      //
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
     );
   }
 
+  // Origin DIO Function:
+  // Future<Response<T>> delete<T>(
+  //     String path, {
+  //     Object? data,
+  //     Map<String, dynamic>? queryParameters,
+  //     Options? options,
+  //     CancelToken? cancelToken,
+  // });
   Future<ApiResult<D>> restDelete<D>(
     String path, {
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? queryParameters,
-    dynamic data,
     required Converter<D>? converter,
-    ErrorConverter errorConverter = defaultErrorConverter,
     bool showDebug = false,
+    //
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
   }) async {
-    return _jsonDelete<D>(
+    return _delete<D>(
       dio,
       path,
       responseDataMode: responseDataMode,
-      headers: headers,
-      queryParameters: queryParameters,
-      data: data,
       converter: converter,
-      errorConverter: errorConverter,
       showDebug: showDebug,
+      //
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
     );
   }
 }
