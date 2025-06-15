@@ -22,12 +22,12 @@ part 'src/v1/json/_json_post.dart';
 part 'src/v1/json/_json_put.dart';
 part 'src/v1/logger/rest_logger.dart';
 
-class FaDio {
+class FlutterArtistDio {
   late final Dio _dio;
 
   Dio get dio => _dio;
 
-  FaDio({
+  FlutterArtistDio({
     BaseOptions? baseOptions,
     required TokenStorage tokenStorage,
     required WriteTokenToHeaders writeTokenToHeaders,

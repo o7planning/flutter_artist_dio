@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_artist_dio/src/v1/token_storage.dart';
 
-import '../../fa_dio.dart';
+import '../../flutter_artist_dio.dart';
 
 // https://dev.to/7twilight/mastering-auth-in-flutter-with-dio-from-simple-access-tokens-to-a-refresh-flow-27cf
 class OneFutureAuthInterceptor extends Interceptor {

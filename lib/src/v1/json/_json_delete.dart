@@ -1,4 +1,4 @@
-part of '../../../fa_dio.dart';
+part of '../../../flutter_artist_dio.dart';
 
 // Future<Response<T>> delete<T>(
 //     String path, {
