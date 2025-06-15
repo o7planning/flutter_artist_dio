@@ -1,5 +1,5 @@
 interface class TokenStorage {
-  Future<String> readAccessToken() async {
+  Future<String?> readAccessToken() async {
     return "";
   }
 
