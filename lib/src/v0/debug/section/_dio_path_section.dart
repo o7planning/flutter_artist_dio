@@ -1,4 +1,4 @@
-part of '../../rest_debug_screen.dart';
+part of '../../../../rest_debug_screen.dart';
 
 class _DioPathSection extends StatelessWidget {
   final RequestLogInfo info;
