@@ -18,7 +18,7 @@ part 'src/_rest_json/_get.dart';
 part 'src/_rest_json/_options.dart';
 part 'src/_rest_json/_post.dart';
 part 'src/_rest_json/_put.dart';
-part 'src/fa_dio_interceptor.dart'; //
+part 'src/fa_dio_interceptor.dart';
 
 class FlutterArtistDio {
   late final Dio _dio;
@@ -26,7 +26,7 @@ class FlutterArtistDio {
   Dio get dio => _dio;
 
   FlutterArtistDio({
-    BaseOptions? baseOptions,
+    required BaseOptions? baseOptions,
     required TokenStorage tokenStorage,
     required WriteTokenToHeaders writeTokenToHeaders,
     required ReadTokenFromHeaders readTokenFromHeaders,
