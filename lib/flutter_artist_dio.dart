@@ -6,6 +6,7 @@ import 'package:flutter_artist_core/flutter_artist_core.dart';
 
 import 'src/one_future_auth_interceptor.dart';
 
+part 'src/_core/__core.dart';
 part 'src/_error_handler/__handle_dio_exception.dart';
 part 'src/_error_handler/__handle_dio_response.dart';
 part 'src/_error_handler/__handle_exception.dart';
@@ -16,7 +17,6 @@ part 'src/_rest_json/_get.dart';
 part 'src/_rest_json/_options.dart';
 part 'src/_rest_json/_post.dart';
 part 'src/_rest_json/_put.dart';
-part 'src/core/__base.dart';
 part 'src/fa_dio_interceptor.dart'; //
 part 'src/logger/rest_logger.dart';
 
