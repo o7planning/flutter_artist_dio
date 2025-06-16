@@ -106,7 +106,6 @@ class FlutterArtistDio {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    print("Chay vao day ~~~~~~~~~~~~~~~~~~~> 1");
     return await _post<D>(
       dio,
       path,
