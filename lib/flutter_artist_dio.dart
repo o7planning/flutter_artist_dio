@@ -10,6 +10,7 @@ part 'src/_core/__core.dart';
 part 'src/_error_handler/__handle_dio_exception.dart';
 part 'src/_error_handler/__handle_dio_response.dart';
 part 'src/_error_handler/__handle_exception.dart';
+part 'src/_logger/rest_logger.dart';
 part 'src/_model/request_log_info.dart';
 part 'src/_rest_json/_delete.dart';
 part 'src/_rest_json/_get.dart';
@@ -18,7 +19,6 @@ part 'src/_rest_json/_options.dart';
 part 'src/_rest_json/_post.dart';
 part 'src/_rest_json/_put.dart';
 part 'src/fa_dio_interceptor.dart'; //
-part 'src/logger/rest_logger.dart';
 
 class FlutterArtistDio {
   late final Dio _dio;

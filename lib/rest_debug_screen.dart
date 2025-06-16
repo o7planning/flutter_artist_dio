@@ -7,9 +7,9 @@ import 'package:flutter_artist_commons_ui/flutter_artist_commons_ui.dart';
 import 'flutter_artist_dio.dart';
 import 'src/_utils/json_utils.dart';
 
-part 'src/_dialog/_rest_debug_dialog.dart';
 part 'src/debug/_utils.dart';
 part 'src/debug/debug_section.dart';
+part 'src/debug/dialog/_rest_debug_dialog.dart';
 part 'src/debug/section/_dio_path_section.dart';
 part 'src/debug/section/_dio_request_info_section.dart';
 part 'src/debug/section/_dio_request_list_section.dart';
