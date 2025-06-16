@@ -1,14 +1,18 @@
 part of '../../flutter_artist_dio.dart';
 
+//
+// Origin DIO Function:
+//
 // Future<Response<T>> put<T>(
 //     String path, {
-//       Object? data,
-//       Map<String, dynamic>? queryParameters,
-//       Options? options,
-//       CancelToken? cancelToken,
-//       ProgressCallback? onSendProgress,
-//       ProgressCallback? onReceiveProgress,
-//     });
+//     Object? data,
+//     Map<String, dynamic>? queryParameters,
+//     Options? options,
+//     CancelToken? cancelToken,
+//     ProgressCallback? onSendProgress,
+//     ProgressCallback? onReceiveProgress,
+// });
+//
 Future<ApiResult<D>> _put<D>(
   Dio dio,
   String path, {

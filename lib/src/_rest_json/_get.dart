@@ -1,6 +1,7 @@
 part of '../../flutter_artist_dio.dart';
 
-// DIO:
+//
+// Origin DIO Function:
 //
 // Future<Response<T>> get<T>(
 //     String path, {
@@ -10,6 +11,7 @@ part of '../../flutter_artist_dio.dart';
 //     CancelToken? cancelToken,
 //     ProgressCallback? onReceiveProgress,
 // });
+//
 Future<ApiResult<D>> _get<D>(
   Dio dio,
   String path, {
@@ -22,22 +24,11 @@ Future<ApiResult<D>> _get<D>(
   Options? options,
   CancelToken? cancelToken,
   ProgressCallback? onReceiveProgress,
-  // String? token (deprecated).
 }) async {
   int restRequestId = 0;
   try {
     options = _createOptionsWithNotNullHeaders(options);
     restRequestId = _addRequestIdToHeaders(headers: options.headers!);
-    //
-    // if (token != null) {
-    //   headers["Authorization"] = token;
-    // }
-    // Options options = Options(
-    //   headers: headers,
-    //   contentType: 'application/json',
-    //   followRedirects: false,
-    //   validateStatus: (status) => true,
-    // );
     //
     final response = await dio.get(
       path,

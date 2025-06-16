@@ -1,5 +1,8 @@
 part of '../../flutter_artist_dio.dart';
 
+//
+// Origin DIO Function:
+//
 // Future<Response<T>> post<T>(
 //     String path, {
 //     Object? data,
@@ -9,6 +12,7 @@ part of '../../flutter_artist_dio.dart';
 //     ProgressCallback? onSendProgress,
 //     ProgressCallback? onReceiveProgress,
 // });
+//
 Future<ApiResult<D>> _post<D>(
   Dio dio,
   String path, {
@@ -37,7 +41,6 @@ Future<ApiResult<D>> _post<D>(
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
-    print("Chay vao day ~~~~~~~~~~~~~~~~~~~> 4");
     //
     return _handleDioResponse<D>(
       responseDataMode: responseDataMode,

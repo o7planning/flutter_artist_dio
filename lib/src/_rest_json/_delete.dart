@@ -1,5 +1,8 @@
 part of '../../flutter_artist_dio.dart';
 
+//
+// Origin DIO Function:
+//
 // Future<Response<T>> delete<T>(
 //     String path, {
 //     Object? data,
@@ -7,6 +10,7 @@ part of '../../flutter_artist_dio.dart';
 //     Options? options,
 //     CancelToken? cancelToken,
 // });
+//
 Future<ApiResult<D>> _delete<D>(
   Dio dio,
   String path, {

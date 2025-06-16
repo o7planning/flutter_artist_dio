@@ -46,7 +46,9 @@ class FlutterArtistDio {
     );
   }
 
+  //
   // Origin DIO Function:
+  //
   // Future<Response<T>> get<T>(
   //     String path, {
   //     Object? data,
@@ -55,6 +57,7 @@ class FlutterArtistDio {
   //     CancelToken? cancelToken,
   //     ProgressCallback? onReceiveProgress,
   // });
+  //
   Future<ApiResult<D>> restGet<D>(
     String path, {
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
@@ -83,7 +86,9 @@ class FlutterArtistDio {
     );
   }
 
+  //
   // Origin DIO Function:
+  //
   // Future<Response<T>> post<T>(
   //     String path, {
   //     Object? data,
@@ -93,6 +98,7 @@ class FlutterArtistDio {
   //     ProgressCallback? onSendProgress,
   //     ProgressCallback? onReceiveProgress,
   // });
+  //
   Future<ApiResult<D>> restPost<D>(
     String path, {
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
@@ -122,7 +128,9 @@ class FlutterArtistDio {
     );
   }
 
+  //
   // Origin DIO Function:
+  //
   // Future<Response<T>> put<T>(
   //     String path, {
   //     Object? data,
@@ -132,6 +140,7 @@ class FlutterArtistDio {
   //     ProgressCallback? onSendProgress,
   //     ProgressCallback? onReceiveProgress,
   // });
+  //
   Future<ApiResult<D>> restPut<D>(
     String path, {
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
@@ -161,7 +170,9 @@ class FlutterArtistDio {
     );
   }
 
+  //
   // Origin DIO Function:
+  //
   // Future<Response<T>> delete<T>(
   //     String path, {
   //     Object? data,
@@ -169,6 +180,7 @@ class FlutterArtistDio {
   //     Options? options,
   //     CancelToken? cancelToken,
   // });
+  //
   Future<ApiResult<D>> restDelete<D>(
     String path, {
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
