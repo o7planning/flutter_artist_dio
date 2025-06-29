@@ -25,6 +25,7 @@ class FlutterArtistDio {
 
   Dio get dio => _dio;
 
+  // docs: 14751.
   FlutterArtistDio({
     required BaseOptions? baseOptions,
     required TokenStorage tokenStorage,
@@ -69,7 +70,6 @@ class FlutterArtistDio {
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
-    // String? token (Deprecated).
   }) async {
     return _get<D>(
       dio,

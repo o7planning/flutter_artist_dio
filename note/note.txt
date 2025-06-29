@@ -1,5 +1,8 @@
 
 
+https://pub.dev/packages/pretty_dio_logger
+
+https://github.com/Milad-Akarie/pretty_dio_logger/blob/master/lib/src/pretty_dio_logger.dart
 
 https://dev.to/7twilight/mastering-auth-in-flutter-with-dio-from-simple-access-tokens-to-a-refresh-flow-27cf
 
