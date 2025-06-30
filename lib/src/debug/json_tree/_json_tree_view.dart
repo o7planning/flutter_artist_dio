@@ -1,14 +1,23 @@
 part of '../../../rest_debug_screen.dart';
 
 class _JsonTreeView extends StatelessWidget {
-  final Object rootData;
+  final Object responseData;
 
   const _JsonTreeView({
     super.key,
-    required this.rootData,
+    required this.responseData,
   });
 
-  TreeNode _getRootWithChildren() {
+  Object? _jsonDecode(String responseData) {
+    try {
+      return jsonDecode(responseData);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  TreeNode _getRootWithChildren(Object rootData) {
+    //
     TreeNode treeNode = TreeNode(
       key: "Root",
       data: _NodeDataWrap(title: "JSON", data: rootData),
@@ -40,7 +49,7 @@ class _JsonTreeView extends StatelessWidget {
       }
     } else if (nodeData is Map) {
       for (Object key in nodeData.keys) {
-        Object childNodeData = nodeData[key];
+        Object? childNodeData = nodeData[key];
         if (key is String) {
           TreeNode childNode = TreeNode(
             data: _NodeDataWrap(title: key, data: childNodeData),
@@ -48,10 +57,12 @@ class _JsonTreeView extends StatelessWidget {
           );
           currentNode.add(childNode);
           //
-          _addChildNodesCascade(
-            currentNode: childNode,
-            nodeData: childNodeData,
-          );
+          if (childNodeData != null) {
+            _addChildNodesCascade(
+              currentNode: childNode,
+              nodeData: childNodeData,
+            );
+          }
         }
       }
     }
@@ -59,7 +70,19 @@ class _JsonTreeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TreeNode rootTreeNode = _getRootWithChildren();
+    Object? rootData = responseData;
+    if (responseData is String) {
+      rootData = _jsonDecode(responseData as String);
+    }
+    if (rootData == null) {
+      return SizedBox(
+        height: 100,
+        child: Center(
+          child: Text("Not JSON"),
+        ),
+      );
+    }
+    TreeNode rootTreeNode = _getRootWithChildren(rootData);
     //
     return _CustomAppContainer(
       width: double.infinity,

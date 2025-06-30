@@ -115,7 +115,7 @@ class __DioResponseSectionState extends State<_DioResponseSection> {
           SizedBox(
             height: 400,
             child: _JsonTreeView(
-              rootData: widget.info.responseData,
+              responseData: widget.info.responseData,
             ),
           ),
         Positioned(
