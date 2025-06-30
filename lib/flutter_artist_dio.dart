@@ -11,6 +11,7 @@ part 'src/_error_handler/__handle_dio_exception.dart';
 part 'src/_error_handler/__handle_dio_response.dart';
 part 'src/_error_handler/__handle_exception.dart';
 part 'src/_logger/rest_logger.dart';
+part 'src/_model/error_type.dart';
 part 'src/_model/request_log_info.dart';
 part 'src/_rest_json/_delete.dart';
 part 'src/_rest_json/_get.dart';

@@ -3,7 +3,7 @@ part of '../../../rest_debug_screen.dart';
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
-class _RestDebugDialogDialog extends StatefulWidget {
+class _RestDebugDialogDialog extends StatelessWidget {
   final bool showJson;
   final bool showToken;
 
@@ -13,13 +13,6 @@ class _RestDebugDialogDialog extends StatefulWidget {
     required this.showToken,
   });
 
-  @override
-  State<_RestDebugDialogDialog> createState() {
-    return __RestDebugDialogDialogState();
-  }
-}
-
-class __RestDebugDialogDialogState extends State<_RestDebugDialogDialog> {
   @override
   Widget build(BuildContext context) {
     Size size = calculatePreferredDialogSize(
@@ -45,8 +38,8 @@ class __RestDebugDialogDialogState extends State<_RestDebugDialogDialog> {
 
   Widget _buildMainWidget() {
     return RestDebugSection(
-      showJson: widget.showJson,
-      showToken: widget.showToken,
+      showJson: showJson,
+      showToken: showToken,
       showInScrollView: true,
     );
   }
