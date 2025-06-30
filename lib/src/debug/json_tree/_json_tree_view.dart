@@ -96,7 +96,7 @@ class _JsonTreeView extends StatelessWidget {
             tree: node,
             color: Colors.grey[700],
             alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.fromLTRB(0, 8, 20, 8),
+            padding: EdgeInsets.zero,
             icon: Icons.keyboard_arrow_down_outlined,
           );
         },
@@ -114,6 +114,7 @@ class _JsonTreeView extends StatelessWidget {
         builder: (context, node) {
           _NodeDataWrap nodeDataWrap = node.data;
           String title = nodeDataWrap.title;
+          String? value;
 
           dynamic nodeData = nodeDataWrap.data;
           Widget icon;
@@ -144,7 +145,7 @@ class _JsonTreeView extends StatelessWidget {
                 package: 'flutter_artist_dio',
               );
             }
-            title += " : $nodeData";
+            value = " : $nodeData";
           }
           //
           return ListTile(
@@ -153,24 +154,19 @@ class _JsonTreeView extends StatelessWidget {
               horizontal: -3,
               vertical: -3,
             ),
+            horizontalTitleGap: 0,
+            minVerticalPadding: 2,
+            minLeadingWidth: 20,
+            minTileHeight: 20,
             contentPadding: const EdgeInsets.only(left: 25),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                icon,
-                SizedBox(width: 5),
-                Expanded(
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
+            title: IconLabelText(
+              icon: icon,
+              label: title,
+              text: value ?? '',
+              style: TextStyle(
+                overflow: TextOverflow.ellipsis,
+                fontSize: 13,
+              ),
             ),
           );
         },
