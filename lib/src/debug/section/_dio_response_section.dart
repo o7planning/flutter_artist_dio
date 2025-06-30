@@ -1,6 +1,6 @@
 part of '../../../rest_debug_screen.dart';
 
-class _DioResponseSection extends StatelessWidget {
+class _DioResponseSection extends StatefulWidget {
   final RequestLogInfo info;
   final bool showJson;
 
@@ -9,6 +9,15 @@ class _DioResponseSection extends StatelessWidget {
     required this.info,
     required this.showJson,
   });
+
+  @override
+  State<StatefulWidget> createState() {
+    return __DioResponseSectionState();
+  }
+}
+
+class __DioResponseSectionState extends State<_DioResponseSection> {
+  bool showTree = true;
 
   @override
   Widget build(BuildContext context) {
@@ -20,42 +29,45 @@ class _DioResponseSection extends StatelessWidget {
         children: [
           IconLabelText(
             icon: Icon(
-              info.errorType == ErrorType.apiError //
+              widget.info.errorType == ErrorType.apiError //
                   ? Icons.error
                   : Icons.check_box_rounded,
               size: iconSize,
-              color: info.errorType == ErrorType.apiError //
+              color: widget.info.errorType == ErrorType.apiError //
                   ? Colors.red
                   : Colors.blue,
             ),
             label: 'Response Status Code:',
-            text: info.responseStatusCode.toString(),
+            text: widget.info.responseStatusCode.toString(),
           ),
           //
-          if (info.responseStatusMessage != null) const SizedBox(height: 10),
-          if (info.responseStatusMessage != null)
+          if (widget.info.responseStatusMessage != null)
+            const SizedBox(height: 10),
+          if (widget.info.responseStatusMessage != null)
             IconLabelText(
               icon: const Icon(
                 Icons.text_snippet_outlined,
                 size: iconSize,
               ),
               label: 'Response Status Message:',
-              text: info.responseStatusMessage!,
+              text: widget.info.responseStatusMessage!,
             ),
           //
-          if (info.responseErrorMessage != null) const SizedBox(height: 10),
-          if (info.responseErrorMessage != null)
+          if (widget.info.responseErrorMessage != null)
+            const SizedBox(height: 10),
+          if (widget.info.responseErrorMessage != null)
             IconLabelText(
               icon: const Icon(
                 Icons.text_snippet_outlined,
                 size: iconSize,
               ),
               label: 'Error Message:',
-              text: info.responseErrorMessage!,
+              text: widget.info.responseErrorMessage!,
             ),
           //
-          if (info.errorParsingJsonMessage != null) const SizedBox(height: 10),
-          if (info.errorParsingJsonMessage != null)
+          if (widget.info.errorParsingJsonMessage != null)
+            const SizedBox(height: 10),
+          if (widget.info.errorParsingJsonMessage != null)
             IconLabelText(
               icon: const Icon(
                 Icons.error,
@@ -63,12 +75,12 @@ class _DioResponseSection extends StatelessWidget {
                 size: iconSize,
               ),
               label: 'JSON Parse Error: ',
-              text: info.errorParsingJsonMessage ?? '',
+              text: widget.info.errorParsingJsonMessage ?? '',
             ),
           //
-          if (info.errorConvertingJsonMessage != null)
+          if (widget.info.errorConvertingJsonMessage != null)
             const SizedBox(height: 10),
-          if (info.errorConvertingJsonMessage != null)
+          if (widget.info.errorConvertingJsonMessage != null)
             IconLabelText(
               icon: const Icon(
                 Icons.error,
@@ -76,7 +88,7 @@ class _DioResponseSection extends StatelessWidget {
                 size: iconSize,
               ),
               label: 'Conversion Error: ',
-              text: info.errorConvertingJsonMessage!,
+              text: widget.info.errorConvertingJsonMessage!,
             ),
           //
           const SizedBox(height: 10),
@@ -88,10 +100,44 @@ class _DioResponseSection extends StatelessWidget {
             label: 'Response Data:',
             text: '',
           ),
-          if (showJson) const SizedBox(height: 10),
-          if (showJson) _DataView(data: info.responseData),
+          if (widget.showJson) const SizedBox(height: 10),
+          if (widget.showJson) _buildJsonView(),
         ],
       ),
+    );
+  }
+
+  Widget _buildJsonView() {
+    return Stack(
+      children: [
+        if (!showTree) _JsonDataView(data: widget.info.responseData),
+        if (showTree)
+          SizedBox(
+            height: 400,
+            child: _JsonTreeView(
+              rootData: widget.info.responseData,
+            ),
+          ),
+        Positioned(
+          top: 5,
+          right: 5,
+          child: AdvancedSwitch(
+            initialValue: showTree,
+            activeColor: Colors.indigo,
+            inactiveColor: Colors.grey,
+            activeChild: const Text('JSON Tree View'),
+            inactiveChild: const Text('Response Text'),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            width: 130.0,
+            height: 20.0,
+            enabled: true,
+            onChanged: (dynamic checked) {
+              showTree = !showTree;
+              setState(() {});
+            },
+          ),
+        ),
+      ],
     );
   }
 }

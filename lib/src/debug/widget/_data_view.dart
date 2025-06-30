@@ -1,17 +1,17 @@
 part of '../../../rest_debug_screen.dart';
 
-class _DataView extends StatefulWidget {
+class _JsonDataView extends StatefulWidget {
   final dynamic data;
 
-  const _DataView({super.key, required this.data});
+  const _JsonDataView({super.key, required this.data});
 
   @override
   State<StatefulWidget> createState() {
-    return _DataViewState();
+    return _JsonDataViewState();
   }
 }
 
-class _DataViewState extends State<_DataView> {
+class _JsonDataViewState extends State<_JsonDataView> {
   late TextEditingController _controller;
   bool expand = true;
 
@@ -25,14 +25,8 @@ class _DataViewState extends State<_DataView> {
   Widget build(BuildContext context) {
     var text = toBeautifulJsonOLD(widget.data);
     _controller.text = text;
-    return Container(
-      padding: const EdgeInsets.all(5),
+    return _CustomAppContainer(
       width: double.infinity,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Theme.of(context).scaffoldBackgroundColor,
-        ),
-      ),
       child: Stack(
         children: [
           TextField(
@@ -44,7 +38,7 @@ class _DataViewState extends State<_DataView> {
             readOnly: true,
           ),
           Positioned(
-            top: 10,
+            top: 30,
             right: 20,
             child: Row(
               mainAxisSize: MainAxisSize.min,
