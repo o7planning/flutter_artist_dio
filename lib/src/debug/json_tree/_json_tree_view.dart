@@ -159,18 +159,58 @@ class _JsonTreeView extends StatelessWidget {
             minLeadingWidth: 20,
             minTileHeight: 20,
             contentPadding: const EdgeInsets.only(left: 25),
-            title: IconLabelText(
-              icon: icon,
-              label: title,
-              text: value ?? '',
-              style: TextStyle(
-                overflow: TextOverflow.ellipsis,
-                fontSize: 13,
+            title: HoverWidget(
+              hoverChild: _buildTextNode(
+                context: context,
+                icon: icon,
+                label: title,
+                text: value,
+                isHovering: true,
+              ),
+              onHover: (_) {},
+              child: _buildTextNode(
+                context: context,
+                icon: icon,
+                label: title,
+                text: value,
+                isHovering: false,
               ),
             ),
           );
         },
       ),
+    );
+  }
+
+  Widget _buildTextNode({
+    required BuildContext context,
+    required Widget icon,
+    required String label,
+    required String? text,
+    required bool isHovering,
+  }) {
+    return IconLabelText(
+      icon: icon,
+      label: label,
+      text: text ?? '',
+      style: TextStyle(
+        overflow: TextOverflow.ellipsis,
+        fontSize: 13,
+      ),
+      suffixIcon: isHovering && text != null //
+          ? SimpleSmallIconButton(
+              iconData: Icons.copy,
+              iconSize: 14,
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: text));
+                _closeAllSnackBars(context);
+                _showSnackBar(
+                  context,
+                  "Copied",
+                );
+              },
+            )
+          : null,
     );
   }
 }

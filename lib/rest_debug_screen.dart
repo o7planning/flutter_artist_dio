@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:flutter_artist_commons_ui/flutter_artist_commons_ui.dart';
+import 'package:hovering/hovering.dart';
 
 import 'flutter_artist_dio.dart';
 import 'src/_utils/json_utils.dart';
