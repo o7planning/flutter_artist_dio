@@ -89,7 +89,7 @@ class _JsonTreeView extends StatelessWidget {
       child: TreeView.simple(
         tree: rootTreeNode,
         showRootNode: false,
-        expansionBehavior: ExpansionBehavior.none,
+        expansionBehavior: ExpansionBehavior.snapToTop,
         expansionIndicatorBuilder: (context, node) {
           // PlusMinusIndicator
           // ChevronIndicator.upDown
@@ -105,8 +105,8 @@ class _JsonTreeView extends StatelessWidget {
         indentation: const Indentation(
           style: IndentStyle.roundJoint,
           thickness: 1,
-          width: 12,
-          offset: Offset(5, 0),
+          // width: 12,
+          // offset: Offset(5, 0),
         ),
         onTreeReady: (
           TreeViewController<dynamic, TreeNode<dynamic>> controller,
