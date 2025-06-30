@@ -92,18 +92,21 @@ class _JsonTreeView extends StatelessWidget {
         expansionBehavior: ExpansionBehavior.none,
         expansionIndicatorBuilder: (context, node) {
           // PlusMinusIndicator
-          return ChevronIndicator.upDown(
+          // ChevronIndicator.upDown
+          return PlusMinusIndicator(
             tree: node,
-            color: Colors.grey[700],
+            color: Colors.grey[600],
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.zero,
-            icon: Icons.keyboard_arrow_down_outlined,
+            // icon: Icons.keyboard_arrow_down_outlined,
+            curve: Curves.linear,
           );
         },
         indentation: const Indentation(
-          style: IndentStyle.squareJoint,
+          style: IndentStyle.roundJoint,
           thickness: 1,
-          width: 10,
+          width: 12,
+          offset: Offset(5, 0),
         ),
         onTreeReady: (
           TreeViewController<dynamic, TreeNode<dynamic>> controller,
