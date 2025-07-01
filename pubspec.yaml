@@ -15,6 +15,7 @@ dependencies:
   dio: ^5.7.0
   flutter_advanced_switch: ^3.1.0
   hovering: ^1.0.4
+  flutter_breadcrumb: ^1.0.1
 
 
   flutter_artist_core:

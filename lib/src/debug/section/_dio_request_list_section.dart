@@ -11,15 +11,23 @@ class _DioRequestListSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<RequestLogInfo> infos = restLogger.getRequestLogInfos();
+    //
     return _CustomAppContainer.transparent(
       padding: const EdgeInsets.all(5),
       width: double.infinity,
-      child: Wrap(
-        spacing: 5,
-        runSpacing: 5,
-        children: infos
+      child: BreadCrumb(
+        divider: const SizedBox(width: 5),
+        overflow: ScrollableOverflow(
+          keepLastDivider: false,
+          reverse: false,
+          direction: Axis.horizontal,
+        ),
+        items: infos
             .map(
-              (e) => _buildItemWidget(e),
+              (e) => BreadCrumbItem(
+                padding: EdgeInsets.all(2),
+                content: _buildItemWidget(e),
+              ),
             )
             .toList(),
       ),
