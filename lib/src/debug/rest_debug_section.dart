@@ -30,12 +30,6 @@ class _RestDebugSectionState extends State<RestDebugSection> {
 
   @override
   Widget build(BuildContext context) {
-    if (fullView && info != null) {
-      return _ResponseView(
-        requestLogInfo: info!,
-        onFullScreenPressed: _onFullScreenPressed,
-      );
-    }
     return Column(
       children: [
         _DioRequestListSection(
@@ -47,14 +41,23 @@ class _RestDebugSectionState extends State<RestDebugSection> {
             info: info!,
           ),
         const Divider(height: 6),
-        //
-        if (widget.showInScrollView)
+        if (fullView && info != null)
+          Expanded(
+            child: _ResponseView(
+              requestLogInfo: info!,
+              onFullScreenPressed: _onFullScreenPressed,
+            ),
+          ),
+        if ((!fullView || info == null) && widget.showInScrollView)
           Expanded(
             child: SingleChildScrollView(
               child: _buildMain(context),
             ),
           ),
-        if (!widget.showInScrollView) _buildMain(context),
+        if ((!fullView || info == null) && !widget.showInScrollView)
+          SingleChildScrollView(
+            child: _buildMain(context),
+          ),
       ],
     );
   }

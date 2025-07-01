@@ -13,7 +13,6 @@ class _ResponseTextView extends StatefulWidget {
 
 class _ResponseTextViewState extends State<_ResponseTextView> {
   late TextEditingController _controller;
-  bool expand = true;
 
   @override
   void initState() {

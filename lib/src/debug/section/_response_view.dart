@@ -18,18 +18,10 @@ class _ResponseView extends StatefulWidget {
 
 class _ResponseViewState extends State<_ResponseView> {
   bool showTree = true;
-  late _ResponseTextView textView;
-  late _ResponseJsonTreeView treeView;
 
   @override
   void initState() {
     super.initState();
-    textView = _ResponseTextView(
-      text: widget.requestLogInfo.toResponseText(),
-    );
-    treeView = _ResponseJsonTreeView(
-      jsonObj: widget.requestLogInfo.toResponseJson(),
-    );
   }
 
   @override
@@ -38,11 +30,15 @@ class _ResponseViewState extends State<_ResponseView> {
       children: [
         Visibility(
           visible: !showTree,
-          child: textView,
+          child: _ResponseTextView(
+            text: widget.requestLogInfo.toResponseText(),
+          ),
         ),
         Visibility(
           visible: showTree,
-          child: treeView,
+          child: _ResponseJsonTreeView(
+            jsonObj: widget.requestLogInfo.toResponseJson(),
+          ),
         ),
         Positioned(
           top: 5,
@@ -61,7 +57,7 @@ class _ResponseViewState extends State<_ResponseView> {
       children: [
         AdvancedSwitch(
           initialValue: showTree,
-          activeColor: Colors.indigo,
+          activeColor: Colors.indigo, 
           inactiveColor: Colors.grey,
           activeChild: const Text('JSON Tree View'),
           inactiveChild: const Text('Response Text'),
