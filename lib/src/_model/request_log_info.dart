@@ -23,8 +23,8 @@ class RequestLogInfo {
   String? __responseText;
   dynamic responseData;
 
-  // (1)
-  String? errorParsingJsonMessage;
+  // (0)
+  String? errorMessage;
 
   // (2)
   String? responseErrorMessage;
@@ -173,8 +173,8 @@ class RequestLogInfo {
   void _setErrorParsingJson({
     required String? errorParsingJsonMessage,
   }) {
-    this.errorType = ErrorType.parseError;
-    this.errorParsingJsonMessage = errorParsingJsonMessage;
+    errorType = ErrorType.parseError;
+    errorMessage = errorParsingJsonMessage;
   }
 
   void _setResponseErrorMessage({

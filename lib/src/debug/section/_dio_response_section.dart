@@ -58,8 +58,9 @@ class _DioResponseSection extends StatelessWidget {
               text: info.responseErrorMessage!,
             ),
           //
-          if (info.errorParsingJsonMessage != null) const SizedBox(height: 10),
-          if (info.errorParsingJsonMessage != null)
+          if (info.errorType == ErrorType.parseError)
+            const SizedBox(height: 10),
+          if (info.errorType == ErrorType.parseError)
             IconLabelText(
               icon: const Icon(
                 Icons.error,
@@ -67,10 +68,10 @@ class _DioResponseSection extends StatelessWidget {
                 size: iconSize,
               ),
               label: 'JSON Parse Error: ',
-              text: info.errorParsingJsonMessage ?? '',
+              text: info.errorMessage ?? '',
             ),
           //
-          if (info.errorConvertingJsonMessage != null)
+          if ( info.errorConvertingJsonMessage != null)
             const SizedBox(height: 10),
           if (info.errorConvertingJsonMessage != null)
             IconLabelText(
