@@ -24,11 +24,11 @@ class _DioResponseSection extends StatelessWidget {
         children: [
           IconLabelText(
             icon: Icon(
-              info.errorType == ErrorType.apiError //
+              info.apiError != null //
                   ? Icons.error
                   : Icons.check_box_rounded,
               size: iconSize,
-              color: info.errorType == ErrorType.apiError //
+              color: info.apiError != null //
                   ? Colors.red
                   : Colors.blue,
             ),
@@ -58,17 +58,16 @@ class _DioResponseSection extends StatelessWidget {
               text: info.responseErrorMessage!,
             ),
           //
-          if (info.errorType == ErrorType.parseError)
-            const SizedBox(height: 10),
-          if (info.errorType == ErrorType.parseError)
+          if (info.apiError != null) const SizedBox(height: 10),
+          if (info.apiError != null)
             IconLabelText(
               icon: const Icon(
                 Icons.error,
                 color: Colors.red,
                 size: iconSize,
               ),
-              label: 'JSON Parse Error: ',
-              text: info.errorMessage ?? '',
+              label: 'Error Type: ',
+              text: info.apiError!.apiErrorType?.description ?? ' - ',
             ),
           //
           if (info.errorConvertingJsonMessage != null)

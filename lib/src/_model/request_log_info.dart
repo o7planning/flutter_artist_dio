@@ -11,12 +11,14 @@ class RequestLogInfo {
   late Map<String, dynamic> mapData;
 
   //
-  ApiErrorType? apiErrorType;
-  ErrorType errorType = ErrorType.none;
-
-  //
   int? responseStatusCode;
   String? responseStatusMessage;
+
+  //
+  ApiErrorType? apiErrorType;
+
+  //  ErrorType errorType = ErrorType.none;
+  //
 
   bool __jsonDataReady = false;
   bool __hasNoResponseData = false;
@@ -25,6 +27,8 @@ class RequestLogInfo {
   dynamic responseData;
 
   ApiError? __apiError;
+
+  ApiError? get apiError => __apiError;
 
   // (0)
   String? errorMessage;
@@ -174,7 +178,7 @@ class RequestLogInfo {
     assert(this.dioRequestID == dioRequestID);
     //
     this.apiErrorType = apiErrorType;
-    this.errorType = errorType;
+    // this.errorType = errorType;
     this.responseStatusCode = responseStatusCode;
     this.responseStatusMessage = responseStatusMessage;
     this.responseData = responseData;
@@ -184,7 +188,7 @@ class RequestLogInfo {
   void _setErrorParsingJson({
     required String? errorParsingJsonMessage,
   }) {
-    errorType = ErrorType.parseError;
+    // errorType = ErrorType.parseError;
     errorMessage = errorParsingJsonMessage;
   }
 
@@ -194,7 +198,7 @@ class RequestLogInfo {
     required String? responseErrorMessage,
     required List<String>? responseErrorDetails,
   }) {
-    this.errorType = errorType;
+    // this.errorType = errorType;
     this.responseErrorMessage = responseErrorMessage;
     this.responseErrorDetails = responseErrorDetails;
   }
