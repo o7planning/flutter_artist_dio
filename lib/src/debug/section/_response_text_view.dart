@@ -29,10 +29,10 @@ class _ResponseTextViewState extends State<_ResponseTextView> {
   Widget build(BuildContext context) {
     if (widget.hasNoResponseData) {
       return SizedBox(
-        height: 100,
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(widget.hasNoResponseData ? "No Response" : "Not JSON"),
+        width: double.maxFinite,
+        child: Text(
+          "No Response",
+          style: TextStyle(fontSize: 13, color: Colors.grey),
         ),
       );
     }

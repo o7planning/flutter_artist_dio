@@ -14,10 +14,10 @@ class _ResponseJsonTreeView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (hasNoResponseData || jsonObj == null) {
       return SizedBox(
-        height: 100,
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(hasNoResponseData ? "No Response" : "Not JSON"),
+        width: double.maxFinite,
+        child: Text(
+          hasNoResponseData ? "No Response" : "Not JSON",
+          style: TextStyle(fontSize: 13, color: Colors.grey),
         ),
       );
     }
