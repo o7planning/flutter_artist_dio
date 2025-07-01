@@ -18,6 +18,7 @@ class RequestLogInfo {
   String? responseStatusMessage;
 
   bool __jsonDataReady = false;
+  bool __hasNoResponseData = false;
   Object? __responseJsonData;
   String? __responseText;
   dynamic responseData;
@@ -83,6 +84,7 @@ class RequestLogInfo {
       if (responseData == null) {
         __responseJsonData = null;
         __responseText = null;
+        __hasNoResponseData = true;
       }
       // String
       else if (responseData is String) {
@@ -94,19 +96,26 @@ class RequestLogInfo {
             __responseText = json;
           }
         }
+        __hasNoResponseData = false;
       }
       // List or Map:
       else if (responseData is List || responseData is Map) {
         __responseJsonData = responseData;
         __responseText = toBeautifulJson(__responseJsonData!);
+        __hasNoResponseData = false;
       }
       // Others:
       else {
         __responseJsonData = null;
         __responseText = null;
+        __hasNoResponseData = false;
       }
       __jsonDataReady = true;
     }
+  }
+
+  bool hasNoResponseData() {
+    return __hasNoResponseData;
   }
 
   Object? toResponseJson() {

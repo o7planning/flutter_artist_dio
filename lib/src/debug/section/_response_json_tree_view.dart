@@ -1,20 +1,23 @@
 part of '../../../rest_debug_screen.dart';
 
 class _ResponseJsonTreeView extends StatelessWidget {
+  final bool hasNoResponseData;
   final Object? jsonObj;
 
   const _ResponseJsonTreeView({
     super.key,
+    required this.hasNoResponseData,
     required this.jsonObj,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (jsonObj == null) {
+    if (hasNoResponseData || jsonObj == null) {
       return SizedBox(
         height: 100,
-        child: Center(
-          child: Text("Not JSON"),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(hasNoResponseData ? "No Response" : "Not JSON"),
         ),
       );
     }

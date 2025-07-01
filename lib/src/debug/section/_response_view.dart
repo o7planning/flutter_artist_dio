@@ -37,12 +37,14 @@ class _ResponseViewState extends State<_ResponseView> {
           Visibility(
             visible: !showTree,
             child: _ResponseTextView(
+              hasNoResponseData: widget.requestLogInfo.hasNoResponseData(),
               text: widget.requestLogInfo.toResponseText(),
             ),
           ),
           Visibility(
             visible: showTree,
             child: _ResponseJsonTreeView(
+              hasNoResponseData: widget.requestLogInfo.hasNoResponseData(),
               jsonObj: widget.requestLogInfo.toResponseJson(),
             ),
           ),
