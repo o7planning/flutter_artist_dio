@@ -97,6 +97,7 @@ class _DioResponseSection extends StatelessWidget {
             _CustomAppContainer(
               height: 400,
               child: _ResponseView(
+                padding: EdgeInsets.zero,
                 requestLogInfo: info,
                 onFullScreenPressed: onFullScreenPressed,
                 fullView: fullView,

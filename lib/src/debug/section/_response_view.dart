@@ -2,6 +2,7 @@ part of '../../../rest_debug_screen.dart';
 
 class _ResponseView extends StatefulWidget {
   final bool fullView;
+  final EdgeInsets padding;
   final RequestLogInfo requestLogInfo;
   final Function()? onFullScreenPressed;
 
@@ -10,6 +11,7 @@ class _ResponseView extends StatefulWidget {
     required this.requestLogInfo,
     required this.onFullScreenPressed,
     required this.fullView,
+    this.padding = const EdgeInsets.all(5),
   });
 
   @override
@@ -28,26 +30,29 @@ class _ResponseViewState extends State<_ResponseView> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Visibility(
-          visible: !showTree,
-          child: _ResponseTextView(
-            text: widget.requestLogInfo.toResponseText(),
+    return Container(
+      padding: widget.padding,
+      child: Stack(
+        children: [
+          Visibility(
+            visible: !showTree,
+            child: _ResponseTextView(
+              text: widget.requestLogInfo.toResponseText(),
+            ),
           ),
-        ),
-        Visibility(
-          visible: showTree,
-          child: _ResponseJsonTreeView(
-            jsonObj: widget.requestLogInfo.toResponseJson(),
+          Visibility(
+            visible: showTree,
+            child: _ResponseJsonTreeView(
+              jsonObj: widget.requestLogInfo.toResponseJson(),
+            ),
           ),
-        ),
-        Positioned(
-          top: 5,
-          right: 5,
-          child: _buildControlBar(),
-        ),
-      ],
+          Positioned(
+            top: 5,
+            right: 5,
+            child: _buildControlBar(),
+          ),
+        ],
+      ),
     );
   }
 
