@@ -4,12 +4,14 @@ class _DioResponseSection extends StatelessWidget {
   final RequestLogInfo info;
   final bool showJson;
   final Function() onFullScreenPressed;
+  final bool fullView;
 
   const _DioResponseSection({
     super.key,
     required this.info,
     required this.showJson,
     required this.onFullScreenPressed,
+    required this.fullView,
   });
 
   @override
@@ -97,6 +99,7 @@ class _DioResponseSection extends StatelessWidget {
               child: _ResponseView(
                 requestLogInfo: info,
                 onFullScreenPressed: onFullScreenPressed,
+                fullView: fullView,
               ),
             ),
         ],

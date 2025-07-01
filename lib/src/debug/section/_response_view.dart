@@ -1,6 +1,7 @@
 part of '../../../rest_debug_screen.dart';
 
 class _ResponseView extends StatefulWidget {
+  final bool fullView;
   final RequestLogInfo requestLogInfo;
   final Function()? onFullScreenPressed;
 
@@ -8,6 +9,7 @@ class _ResponseView extends StatefulWidget {
     super.key,
     required this.requestLogInfo,
     required this.onFullScreenPressed,
+    required this.fullView,
   });
 
   @override
@@ -57,7 +59,7 @@ class _ResponseViewState extends State<_ResponseView> {
       children: [
         AdvancedSwitch(
           initialValue: showTree,
-          activeColor: Colors.indigo, 
+          activeColor: Colors.indigo,
           inactiveColor: Colors.grey,
           activeChild: const Text('JSON Tree View'),
           inactiveChild: const Text('Response Text'),
@@ -72,7 +74,7 @@ class _ResponseViewState extends State<_ResponseView> {
         ),
         SizedBox(width: 10),
         TextButton(
-          onPressed: widget.onFullScreenPressed,
+          onPressed: _copy,
           style: TextButton.styleFrom(
             minimumSize: Size.zero,
             padding: EdgeInsets.zero,
@@ -91,11 +93,21 @@ class _ResponseViewState extends State<_ResponseView> {
               padding: EdgeInsets.zero,
             ),
             child: Icon(
-              Icons.fullscreen,
+              widget.fullView ? Icons.fullscreen_exit : Icons.fullscreen,
               size: 24,
             ),
           ),
       ],
+    );
+  }
+
+  void _copy() {
+    String? text = widget.requestLogInfo.toResponseText();
+    Clipboard.setData(ClipboardData(text: text ?? ""));
+    _closeAllSnackBars(context);
+    _showSnackBar(
+      context,
+      "Copied",
     );
   }
 }

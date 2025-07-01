@@ -1,11 +1,11 @@
 part of '../../rest_debug_screen.dart';
 
-class RestDebugSection extends StatefulWidget {
+class RestDebugView extends StatefulWidget {
   final bool showJson;
   final bool showToken;
   final bool showInScrollView;
 
-  const RestDebugSection({
+  const RestDebugView({
     super.key,
     required this.showJson,
     required this.showToken,
@@ -14,11 +14,11 @@ class RestDebugSection extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _RestDebugSectionState();
+    return _RestDebugViewState();
   }
 }
 
-class _RestDebugSectionState extends State<RestDebugSection> {
+class _RestDebugViewState extends State<RestDebugView> {
   RequestLogInfo? info;
   bool fullView = false;
 
@@ -46,6 +46,7 @@ class _RestDebugSectionState extends State<RestDebugSection> {
             child: _ResponseView(
               requestLogInfo: info!,
               onFullScreenPressed: _onFullScreenPressed,
+              fullView: fullView,
             ),
           ),
         if ((!fullView || info == null) && widget.showInScrollView)
@@ -75,6 +76,7 @@ class _RestDebugSectionState extends State<RestDebugSection> {
               info: info!,
               showJson: widget.showJson,
               onFullScreenPressed: _onFullScreenPressed,
+              fullView: fullView,
             ),
         ],
       ),

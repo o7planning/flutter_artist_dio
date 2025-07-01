@@ -37,7 +37,7 @@ class _RestDebugDialogDialog extends StatelessWidget {
   }
 
   Widget _buildMainWidget() {
-    return RestDebugSection(
+    return RestDebugView(
       showJson: showJson,
       showToken: showToken,
       showInScrollView: true,
