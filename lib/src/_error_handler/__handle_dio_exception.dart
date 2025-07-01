@@ -56,6 +56,11 @@ ApiResult<D> _handleDioException<D>(
   String? errorMessage;
   if (error.response != null) {
     errorData = error.response!.data;
+    ApiError apiError = ApiError.fromResponseErrorData(
+      status: error.response!.statusCode,
+      statusMessage: error.response!.statusMessage,
+      responseErrorData: errorData,
+    );
     status = error.response!.statusCode ?? -1;
     errorMessage = error.response!.statusMessage ?? "Unknown Error";
   } else {
