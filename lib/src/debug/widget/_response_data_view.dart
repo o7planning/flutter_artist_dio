@@ -1,17 +1,17 @@
 part of '../../../rest_debug_screen.dart';
 
-class _JsonDataView extends StatefulWidget {
+class _ResponseDataView extends StatefulWidget {
   final dynamic data;
 
-  const _JsonDataView({super.key, required this.data});
+  const _ResponseDataView({super.key, required this.data});
 
   @override
   State<StatefulWidget> createState() {
-    return _JsonDataViewState();
+    return _ResponseDataViewState();
   }
 }
 
-class _JsonDataViewState extends State<_JsonDataView> {
+class _ResponseDataViewState extends State<_ResponseDataView> {
   late TextEditingController _controller;
   bool expand = true;
 

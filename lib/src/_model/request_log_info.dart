@@ -16,6 +16,9 @@ class RequestLogInfo {
   //
   int? responseStatusCode;
   String? responseStatusMessage;
+
+  bool __jsonDataReady = false;
+  Object? __responseJsonData;
   dynamic responseData;
 
   // (1)
@@ -70,6 +73,32 @@ class RequestLogInfo {
         print(">>>>>>>>> TODO: $formData --> type: ${formData.runtimeType}");
         throw Error();
       }
+    }
+  }
+
+  Object? get responseJsonData {
+    if (!__jsonDataReady) {
+      if (responseData == null) {
+        __responseJsonData = null;
+      } else if (responseData is String) {
+        __responseJsonData = __jsonDecode(responseData);
+      } else if (responseData is List) {
+        __responseJsonData = responseData;
+      } else if (responseData is Map) {
+        __responseJsonData = responseData;
+      } else {
+        __responseJsonData = null;
+      }
+      __jsonDataReady = true;
+    }
+    return __responseJsonData;
+  }
+
+  Object? __jsonDecode(String text) {
+    try {
+      return jsonDecode(text);
+    } catch (e) {
+      return null;
     }
   }
 

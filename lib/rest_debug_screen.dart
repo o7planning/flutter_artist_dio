@@ -23,7 +23,7 @@ part 'src/debug/section/_dio_request_info_section.dart';
 part 'src/debug/section/_dio_request_list_section.dart';
 part 'src/debug/section/_dio_response_section.dart';
 part 'src/debug/widget/_custom_app_container.dart';
-part 'src/debug/widget/_data_view.dart';
+part 'src/debug/widget/_response_data_view.dart';
 part 'src/debug/widget/_map_key_value_view.dart';
 
 class RestDebugScreen extends StatelessWidget {

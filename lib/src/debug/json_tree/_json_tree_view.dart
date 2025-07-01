@@ -1,23 +1,14 @@
 part of '../../../rest_debug_screen.dart';
 
 class _JsonTreeView extends StatelessWidget {
-  final Object responseData;
+  final Object? jsonObj;
 
   const _JsonTreeView({
     super.key,
-    required this.responseData,
+    required this.jsonObj,
   });
 
-  Object? _jsonDecode(String responseData) {
-    try {
-      return jsonDecode(responseData);
-    } catch (e) {
-      return null;
-    }
-  }
-
   TreeNode _getRootWithChildren(Object rootData) {
-    //
     TreeNode treeNode = TreeNode(
       key: "Root",
       data: _NodeDataWrap(title: "JSON", data: rootData),
@@ -70,11 +61,7 @@ class _JsonTreeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Object? rootData = responseData;
-    if (responseData is String) {
-      rootData = _jsonDecode(responseData as String);
-    }
-    if (rootData == null) {
+    if (jsonObj == null) {
       return SizedBox(
         height: 100,
         child: Center(
@@ -82,7 +69,7 @@ class _JsonTreeView extends StatelessWidget {
         ),
       );
     }
-    TreeNode rootTreeNode = _getRootWithChildren(rootData);
+    TreeNode rootTreeNode = _getRootWithChildren(jsonObj!);
     //
     return _CustomAppContainer(
       width: double.infinity,
