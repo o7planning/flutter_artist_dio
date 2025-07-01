@@ -14,7 +14,7 @@ ApiResult<D> _handleException<D>(
   }
   //
   ApiResult<D> apiResult = ApiResult<D>.error(
-    status: "-1",
+    statusCode: null,
     apiErrorType: ApiErrorType.unknown,
     errorMessage: appError.errorMessage,
     errorDetails: appError.errorDetails,

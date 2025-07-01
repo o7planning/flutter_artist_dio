@@ -73,7 +73,7 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
   ApiError? apiError = rawResult.toApiError();
   if (apiError != null) {
     return ApiResult<D>.error(
-      status: apiError.status,
+      statusCode: apiError.statusCode,
       apiErrorType: apiError.apiErrorType,
       errorMessage: apiError.errorMessage,
       errorDetails: apiError.errorDetails,
