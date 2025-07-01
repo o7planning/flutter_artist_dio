@@ -7,3 +7,27 @@ https://github.com/Milad-Akarie/pretty_dio_logger/blob/master/lib/src/pretty_dio
 https://dev.to/7twilight/mastering-auth-in-flutter-with-dio-from-simple-access-tokens-to-a-refresh-flow-27cf
 
 
+
+String? status =
+        (map['status'] ?? map['errorStatus'] ?? statusCode).toString();
+    //
+    String? errorMessage =
+        map['errorMessage'] ?? map['error'] ?? map['message'];
+    //
+    dynamic errorDetailsX = map['errors'] ?? map['errorDetails'];
+    //
+    List<String>? errorDetails;
+    if (errorDetailsX != null) {
+      if (errorDetailsX is List) {
+        errorDetails =
+            errorDetailsX.map((detail) => detail.toString()).toList();
+      } else {
+        errorDetails = [errorDetailsX.toString()];
+      }
+    }
+    //
+
+
+
+
+

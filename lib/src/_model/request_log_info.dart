@@ -11,6 +11,7 @@ class RequestLogInfo {
   late Map<String, dynamic> mapData;
 
   //
+  ApiErrorType? apiErrorType;
   ErrorType errorType = ErrorType.none;
 
   //
@@ -22,6 +23,8 @@ class RequestLogInfo {
   Object? __responseJsonData;
   String? __responseText;
   dynamic responseData;
+
+  ApiError? __apiError;
 
   // (0)
   String? errorMessage;
@@ -137,7 +140,11 @@ class RequestLogInfo {
   }
 
   bool get isError {
-    return errorType != ErrorType.none;
+    return __apiError != null;
+  }
+
+  void _setError(ApiError apiError) {
+    __apiError = apiError;
   }
 
   // The Server return data.
@@ -155,8 +162,10 @@ class RequestLogInfo {
   }
 
   // The Server return error data.
+  @Deprecated("Khong su dung nua")
   void _setResponseFailInfo({
     required int dioRequestID,
+    required ApiErrorType? apiErrorType,
     required ErrorType errorType,
     required dynamic responseData,
     required int? responseStatusCode,
@@ -164,12 +173,14 @@ class RequestLogInfo {
   }) {
     assert(this.dioRequestID == dioRequestID);
     //
+    this.apiErrorType = apiErrorType;
     this.errorType = errorType;
     this.responseStatusCode = responseStatusCode;
     this.responseStatusMessage = responseStatusMessage;
     this.responseData = responseData;
   }
 
+  @Deprecated("Khong su dung nua")
   void _setErrorParsingJson({
     required String? errorParsingJsonMessage,
   }) {
@@ -177,6 +188,7 @@ class RequestLogInfo {
     errorMessage = errorParsingJsonMessage;
   }
 
+  @Deprecated("Khong su dung nua")
   void _setResponseErrorMessage({
     required ErrorType errorType,
     required String? responseErrorMessage,
@@ -187,6 +199,7 @@ class RequestLogInfo {
     this.responseErrorDetails = responseErrorDetails;
   }
 
+  @Deprecated("Khong su dung nua")
   void setErrorInfo({
     required int dioRequestID,
     required dynamic error,

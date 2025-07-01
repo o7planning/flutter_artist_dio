@@ -9,16 +9,9 @@ ApiResult<D> _handleDioResponse<D>({
 }) {
   RequestLogInfo? info = restLogger.getRequestLogInfo(restRequestId);
   //
-  info?._setResponseSuccessInfo(
-    dioRequestID: restRequestId,
-    responseData: response.data,
-    responseStatusCode: response.statusCode,
-    responseStatusMessage: response.statusMessage,
-  );
-  //
+  ApiResult<D> apiResult;
   if (responseDataMode == ResponseDataMode.wrappedData) {
-    return __handleResponseAsWrappedData(
-      info: info,
+    apiResult = __handleResponseAsWrappedData(
       response: response,
       converter: converter,
       restRequestId: restRequestId,
@@ -27,18 +20,29 @@ ApiResult<D> _handleDioResponse<D>({
   }
   // ResponseDataMode.realData:
   else {
-    return __handleResponseAsDirectData<D>(
-      info: info,
+    apiResult = __handleResponseAsDirectData<D>(
       response: response,
       converter: converter,
       restRequestId: restRequestId,
       showDebug: showDebug,
     );
   }
+  //
+  if (apiResult.isError()) {
+    ApiError apiError = apiResult.toApiError()!;
+    info?._setError(apiError);
+  } else {
+    info?._setResponseSuccessInfo(
+      dioRequestID: restRequestId,
+      responseData: response.data,
+      responseStatusCode: response.statusCode,
+      responseStatusMessage: response.statusMessage,
+    );
+  }
+  return apiResult;
 }
 
 ApiResult<D> __handleResponseAsDirectData<D>({
-  required RequestLogInfo? info,
   required Response response,
   required Converter? converter,
   required int restRequestId,
@@ -49,13 +53,6 @@ ApiResult<D> __handleResponseAsDirectData<D>({
     data: response.data,
     dataConverter: converter,
   );
-  if (apiResult.isError()) {
-    info?._setResponseErrorMessage(
-      errorType: ErrorType.apiError,
-      responseErrorMessage: apiResult.errorMessage,
-      responseErrorDetails: apiResult.errorDetails,
-    );
-  }
   return apiResult;
 }
 
@@ -64,7 +61,6 @@ ApiResult<D> __handleResponseAsDirectData<D>({
 // *****************************************************************************
 
 ApiResult<D> __handleResponseAsWrappedData<D>({
-  required RequestLogInfo? info,
   required Response response,
   required Converter? converter,
   required int restRequestId,
@@ -74,32 +70,24 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
   if (rawResult == null) {
     return ApiResult.data(null);
   }
-  if (rawResult.errorMessage != null && rawResult.errorMessage!.isNotEmpty) {
-    info?._setResponseErrorMessage(
-      errorType: ErrorType.apiError,
-      responseErrorMessage: rawResult.errorMessage,
-      responseErrorDetails: rawResult.errorDetails,
+  ApiError? apiError = rawResult.toApiError();
+  if (apiError != null) {
+    return ApiResult<D>.error(
+      status: apiError.status,
+      apiErrorType: apiError.apiErrorType,
+      errorMessage: apiError.errorMessage,
+      errorDetails: apiError.errorDetails,
+      originText: null,
+      errorData: apiError.errorData,
     );
-    return ApiResult(
-      status: rawResult.status,
-      errorMessage: rawResult.errorMessage,
-      errorDetails: rawResult.errorDetails,
-    );
-  } else {
-    dynamic baseResultData = rawResult.data;
-    //
-    ApiResult<D> apiResult = ApiResult.fromDynamicData<D>(
-      statusCode: response.statusCode,
-      data: baseResultData,
-      dataConverter: converter,
-    );
-    if (apiResult.isError()) {
-      info?._setResponseErrorMessage(
-        errorType: ErrorType.apiError,
-        responseErrorMessage: apiResult.errorMessage,
-        responseErrorDetails: apiResult.errorDetails,
-      );
-    }
-    return apiResult;
   }
+  Map<String, dynamic>? data = rawResult.data;
+  if (data == null) {
+    return ApiResult<D>.data(null);
+  }
+  return ApiResult.fromMap<D>(
+    map: data,
+    dataConverter: converter,
+    statusCode: response.statusCode,
+  );
 }

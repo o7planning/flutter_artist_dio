@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_artist_core/flutter_artist_core.dart';
+import 'package:flutter_artist_dio/src/_utils/dio_error_utils.dart';
 import 'package:flutter_artist_dio/src/_utils/json_utils.dart';
 
 import 'src/one_future_auth_interceptor.dart';

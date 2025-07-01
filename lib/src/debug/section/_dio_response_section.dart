@@ -71,7 +71,7 @@ class _DioResponseSection extends StatelessWidget {
               text: info.errorMessage ?? '',
             ),
           //
-          if ( info.errorConvertingJsonMessage != null)
+          if (info.errorConvertingJsonMessage != null)
             const SizedBox(height: 10),
           if (info.errorConvertingJsonMessage != null)
             IconLabelText(

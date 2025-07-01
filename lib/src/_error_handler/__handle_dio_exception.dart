@@ -43,85 +43,38 @@ ApiResult<D> _handleDioException<D>(
   required bool showDebug,
 }) {
   print(stackTrace);
-  String? errorCause;
-
-  RequestLogInfo? info = restLogger.getRequestLogInfo(restRequestId);
-
-  info?.setErrorInfo(
-    dioRequestID: restRequestId,
-    error: error,
-  );
-
   //
+  RequestLogInfo? info = restLogger.getRequestLogInfo(restRequestId);
+  //
+  final ApiErrorType apiErrorType =
+      DioExceptionUtils.toApiErrorType(error.type);
+  //
+  // Map<String,dynamic> or List<dynamic> or String.
+  //
+  dynamic errorData;
+  int status;
+  String? errorMessage;
   if (error.response != null) {
-    //
-    // Map<String,dynamic> or List<dynamic> or String.
-    var errorData = error.response!.data;
-    //
-    //
-    info?._setResponseFailInfo(
-      dioRequestID: restRequestId,
-      errorType: ErrorType.apiError,
-      responseData: errorData,
-      responseStatusCode: error.response!.statusCode,
-      responseStatusMessage: error.response!.statusMessage,
-    );
-
-    if (showDebug) {
-      print(
-          'Dio Error: ${error.response!.statusCode}: ${error.response!.statusMessage}');
-      print("Error Data: $errorData");
-    }
-
-    try {
-      WrapApiResult? baseResult = WrapApiResult.fromDynamicData(errorData);
-
-      if (baseResult == null) {
-        info?._setErrorParsingJson(
-          errorParsingJsonMessage: "Response Error JSON is not valid!",
-        );
-        if (showDebug) {
-          print("Response Error JSON is not valid!");
-        }
-        return ApiResult(errorMessage: "Response Error JSON is not valid!");
-      }
-      //
-      baseResult.errorMessage ??= "Unknown Error (TODO)";
-
-      info?._setResponseErrorMessage(
-        errorType: ErrorType.parseError,
-        responseErrorMessage: baseResult.errorMessage,
-        responseErrorDetails: baseResult.errorDetails,
-      );
-      return ApiResult(
-        errorMessage: baseResult.errorMessage,
-        errorDetails: baseResult.errorDetails,
-      );
-    } catch (e) {
-      info?._setErrorParsingJson(
-        errorParsingJsonMessage: "Error Parsing JSON: $e",
-      );
-      //
-      return ApiResult(errorMessage: "Error Parsing JSON: $e");
-    }
+    errorData = error.response!.data;
+    status = error.response!.statusCode ?? -1;
+    errorMessage = error.response!.statusMessage ?? "Unknown Error";
   } else {
-    info?._setResponseFailInfo(
-      dioRequestID: restRequestId,
-      errorType: ErrorType.noResponse,
-      responseData: null,
-      responseStatusCode: -1,
-      responseStatusMessage: null,
-    );
-    // Handle no response
-    String errorMessage = "No Response: $error";
-    if (showDebug) {
-      print(errorMessage);
-    }
-    info?._setResponseErrorMessage(
-      errorType: ErrorType.noResponse,
-      responseErrorMessage: errorMessage,
-      responseErrorDetails: null,
-    );
-    return ApiResult(errorMessage: errorMessage);
+    errorData = null;
+    status = -1;
+    errorMessage = "Unknown error: $error";
   }
+  //
+  ApiResult<D> apiResult = ApiResult<D>.error(
+    apiErrorType: apiErrorType,
+    status: status.toString(),
+    errorMessage: errorMessage,
+    errorDetails: null,
+    errorData: errorData,
+  );
+  //
+  ApiError apiError = apiResult.toApiError()!;
+  //
+  info?._setError(apiError);
+  //
+  return apiResult;
 }
