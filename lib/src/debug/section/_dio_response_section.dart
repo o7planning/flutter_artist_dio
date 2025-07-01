@@ -47,16 +47,16 @@ class _DioResponseSection extends StatelessWidget {
               text: info.responseStatusMessage!,
             ),
           //
-          if (info.responseErrorMessage != null) const SizedBox(height: 10),
-          if (info.responseErrorMessage != null)
-            IconLabelText(
-              icon: const Icon(
-                Icons.text_snippet_outlined,
-                size: iconSize,
-              ),
-              label: 'Error Message:',
-              text: info.responseErrorMessage!,
-            ),
+          // if (info.responseErrorMessage != null) const SizedBox(height: 10),
+          // if (info.responseErrorMessage != null)
+          //   IconLabelText(
+          //     icon: const Icon(
+          //       Icons.text_snippet_outlined,
+          //       size: iconSize,
+          //     ),
+          //     label: 'Error Message:',
+          //     text: info.responseErrorMessage!,
+          //   ),
           //
           if (info.apiError != null) const SizedBox(height: 10),
           if (info.apiError != null)
@@ -70,18 +70,18 @@ class _DioResponseSection extends StatelessWidget {
               text: info.apiError!.apiErrorType?.description ?? ' - ',
             ),
           //
-          if (info.errorConvertingJsonMessage != null)
-            const SizedBox(height: 10),
-          if (info.errorConvertingJsonMessage != null)
-            IconLabelText(
-              icon: const Icon(
-                Icons.error,
-                color: Colors.red,
-                size: iconSize,
-              ),
-              label: 'Conversion Error: ',
-              text: info.errorConvertingJsonMessage!,
-            ),
+          // if (info.errorConvertingJsonMessage != null)
+          //   const SizedBox(height: 10),
+          // if (info.errorConvertingJsonMessage != null)
+          //   IconLabelText(
+          //     icon: const Icon(
+          //       Icons.error,
+          //       color: Colors.red,
+          //       size: iconSize,
+          //     ),
+          //     label: 'Conversion Error: ',
+          //     text: info.errorConvertingJsonMessage!,
+          //   ),
           //
           const SizedBox(height: 10),
           IconLabelText(

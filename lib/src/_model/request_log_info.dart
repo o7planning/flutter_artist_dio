@@ -15,11 +15,6 @@ class RequestLogInfo {
   String? responseStatusMessage;
 
   //
-  ApiErrorType? apiErrorType;
-
-  //  ErrorType errorType = ErrorType.none;
-  //
-
   bool __jsonDataReady = false;
   bool __hasNoResponseData = false;
   Object? __responseJsonData;
@@ -29,20 +24,6 @@ class RequestLogInfo {
   ApiError? __apiError;
 
   ApiError? get apiError => __apiError;
-
-  // (0)
-  String? errorMessage;
-
-  // (2)
-  String? responseErrorMessage;
-  List<String>? responseErrorDetails;
-
-  // (3)
-  dynamic mainData;
-  String? errorConvertingJsonMessage;
-
-  //
-  dynamic error;
 
   RequestLogInfo({
     required this.dioRequestID,
@@ -149,6 +130,9 @@ class RequestLogInfo {
 
   void _setError(ApiError apiError) {
     __apiError = apiError;
+    // TODO:
+    // responseStatusCode = apiError.status;
+    // responseStatusMessage =apiError.s responseStatusMessage;
   }
 
   // The Server return data.
@@ -163,53 +147,5 @@ class RequestLogInfo {
     this.responseStatusCode = responseStatusCode;
     this.responseStatusMessage = responseStatusMessage;
     this.responseData = responseData;
-  }
-
-  // The Server return error data.
-  @Deprecated("Khong su dung nua")
-  void _setResponseFailInfo({
-    required int dioRequestID,
-    required ApiErrorType? apiErrorType,
-    required ErrorType errorType,
-    required dynamic responseData,
-    required int? responseStatusCode,
-    required String? responseStatusMessage,
-  }) {
-    assert(this.dioRequestID == dioRequestID);
-    //
-    this.apiErrorType = apiErrorType;
-    // this.errorType = errorType;
-    this.responseStatusCode = responseStatusCode;
-    this.responseStatusMessage = responseStatusMessage;
-    this.responseData = responseData;
-  }
-
-  @Deprecated("Khong su dung nua")
-  void _setErrorParsingJson({
-    required String? errorParsingJsonMessage,
-  }) {
-    // errorType = ErrorType.parseError;
-    errorMessage = errorParsingJsonMessage;
-  }
-
-  @Deprecated("Khong su dung nua")
-  void _setResponseErrorMessage({
-    required ErrorType errorType,
-    required String? responseErrorMessage,
-    required List<String>? responseErrorDetails,
-  }) {
-    // this.errorType = errorType;
-    this.responseErrorMessage = responseErrorMessage;
-    this.responseErrorDetails = responseErrorDetails;
-  }
-
-  @Deprecated("Khong su dung nua")
-  void setErrorInfo({
-    required int dioRequestID,
-    required dynamic error,
-  }) {
-    print("-- setErrorInfo: $dioRequestID");
-    assert(this.dioRequestID == dioRequestID);
-    this.error = error;
   }
 }
