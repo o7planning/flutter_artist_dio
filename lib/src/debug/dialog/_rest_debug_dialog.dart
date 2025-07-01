@@ -29,6 +29,11 @@ class _RestDebugDialogDialog extends StatelessWidget {
     );
 
     FaAlertDialog alert = FaAlertDialog(
+      icon: Icon(
+        Icons.bug_report,
+        size: 20,
+        color: Colors.indigo,
+      ),
       titleText: "Rest Debug Viewer",
       content: contentWidget,
       contentPadding: EdgeInsets.zero,
