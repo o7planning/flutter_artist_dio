@@ -13,9 +13,9 @@ import 'package:hovering/hovering.dart';
 import 'flutter_artist_dio.dart';
 
 part 'src/debug/_utils.dart';
-part 'src/debug/debug_section.dart';
 part 'src/debug/dialog/_rest_debug_dialog.dart';
 part 'src/debug/json_tree/_node_data.dart';
+part 'src/debug/rest_debug_section.dart';
 part 'src/debug/section/_dio_path_section.dart';
 part 'src/debug/section/_dio_request_info_section.dart';
 part 'src/debug/section/_dio_request_list_section.dart';

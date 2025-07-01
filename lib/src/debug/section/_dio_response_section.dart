@@ -1,22 +1,17 @@
 part of '../../../rest_debug_screen.dart';
 
-class _DioResponseSection extends StatefulWidget {
+class _DioResponseSection extends StatelessWidget {
   final RequestLogInfo info;
   final bool showJson;
+  final Function() onFullScreenPressed;
 
   const _DioResponseSection({
     super.key,
     required this.info,
     required this.showJson,
+    required this.onFullScreenPressed,
   });
 
-  @override
-  State<StatefulWidget> createState() {
-    return __DioResponseSectionState();
-  }
-}
-
-class __DioResponseSectionState extends State<_DioResponseSection> {
   @override
   Widget build(BuildContext context) {
     const double iconSize = 18;
@@ -27,45 +22,42 @@ class __DioResponseSectionState extends State<_DioResponseSection> {
         children: [
           IconLabelText(
             icon: Icon(
-              widget.info.errorType == ErrorType.apiError //
+              info.errorType == ErrorType.apiError //
                   ? Icons.error
                   : Icons.check_box_rounded,
               size: iconSize,
-              color: widget.info.errorType == ErrorType.apiError //
+              color: info.errorType == ErrorType.apiError //
                   ? Colors.red
                   : Colors.blue,
             ),
             label: 'Response Status Code:',
-            text: widget.info.responseStatusCode.toString(),
+            text: info.responseStatusCode.toString(),
           ),
           //
-          if (widget.info.responseStatusMessage != null)
-            const SizedBox(height: 10),
-          if (widget.info.responseStatusMessage != null)
+          if (info.responseStatusMessage != null) const SizedBox(height: 10),
+          if (info.responseStatusMessage != null)
             IconLabelText(
               icon: const Icon(
                 Icons.text_snippet_outlined,
                 size: iconSize,
               ),
               label: 'Response Status Message:',
-              text: widget.info.responseStatusMessage!,
+              text: info.responseStatusMessage!,
             ),
           //
-          if (widget.info.responseErrorMessage != null)
-            const SizedBox(height: 10),
-          if (widget.info.responseErrorMessage != null)
+          if (info.responseErrorMessage != null) const SizedBox(height: 10),
+          if (info.responseErrorMessage != null)
             IconLabelText(
               icon: const Icon(
                 Icons.text_snippet_outlined,
                 size: iconSize,
               ),
               label: 'Error Message:',
-              text: widget.info.responseErrorMessage!,
+              text: info.responseErrorMessage!,
             ),
           //
-          if (widget.info.errorParsingJsonMessage != null)
-            const SizedBox(height: 10),
-          if (widget.info.errorParsingJsonMessage != null)
+          if (info.errorParsingJsonMessage != null) const SizedBox(height: 10),
+          if (info.errorParsingJsonMessage != null)
             IconLabelText(
               icon: const Icon(
                 Icons.error,
@@ -73,12 +65,12 @@ class __DioResponseSectionState extends State<_DioResponseSection> {
                 size: iconSize,
               ),
               label: 'JSON Parse Error: ',
-              text: widget.info.errorParsingJsonMessage ?? '',
+              text: info.errorParsingJsonMessage ?? '',
             ),
           //
-          if (widget.info.errorConvertingJsonMessage != null)
+          if (info.errorConvertingJsonMessage != null)
             const SizedBox(height: 10),
-          if (widget.info.errorConvertingJsonMessage != null)
+          if (info.errorConvertingJsonMessage != null)
             IconLabelText(
               icon: const Icon(
                 Icons.error,
@@ -86,7 +78,7 @@ class __DioResponseSectionState extends State<_DioResponseSection> {
                 size: iconSize,
               ),
               label: 'Conversion Error: ',
-              text: widget.info.errorConvertingJsonMessage!,
+              text: info.errorConvertingJsonMessage!,
             ),
           //
           const SizedBox(height: 10),
@@ -98,10 +90,14 @@ class __DioResponseSectionState extends State<_DioResponseSection> {
             label: 'Response Data:',
             text: '',
           ),
-          if (widget.showJson) const SizedBox(height: 10),
-          if (widget.showJson)
-            _ResponseView(
-              requestLogInfo: widget.info,
+          if (showJson) const SizedBox(height: 10),
+          if (showJson)
+            _CustomAppContainer(
+              height: 400,
+              child: _ResponseView(
+                requestLogInfo: info,
+                onFullScreenPressed: onFullScreenPressed,
+              ),
             ),
         ],
       ),

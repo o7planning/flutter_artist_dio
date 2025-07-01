@@ -2,8 +2,13 @@ part of '../../../rest_debug_screen.dart';
 
 class _ResponseView extends StatefulWidget {
   final RequestLogInfo requestLogInfo;
+  final Function()? onFullScreenPressed;
 
-  const _ResponseView({super.key, required this.requestLogInfo});
+  const _ResponseView({
+    super.key,
+    required this.requestLogInfo,
+    required this.onFullScreenPressed,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -13,46 +18,87 @@ class _ResponseView extends StatefulWidget {
 
 class _ResponseViewState extends State<_ResponseView> {
   bool showTree = true;
+  late _ResponseTextView textView;
+  late _ResponseJsonTreeView treeView;
 
   @override
   void initState() {
     super.initState();
+    textView = _ResponseTextView(
+      text: widget.requestLogInfo.toResponseText(),
+    );
+    treeView = _ResponseJsonTreeView(
+      jsonObj: widget.requestLogInfo.toResponseJson(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        if (!showTree)
-          _ResponseTextView(
-            text: widget.requestLogInfo.toResponseText(),
-          ),
-        if (showTree)
-          SizedBox(
-            height: 400,
-            child: _ResponseJsonTreeView(
-              jsonObj: widget.requestLogInfo.toResponseJson(),
-            ),
-          ),
+        Visibility(
+          visible: !showTree,
+          child: textView,
+        ),
+        Visibility(
+          visible: showTree,
+          child: treeView,
+        ),
         Positioned(
           top: 5,
           right: 5,
-          child: AdvancedSwitch(
-            initialValue: showTree,
-            activeColor: Colors.indigo,
-            inactiveColor: Colors.grey,
-            activeChild: const Text('JSON Tree View'),
-            inactiveChild: const Text('Response Text'),
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            width: 130.0,
-            height: 20.0,
-            enabled: true,
-            onChanged: (dynamic checked) {
-              showTree = !showTree;
-              setState(() {});
-            },
+          child: _buildControlBar(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildControlBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        AdvancedSwitch(
+          initialValue: showTree,
+          activeColor: Colors.indigo,
+          inactiveColor: Colors.grey,
+          activeChild: const Text('JSON Tree View'),
+          inactiveChild: const Text('Response Text'),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          width: 130.0,
+          height: 20.0,
+          enabled: true,
+          onChanged: (dynamic checked) {
+            showTree = !showTree;
+            setState(() {});
+          },
+        ),
+        SizedBox(width: 10),
+        TextButton(
+          onPressed: widget.onFullScreenPressed,
+          style: TextButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: EdgeInsets.zero,
+          ),
+          child: Icon(
+            Icons.copy,
+            size: 18,
           ),
         ),
+        if (widget.onFullScreenPressed != null) SizedBox(width: 10),
+        if (widget.onFullScreenPressed != null)
+          TextButton(
+            onPressed: widget.onFullScreenPressed,
+            style: TextButton.styleFrom(
+              minimumSize: Size.zero,
+              padding: EdgeInsets.zero,
+            ),
+            child: Icon(
+              Icons.fullscreen,
+              size: 24,
+            ),
+          ),
       ],
     );
   }

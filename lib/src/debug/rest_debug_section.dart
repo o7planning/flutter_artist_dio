@@ -20,6 +20,7 @@ class RestDebugSection extends StatefulWidget {
 
 class _RestDebugSectionState extends State<RestDebugSection> {
   RequestLogInfo? info;
+  bool fullView = false;
 
   @override
   void initState() {
@@ -29,6 +30,12 @@ class _RestDebugSectionState extends State<RestDebugSection> {
 
   @override
   Widget build(BuildContext context) {
+    if (fullView && info != null) {
+      return _ResponseView(
+        requestLogInfo: info!,
+        onFullScreenPressed: _onFullScreenPressed,
+      );
+    }
     return Column(
       children: [
         _DioRequestListSection(
@@ -61,7 +68,11 @@ class _RestDebugSectionState extends State<RestDebugSection> {
             _DioRequestInfoSection(info: info!, showToken: widget.showToken),
           if (info != null) const SizedBox(height: 10),
           if (info != null) //
-            _DioResponseSection(info: info!, showJson: widget.showJson),
+            _DioResponseSection(
+              info: info!,
+              showJson: widget.showJson,
+              onFullScreenPressed: _onFullScreenPressed,
+            ),
         ],
       ),
     );
@@ -71,5 +82,11 @@ class _RestDebugSectionState extends State<RestDebugSection> {
     restLogger.setSelectedDioRequestID(requestId);
     info = restLogger.getSelectedRequestLogInfo();
     setState(() {});
+  }
+
+  void _onFullScreenPressed() {
+    setState(() {
+      fullView = !fullView;
+    });
   }
 }

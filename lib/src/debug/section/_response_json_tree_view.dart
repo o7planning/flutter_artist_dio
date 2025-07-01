@@ -8,6 +8,116 @@ class _ResponseJsonTreeView extends StatelessWidget {
     required this.jsonObj,
   });
 
+  @override
+  Widget build(BuildContext context) {
+    if (jsonObj == null) {
+      return SizedBox(
+        height: 100,
+        child: Center(
+          child: Text("Not JSON"),
+        ),
+      );
+    }
+    TreeNode rootTreeNode = _getRootWithChildren(jsonObj!);
+    //
+    return TreeView.simple(
+      tree: rootTreeNode,
+      showRootNode: false,
+      expansionBehavior: ExpansionBehavior.snapToTop,
+      expansionIndicatorBuilder: (context, node) {
+        // PlusMinusIndicator
+        // ChevronIndicator.upDown
+        return PlusMinusIndicator(
+          tree: node,
+          color: Colors.grey[600],
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.zero,
+          // icon: Icons.keyboard_arrow_down_outlined,
+          curve: Curves.linear,
+        );
+      },
+      indentation: const Indentation(
+        style: IndentStyle.roundJoint,
+        thickness: 1,
+        // width: 12,
+        // offset: Offset(5, 0),
+      ),
+      onTreeReady: (
+        TreeViewController<dynamic, TreeNode<dynamic>> controller,
+      ) {
+        // _treeViewController = controller;
+        // controller.expandAllChildren(rootTreeNode);
+      },
+      builder: (context, node) {
+        _NodeDataWrap nodeDataWrap = node.data;
+        String title = nodeDataWrap.title;
+        String? value;
+
+        dynamic nodeData = nodeDataWrap.data;
+        Widget icon;
+        if (nodeData is Map) {
+          icon = Image.asset(
+            "statics-rs/object.gif",
+            package: 'flutter_artist_dio',
+          );
+        } else if (nodeData is List) {
+          icon = Image.asset(
+            "statics-rs/array.gif",
+            package: 'flutter_artist_dio',
+          );
+        } else {
+          if (nodeData == null) {
+            icon = Image.asset(
+              "statics-rs/red.gif",
+              package: 'flutter_artist_dio',
+            );
+          } else if (nodeData is String) {
+            icon = Image.asset(
+              "statics-rs/blue.gif",
+              package: 'flutter_artist_dio',
+            );
+          } else {
+            icon = Image.asset(
+              "statics-rs/green.gif",
+              package: 'flutter_artist_dio',
+            );
+          }
+          value = " : $nodeData";
+        }
+        //
+        return ListTile(
+          dense: true,
+          visualDensity: const VisualDensity(
+            horizontal: -3,
+            vertical: -3,
+          ),
+          horizontalTitleGap: 0,
+          minVerticalPadding: 2,
+          minLeadingWidth: 20,
+          minTileHeight: 20,
+          contentPadding: const EdgeInsets.only(left: 25),
+          title: HoverWidget(
+            hoverChild: _buildTextNode(
+              context: context,
+              icon: icon,
+              label: title,
+              text: value,
+              isHovering: true,
+            ),
+            onHover: (_) {},
+            child: _buildTextNode(
+              context: context,
+              icon: icon,
+              label: title,
+              text: value,
+              isHovering: false,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   TreeNode _getRootWithChildren(Object rootData) {
     TreeNode treeNode = TreeNode(
       key: "Root",
@@ -57,119 +167,6 @@ class _ResponseJsonTreeView extends StatelessWidget {
         }
       }
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (jsonObj == null) {
-      return SizedBox(
-        height: 100,
-        child: Center(
-          child: Text("Not JSON"),
-        ),
-      );
-    }
-    TreeNode rootTreeNode = _getRootWithChildren(jsonObj!);
-    //
-    return _CustomAppContainer(
-      width: double.infinity,
-      child: TreeView.simple(
-        tree: rootTreeNode,
-        showRootNode: false,
-        expansionBehavior: ExpansionBehavior.snapToTop,
-        expansionIndicatorBuilder: (context, node) {
-          // PlusMinusIndicator
-          // ChevronIndicator.upDown
-          return PlusMinusIndicator(
-            tree: node,
-            color: Colors.grey[600],
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.zero,
-            // icon: Icons.keyboard_arrow_down_outlined,
-            curve: Curves.linear,
-          );
-        },
-        indentation: const Indentation(
-          style: IndentStyle.roundJoint,
-          thickness: 1,
-          // width: 12,
-          // offset: Offset(5, 0),
-        ),
-        onTreeReady: (
-          TreeViewController<dynamic, TreeNode<dynamic>> controller,
-        ) {
-          // _treeViewController = controller;
-          // controller.expandAllChildren(rootTreeNode);
-        },
-        builder: (context, node) {
-          _NodeDataWrap nodeDataWrap = node.data;
-          String title = nodeDataWrap.title;
-          String? value;
-
-          dynamic nodeData = nodeDataWrap.data;
-          Widget icon;
-          if (nodeData is Map) {
-            icon = Image.asset(
-              "statics-rs/object.gif",
-              package: 'flutter_artist_dio',
-            );
-          } else if (nodeData is List) {
-            icon = Image.asset(
-              "statics-rs/array.gif",
-              package: 'flutter_artist_dio',
-            );
-          } else {
-            if (nodeData == null) {
-              icon = Image.asset(
-                "statics-rs/red.gif",
-                package: 'flutter_artist_dio',
-              );
-            } else if (nodeData is String) {
-              icon = Image.asset(
-                "statics-rs/blue.gif",
-                package: 'flutter_artist_dio',
-              );
-            } else {
-              icon = Image.asset(
-                "statics-rs/green.gif",
-                package: 'flutter_artist_dio',
-              );
-            }
-            value = " : $nodeData";
-          }
-          //
-          return ListTile(
-            dense: true,
-            visualDensity: const VisualDensity(
-              horizontal: -3,
-              vertical: -3,
-            ),
-            horizontalTitleGap: 0,
-            minVerticalPadding: 2,
-            minLeadingWidth: 20,
-            minTileHeight: 20,
-            contentPadding: const EdgeInsets.only(left: 25),
-            title: HoverWidget(
-              hoverChild: _buildTextNode(
-                context: context,
-                icon: icon,
-                label: title,
-                text: value,
-                isHovering: true,
-              ),
-              onHover: (_) {},
-              child: _buildTextNode(
-                context: context,
-                icon: icon,
-                label: title,
-                text: value,
-                isHovering: false,
-              ),
-            ),
-          );
-        },
-      ),
-    );
   }
 
   Widget _buildTextNode({

@@ -23,54 +23,20 @@ class _ResponseTextViewState extends State<_ResponseTextView> {
 
   @override
   Widget build(BuildContext context) {
-    // var text = toBeautifulJsonOLD(widget.data);
-    return _CustomAppContainer(
-      width: double.infinity,
-      child: Stack(
-        children: [
-          TextField(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: TextField(
             decoration: const InputDecoration(border: InputBorder.none),
             controller: _controller,
             style: const TextStyle(fontSize: 13),
-            minLines: null,
-            maxLines: expand ? null : 10,
             readOnly: true,
+            maxLines: null,
           ),
-          Positioned(
-            top: 30,
-            right: 20,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SimpleSmallIconButton(
-                  iconData: Icons.copy,
-                  onPressed: widget.text == null
-                      ? null
-                      : () {
-                          Clipboard.setData(
-                              ClipboardData(text: widget.text ?? ""));
-                          _closeAllSnackBars(context);
-                          _showSnackBar(
-                            context,
-                            "Copied",
-                          );
-                        },
-                ),
-                const SizedBox(width: 5),
-                SimpleSmallIconButton(
-                  iconData: expand
-                      ? Icons.keyboard_arrow_up_rounded
-                      : Icons.keyboard_arrow_down,
-                  onPressed: () {
-                    expand = !expand;
-                    setState(() {});
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
