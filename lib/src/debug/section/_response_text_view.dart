@@ -1,30 +1,29 @@
 part of '../../../rest_debug_screen.dart';
 
-class _ResponseDataView extends StatefulWidget {
-  final dynamic data;
+class _ResponseTextView extends StatefulWidget {
+  final String? text;
 
-  const _ResponseDataView({super.key, required this.data});
+  const _ResponseTextView({super.key, required this.text});
 
   @override
   State<StatefulWidget> createState() {
-    return _ResponseDataViewState();
+    return _ResponseTextViewState();
   }
 }
 
-class _ResponseDataViewState extends State<_ResponseDataView> {
+class _ResponseTextViewState extends State<_ResponseTextView> {
   late TextEditingController _controller;
   bool expand = true;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: '');
+    _controller = TextEditingController(text: widget.text);
   }
 
   @override
   Widget build(BuildContext context) {
-    var text = toBeautifulJsonOLD(widget.data);
-    _controller.text = text;
+    // var text = toBeautifulJsonOLD(widget.data);
     return _CustomAppContainer(
       width: double.infinity,
       child: Stack(
@@ -45,14 +44,17 @@ class _ResponseDataViewState extends State<_ResponseDataView> {
               children: [
                 SimpleSmallIconButton(
                   iconData: Icons.copy,
-                  onPressed: () {
-                    Clipboard.setData(ClipboardData(text: text));
-                    _closeAllSnackBars(context);
-                    _showSnackBar(
-                      context,
-                      "Copied",
-                    );
-                  },
+                  onPressed: widget.text == null
+                      ? null
+                      : () {
+                          Clipboard.setData(
+                              ClipboardData(text: widget.text ?? ""));
+                          _closeAllSnackBars(context);
+                          _showSnackBar(
+                            context,
+                            "Copied",
+                          );
+                        },
                 ),
                 const SizedBox(width: 5),
                 SimpleSmallIconButton(

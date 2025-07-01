@@ -1,9 +1,9 @@
 part of '../../../rest_debug_screen.dart';
 
-class _JsonTreeView extends StatelessWidget {
+class _ResponseJsonTreeView extends StatelessWidget {
   final Object? jsonObj;
 
-  const _JsonTreeView({
+  const _ResponseJsonTreeView({
     super.key,
     required this.jsonObj,
   });

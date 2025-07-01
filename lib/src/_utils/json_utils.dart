@@ -2,6 +2,14 @@ import 'dart:convert';
 
 var _encoder = const JsonEncoder.withIndent("   ");
 
+String? toBeautifulJson(Object jsonObj) {
+  try {
+    return _encoder.convert(jsonObj);
+  } catch (e) {
+    return null;
+  }
+}
+
 String toBeautifulJsonOLD(dynamic data) {
   if (data == null) {
     return "";

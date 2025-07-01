@@ -17,8 +17,6 @@ class _DioResponseSection extends StatefulWidget {
 }
 
 class __DioResponseSectionState extends State<_DioResponseSection> {
-  bool showTree = true;
-
   @override
   Widget build(BuildContext context) {
     const double iconSize = 18;
@@ -101,43 +99,12 @@ class __DioResponseSectionState extends State<_DioResponseSection> {
             text: '',
           ),
           if (widget.showJson) const SizedBox(height: 10),
-          if (widget.showJson) _buildJsonView(),
+          if (widget.showJson)
+            _ResponseView(
+              requestLogInfo: widget.info,
+            ),
         ],
       ),
-    );
-  }
-
-  Widget _buildJsonView() {
-    return Stack(
-      children: [
-        if (!showTree) _ResponseDataView(data: widget.info.responseData),
-        if (showTree)
-          SizedBox(
-            height: 400,
-            child: _JsonTreeView(
-              jsonObj: widget.info.responseJsonData,
-            ),
-          ),
-        Positioned(
-          top: 5,
-          right: 5,
-          child: AdvancedSwitch(
-            initialValue: showTree,
-            activeColor: Colors.indigo,
-            inactiveColor: Colors.grey,
-            activeChild: const Text('JSON Tree View'),
-            inactiveChild: const Text('Response Text'),
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            width: 130.0,
-            height: 20.0,
-            enabled: true,
-            onChanged: (dynamic checked) {
-              showTree = !showTree;
-              setState(() {});
-            },
-          ),
-        ),
-      ],
     );
   }
 }

@@ -11,19 +11,19 @@ import 'package:flutter_artist_commons_ui/flutter_artist_commons_ui.dart';
 import 'package:hovering/hovering.dart';
 
 import 'flutter_artist_dio.dart';
-import 'src/_utils/json_utils.dart';
 
 part 'src/debug/_utils.dart';
 part 'src/debug/debug_section.dart';
 part 'src/debug/dialog/_rest_debug_dialog.dart';
-part 'src/debug/json_tree/_json_tree_view.dart';
 part 'src/debug/json_tree/_node_data.dart';
 part 'src/debug/section/_dio_path_section.dart';
 part 'src/debug/section/_dio_request_info_section.dart';
 part 'src/debug/section/_dio_request_list_section.dart';
 part 'src/debug/section/_dio_response_section.dart';
+part 'src/debug/section/_response_json_tree_view.dart';
+part 'src/debug/section/_response_text_view.dart';
+part 'src/debug/section/_response_view.dart';
 part 'src/debug/widget/_custom_app_container.dart';
-part 'src/debug/widget/_response_data_view.dart';
 part 'src/debug/widget/_map_key_value_view.dart';
 
 class RestDebugScreen extends StatelessWidget {

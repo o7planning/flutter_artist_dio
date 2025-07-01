@@ -19,6 +19,7 @@ class RequestLogInfo {
 
   bool __jsonDataReady = false;
   Object? __responseJsonData;
+  String? __responseText;
   dynamic responseData;
 
   // (1)
@@ -76,22 +77,46 @@ class RequestLogInfo {
     }
   }
 
-  Object? get responseJsonData {
+  void __convertResponse() {
     if (!__jsonDataReady) {
+      // Response Null.
       if (responseData == null) {
         __responseJsonData = null;
-      } else if (responseData is String) {
+        __responseText = null;
+      }
+      // String
+      else if (responseData is String) {
+        __responseText = responseData;
         __responseJsonData = __jsonDecode(responseData);
-      } else if (responseData is List) {
+        if (__responseJsonData != null) {
+          String? json = toBeautifulJson(__responseJsonData!);
+          if (json != null) {
+            __responseText = json;
+          }
+        }
+      }
+      // List or Map:
+      else if (responseData is List || responseData is Map) {
         __responseJsonData = responseData;
-      } else if (responseData is Map) {
-        __responseJsonData = responseData;
-      } else {
+        __responseText = toBeautifulJson(__responseJsonData!);
+      }
+      // Others:
+      else {
         __responseJsonData = null;
+        __responseText = null;
       }
       __jsonDataReady = true;
     }
+  }
+
+  Object? toResponseJson() {
+    __convertResponse();
     return __responseJsonData;
+  }
+
+  String? toResponseText() {
+    __convertResponse();
+    return __responseText;
   }
 
   Object? __jsonDecode(String text) {
