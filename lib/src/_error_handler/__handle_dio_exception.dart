@@ -48,23 +48,22 @@ ApiResult<D> _handleDioException<D>(
   //
   final ApiErrorType apiErrorType =
       DioExceptionUtils.toApiErrorType(error.type);
-  //
-  // Map<String,dynamic> or List<dynamic> or String.
-  //
-  dynamic errorData;
+
+  String? originText;
   int statusCode;
   String? errorMessage;
   if (error.response != null) {
-    errorData = error.response!.data;
+    dynamic errorData = error.response!.data;
     ApiError apiError = ApiError.fromResponseErrorData(
       statusCode: error.response!.statusCode,
       statusMessage: error.response!.statusMessage,
       responseErrorData: errorData,
     );
+    originText = apiError.originText;
     statusCode = error.response!.statusCode ?? -1;
     errorMessage = error.response!.statusMessage ?? "Unknown Error";
   } else {
-    errorData = null;
+    originText = null;
     statusCode = -1;
     errorMessage = "Unknown error: $error";
   }
@@ -74,7 +73,7 @@ ApiResult<D> _handleDioException<D>(
     statusCode: statusCode,
     errorMessage: errorMessage,
     errorDetails: null,
-    errorData: errorData,
+    originText: originText,
   );
   //
   ApiError apiError = apiResult.toApiError()!;

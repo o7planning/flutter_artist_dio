@@ -77,8 +77,7 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
       apiErrorType: apiError.apiErrorType,
       errorMessage: apiError.errorMessage,
       errorDetails: apiError.errorDetails,
-      originText: null,
-      errorData: apiError.errorData,
+      originText: apiError.originText,
     );
   }
   Map<String, dynamic>? data = rawResult.data;
