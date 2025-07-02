@@ -32,7 +32,7 @@ class _DioResponseSection extends StatelessWidget {
                   ? Colors.red
                   : Colors.blue,
             ),
-            label: 'Response Status Code:',
+            label: 'Response Status Code: ',
             text: info.responseStatusCode.toString(),
           ),
           //
@@ -43,7 +43,7 @@ class _DioResponseSection extends StatelessWidget {
                 Icons.text_snippet_outlined,
                 size: iconSize,
               ),
-              label: 'Response Status Message:',
+              label: 'Response Status Message: ',
               text: info.responseStatusMessage!,
             ),
           //
@@ -69,20 +69,17 @@ class _DioResponseSection extends StatelessWidget {
               label: 'Error Type: ',
               text: info.apiError!.apiErrorType?.description ?? ' - ',
             ),
-          //
-          // if (info.errorConvertingJsonMessage != null)
-          //   const SizedBox(height: 10),
-          // if (info.errorConvertingJsonMessage != null)
-          //   IconLabelText(
-          //     icon: const Icon(
-          //       Icons.error,
-          //       color: Colors.red,
-          //       size: iconSize,
-          //     ),
-          //     label: 'Conversion Error: ',
-          //     text: info.errorConvertingJsonMessage!,
-          //   ),
-          //
+          if (info.apiError != null) const SizedBox(height: 10),
+          if (info.apiError != null)
+            IconLabelText(
+              icon: const Icon(
+                Icons.error,
+                color: Colors.red,
+                size: iconSize,
+              ),
+              label: 'Error Message: ',
+              text: info.apiError!.errorMessage,
+            ),
           const SizedBox(height: 10),
           IconLabelText(
             icon: Icon(

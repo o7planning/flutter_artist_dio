@@ -1,17 +1,28 @@
 part of '../../../rest_debug_screen.dart';
 
 class _ResponseJsonTreeView extends StatelessWidget {
-  final bool hasNoResponseData;
-  final Object? jsonObj;
+  final RequestLogInfo requestLogInfo;
 
   const _ResponseJsonTreeView({
     super.key,
-    required this.hasNoResponseData,
-    required this.jsonObj,
+    required this.requestLogInfo,
   });
 
   @override
   Widget build(BuildContext context) {
+    ApiError? apiError = requestLogInfo.apiError;
+    bool hasNoResponseData = requestLogInfo.hasNoResponseData();
+    Object? jsonObj = requestLogInfo.toResponseJson();
+    //
+    if (apiError != null) {
+      return SizedBox(
+        width: double.maxFinite,
+        child: Text(
+          apiError.originErrorText ?? "",
+          style: TextStyle(fontSize: 13, color: Colors.grey),
+        ),
+      );
+    }
     if (hasNoResponseData || jsonObj == null) {
       return SizedBox(
         width: double.maxFinite,

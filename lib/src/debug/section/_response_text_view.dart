@@ -1,13 +1,11 @@
 part of '../../../rest_debug_screen.dart';
 
 class _ResponseTextView extends StatefulWidget {
-  final bool hasNoResponseData;
-  final String? text;
+  final RequestLogInfo requestLogInfo;
 
   const _ResponseTextView({
     super.key,
-    required this.hasNoResponseData,
-    required this.text,
+    required this.requestLogInfo,
   });
 
   @override
@@ -22,12 +20,25 @@ class _ResponseTextViewState extends State<_ResponseTextView> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.text);
+    final String? text = widget.requestLogInfo.toResponseText();
+    _controller = TextEditingController(text: text ?? "");
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.hasNoResponseData) {
+    ApiError? apiError = widget.requestLogInfo.apiError;
+    if (apiError != null) {
+      return SizedBox(
+        width: double.maxFinite,
+        child: Text(
+          apiError.originErrorText ?? "",
+          style: TextStyle(fontSize: 13, color: Colors.grey),
+        ),
+      );
+    }
+    final bool hasNoResponseData = widget.requestLogInfo.hasNoResponseData();
+    //
+    if (hasNoResponseData) {
       return SizedBox(
         width: double.maxFinite,
         child: Text(
