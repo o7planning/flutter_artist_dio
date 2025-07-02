@@ -51,7 +51,7 @@ class _DioRequestInfoSection extends StatelessWidget {
                 Icons.token,
                 size: iconSize,
               ),
-              label: 'Token:',
+              label: 'Token: ',
               text: showToken ? info.token! : '[Not Show]',
               suffixIcon: SimpleSmallIconButton(
                 iconData: Icons.copy,
