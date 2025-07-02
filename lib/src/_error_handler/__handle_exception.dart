@@ -23,10 +23,8 @@ ApiResult<D> _handleException<D>(
     ),
   );
   //
-  ApiError apiError = apiResult.toApiError()!;
-  //
   RequestLogInfo? info = restLogger.getRequestLogInfo(restRequestId);
-  info?._setError(apiError);
+  info?._setError(apiResult.apiError!);
   //
   return apiResult;
 }

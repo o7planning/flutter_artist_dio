@@ -29,8 +29,7 @@ ApiResult<D> _handleDioResponse<D>({
   }
   //
   if (apiResult.isError()) {
-    ApiError apiError = apiResult.toApiError()!;
-    info?._setError(apiError);
+    info?._setError(apiResult.apiError!);
   } else {
     info?._setResponseSuccessInfo(
       dioRequestID: restRequestId,

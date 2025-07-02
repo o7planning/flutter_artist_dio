@@ -78,9 +78,7 @@ ApiResult<D> _handleDioException<D>(
     ),
   );
   //
-  ApiError apiError = apiResult.toApiError()!;
-  //
-  info?._setError(apiError);
+  info?._setError(apiResult.apiError!);
   //
   return apiResult;
 }
