@@ -18,7 +18,7 @@ ApiResult<D> _handleException<D>(
     apiErrorType: ApiErrorType.unknown,
     errorMessage: appError.errorMessage,
     errorDetails: appError.errorDetails,
-    originText: null,
+    originErrorText: null,
   );
   //
   ApiError apiError = apiResult.toApiError()!;
