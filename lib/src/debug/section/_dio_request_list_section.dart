@@ -42,7 +42,7 @@ class _DioRequestListSection extends StatelessWidget {
   }
 
   Widget _buildItemWidget(RequestLogInfo info) {
-    bool isError = info.isError;
+    ApiError? apiError = info.apiError;
 
     return Tooltip(
       message: info.apiError == null ? "" : _toTooltip(info.apiError!),
@@ -58,8 +58,8 @@ class _DioRequestListSection extends StatelessWidget {
               : null,
         ),
         icon: Icon(
-          isError ? Icons.error : Icons.check,
-          color: isError ? Colors.redAccent : Colors.blue,
+          apiError != null ? _getErrorIconData(apiError) : Icons.check,
+          color: apiError != null ? Colors.redAccent : Colors.blue,
           size: 18,
         ),
         label: Text("${info.dioRequestID}"),

@@ -16,28 +16,36 @@ class _DioResponseSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ApiError? apiError = info.apiError;
+    final String? errorMessage = apiError?.errorMessage;
+    final List<String>? errorDetails = apiError?.errorDetails;
+    //
     const double iconSize = 18;
     return _CustomAppContainer(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IconLabelText(
-            icon: Icon(
-              info.apiError != null //
-                  ? Icons.error
-                  : Icons.check_box_rounded,
-              size: iconSize,
-              color: info.apiError != null //
-                  ? Colors.red
-                  : Colors.blue,
+          if (info.responseStatusCode != null)
+            IconLabelText(
+              icon: Icon(
+                apiError != null //
+                    ? _getErrorIconData(apiError)
+                    : Icons.check_box_rounded,
+                size: iconSize,
+                color: apiError != null //
+                    ? Colors.red
+                    : Colors.blue,
+              ),
+              label: 'Response Status Code: ',
+              text: info.responseStatusCode.toString(),
             ),
-            label: 'Response Status Code: ',
-            text: info.responseStatusCode.toString(),
-          ),
           //
-          if (info.responseStatusMessage != null) const SizedBox(height: 10),
-          if (info.responseStatusMessage != null)
+          if (info.responseStatusMessage != null &&
+              info.responseStatusMessage!.isNotEmpty)
+            const SizedBox(height: 10),
+          if (info.responseStatusMessage != null &&
+              info.responseStatusMessage!.isNotEmpty)
             IconLabelText(
               icon: const Icon(
                 Icons.text_snippet_outlined,
@@ -47,38 +55,43 @@ class _DioResponseSection extends StatelessWidget {
               text: info.responseStatusMessage!,
             ),
           //
-          // if (info.responseErrorMessage != null) const SizedBox(height: 10),
-          // if (info.responseErrorMessage != null)
-          //   IconLabelText(
-          //     icon: const Icon(
-          //       Icons.text_snippet_outlined,
-          //       size: iconSize,
-          //     ),
-          //     label: 'Error Message:',
-          //     text: info.responseErrorMessage!,
-          //   ),
-          //
-          if (info.apiError != null) const SizedBox(height: 10),
-          if (info.apiError != null)
+          if (apiError != null) const SizedBox(height: 10),
+          if (apiError != null)
             IconLabelText(
-              icon: const Icon(
-                Icons.error,
+              icon: Icon(
+                _getErrorIconData(apiError),
                 color: Colors.red,
                 size: iconSize,
               ),
               label: 'Error Type: ',
-              text: info.apiError!.apiErrorType?.description ?? ' - ',
+              text: apiError.apiErrorType?.description ?? ' - ',
             ),
-          if (info.apiError != null) const SizedBox(height: 10),
-          if (info.apiError != null)
+          if (apiError != null) const SizedBox(height: 10),
+          if (apiError != null)
             IconLabelText(
-              icon: const Icon(
-                Icons.error,
+              icon: Icon(
+                _getErrorIconData(apiError),
                 color: Colors.red,
                 size: iconSize,
               ),
               label: 'Error Message: ',
-              text: info.apiError!.errorMessage,
+              text: apiError.errorMessage,
+            ),
+          if (apiError != null &&
+              errorDetails != null &&
+              errorDetails.isNotEmpty)
+            ...errorDetails.map(
+              (detail) => Padding(
+                padding: EdgeInsets.fromLTRB(20, 5, 2, 5),
+                child: IconLabelText(
+                  icon: Icon(
+                    Icons.arrow_right_alt,
+                    size: 16,
+                  ),
+                  text: detail,
+                  textStyle: TextStyle(fontSize: 13, color: Colors.black87),
+                ),
+              ),
             ),
           const SizedBox(height: 10),
           IconLabelText(

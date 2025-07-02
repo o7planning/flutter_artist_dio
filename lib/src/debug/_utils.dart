@@ -9,3 +9,25 @@ void _showSnackBar(BuildContext context, String value) {
 void _closeAllSnackBars(BuildContext context) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
 }
+
+IconData _getErrorIconData(ApiError apiError) {
+  ApiErrorType? apiErrorType = apiError.apiErrorType;
+  if (apiErrorType == null) {
+    return Icons.warning_amber;
+  }
+  switch (apiErrorType) {
+    case ApiErrorType.connectionTimeout:
+    case ApiErrorType.sendTimeout:
+    case ApiErrorType.receiveTimeout:
+    case ApiErrorType.badCertificate:
+    case ApiErrorType.badResponse:
+    case ApiErrorType.cancel:
+    case ApiErrorType.connectionError:
+      return Icons.error;
+    case ApiErrorType.unknown:
+    case ApiErrorType.invalidJson:
+    case ApiErrorType.notJson:
+    case ApiErrorType.conversion:
+      return Icons.warning;
+  }
+}

@@ -130,9 +130,9 @@ class RequestLogInfo {
 
   void _setError(ApiError apiError) {
     __apiError = apiError;
-    // TODO:
-    // responseStatusCode = apiError.status;
-    // responseStatusMessage =apiError.s responseStatusMessage;
+    //
+    responseStatusCode = apiError.statusCode;
+    responseStatusMessage = apiError.statusMessage;
   }
 
   // The Server return data.
