@@ -13,12 +13,14 @@ ApiResult<D> _handleException<D>(
     print(appError.errorMessage);
   }
   //
-  ApiResult<D> apiResult = ApiResult<D>.error(
-    statusCode: null,
-    apiErrorType: ApiErrorType.unknown,
-    errorMessage: appError.errorMessage,
-    errorDetails: appError.errorDetails,
-    originErrorText: null,
+  ApiResult<D> apiResult = ApiResult<D>.apiError(
+    ApiError(
+      statusCode: null,
+      apiErrorType: ApiErrorType.unknown,
+      errorMessage: appError.errorMessage,
+      errorDetails: appError.errorDetails,
+      originErrorText: null,
+    ),
   );
   //
   ApiError apiError = apiResult.toApiError()!;

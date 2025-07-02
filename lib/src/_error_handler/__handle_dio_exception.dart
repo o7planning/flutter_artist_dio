@@ -68,12 +68,14 @@ ApiResult<D> _handleDioException<D>(
     errorMessage = "Unknown error: $error";
   }
   //
-  ApiResult<D> apiResult = ApiResult<D>.error(
-    apiErrorType: apiErrorType,
-    statusCode: statusCode,
-    errorMessage: errorMessage,
-    errorDetails: null,
-    originErrorText: originErrorText,
+  ApiResult<D> apiResult = ApiResult<D>.apiError(
+    ApiError(
+      apiErrorType: apiErrorType,
+      statusCode: statusCode,
+      errorMessage: errorMessage,
+      errorDetails: null,
+      originErrorText: originErrorText,
+    ),
   );
   //
   ApiError apiError = apiResult.toApiError()!;
