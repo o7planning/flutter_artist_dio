@@ -30,11 +30,15 @@ class _DioResponseSection extends StatelessWidget {
             IconLabelText(
               icon: Icon(
                 apiError != null //
-                    ? _getErrorIconData(apiError)
+                    ? info.isResponseError
+                        ? _getErrorIconData(apiError)
+                        : Icons.check_box_rounded
                     : Icons.check_box_rounded,
                 size: iconSize,
                 color: apiError != null //
-                    ? Colors.red
+                    ? info.isResponseError
+                        ? Colors.red
+                        : Colors.blue
                     : Colors.blue,
               ),
               label: 'Response Status Code: ',

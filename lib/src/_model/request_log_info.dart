@@ -25,6 +25,16 @@ class RequestLogInfo {
 
   ApiError? get apiError => __apiError;
 
+  bool get isResponseError {
+    if (responseStatusCode == null || responseStatusCode == 304) {
+      return false;
+    }
+    if (responseStatusCode! >= 200 && responseStatusCode! < 300) {
+      return false;
+    }
+    return true;
+  }
+
   RequestLogInfo({
     required this.dioRequestID,
     required this.baseUrl,
