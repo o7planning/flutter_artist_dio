@@ -49,6 +49,7 @@ ApiResult<D> __handleResponseAsDirectData<D>({
 }) {
   ApiResult<D> apiResult = ApiResult.fromDynamicData<D>(
     statusCode: response.statusCode,
+    statusMessage: response.statusMessage,
     data: response.data,
     dataConverter: converter,
   );
@@ -86,8 +87,9 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
     return ApiResult<D>.data(null);
   }
   return ApiResult.fromMap<D>(
+    statusCode: response.statusCode,
+    statusMessage: response.statusMessage,
     map: data,
     dataConverter: converter,
-    statusCode: response.statusCode,
   );
 }
