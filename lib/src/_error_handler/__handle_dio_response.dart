@@ -66,30 +66,25 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
   required int restRequestId,
   bool showDebug = false,
 }) {
-  WrapApiResult? rawResult = WrapApiResult.fromDynamicData(response.data);
+  WrapApiResult? rawResult = WrapApiResult.fromDynamicData(
+    statusCode: response.statusCode,
+    statusMessage: response.statusMessage,
+    data: response.data,
+  );
   if (rawResult == null) {
-    return ApiResult(
+    return ApiResult<D>.data(
       statusCode: response.statusCode,
       statusMessage: response.statusMessage,
       data: null,
     );
   }
-  ApiError? apiError = rawResult.toApiError();
+  ApiError? apiError = rawResult.apiError;
   if (apiError != null) {
-    return ApiResult<D>.apiError(
-      ApiError(
-        statusCode: apiError.statusCode,
-        statusMessage: apiError.statusMessage,
-        apiErrorType: apiError.apiErrorType,
-        errorMessage: apiError.errorMessage,
-        errorDetails: apiError.errorDetails,
-        originErrorText: apiError.originErrorText,
-      ),
-    );
+    return ApiResult<D>.apiError(apiError);
   }
   Map<String, dynamic>? data = rawResult.data;
   if (data == null) {
-    return ApiResult<D>(
+    return ApiResult<D>.data(
       statusCode: response.statusCode,
       statusMessage: response.statusMessage,
       data: null,
