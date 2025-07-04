@@ -68,13 +68,18 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
 }) {
   WrapApiResult? rawResult = WrapApiResult.fromDynamicData(response.data);
   if (rawResult == null) {
-    return ApiResult.data(null);
+    return ApiResult(
+      statusCode: response.statusCode,
+      statusMessage: response.statusMessage,
+      data: null,
+    );
   }
   ApiError? apiError = rawResult.toApiError();
   if (apiError != null) {
     return ApiResult<D>.apiError(
       ApiError(
         statusCode: apiError.statusCode,
+        statusMessage: apiError.statusMessage,
         apiErrorType: apiError.apiErrorType,
         errorMessage: apiError.errorMessage,
         errorDetails: apiError.errorDetails,
@@ -84,7 +89,11 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
   }
   Map<String, dynamic>? data = rawResult.data;
   if (data == null) {
-    return ApiResult<D>.data(null);
+    return ApiResult<D>(
+      statusCode: response.statusCode,
+      statusMessage: response.statusMessage,
+      data: null,
+    );
   }
   return ApiResult.fromMap<D>(
     statusCode: response.statusCode,

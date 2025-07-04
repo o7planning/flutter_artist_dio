@@ -96,7 +96,7 @@ class _DioRequestInfoSection extends StatelessWidget {
           if (info.mapData.isNotEmpty)
             const IconLabelText(
               icon: Icon(Icons.topic, size: iconSize),
-              label: 'Form Data:',
+              label: 'Data:',
               text: '',
             ),
           if (info.mapData.isNotEmpty) const SizedBox(height: 10),
