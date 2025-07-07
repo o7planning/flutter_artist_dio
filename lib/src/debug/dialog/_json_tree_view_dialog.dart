@@ -3,11 +3,11 @@ part of '../../../rest_debug_screen.dart';
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
-class _RestDebugDialog extends StatelessWidget {
+class _RestJsonTreeViewDialog extends StatelessWidget {
   final bool showJson;
   final bool showToken;
 
-  const _RestDebugDialog({
+  const _RestJsonTreeViewDialog({
     super.key,
     required this.showJson,
     required this.showToken,
@@ -50,7 +50,7 @@ class _RestDebugDialog extends StatelessWidget {
   }
 }
 
-Future<void> showRestDebugDialog(
+Future<void> showJsonTreeViewDialog(
   BuildContext context, {
   required bool showJson,
   required bool showToken,
@@ -58,7 +58,7 @@ Future<void> showRestDebugDialog(
   await showDialog(
     context: context,
     builder: (BuildContext context) {
-      return _RestDebugDialog(
+      return _RestJsonTreeViewDialog(
         showJson: showJson,
         showToken: showToken,
       );
