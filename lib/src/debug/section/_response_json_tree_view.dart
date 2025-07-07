@@ -12,7 +12,7 @@ class _ResponseJsonTreeView extends StatelessWidget {
   Widget build(BuildContext context) {
     bool hasNoResponseData = requestLogInfo.hasNoResponseData();
     // JSON Object or Array:
-    Object? jsonObjOrArray = requestLogInfo.toResponseJson();
+    Object? jsonObjOrArray = requestLogInfo.toJsonObjOrArray();
     //
     if (!hasNoResponseData) {
       // Not JSON:

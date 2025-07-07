@@ -77,7 +77,7 @@ class _DioResponseSection extends StatelessWidget {
                         padding: EdgeInsets.zero,
                       ),
                       onPressed: () {
-                        _errorDetector(apiError);
+                        _errorDetector(context, apiError);
                       },
                       child: Icon(Icons.bug_report),
                     ),
@@ -156,12 +156,12 @@ class _DioResponseSection extends StatelessWidget {
     );
   }
 
-  void _errorDetector(ApiError apiError) {
+  void _errorDetector(BuildContext context, ApiError apiError) {
     Function(Map<String, dynamic>)? converter = apiError.usedConverter;
     if (converter == null) {
       return;
     }
-    Object? jsonOBJ = info.toResponseJson();
+    Object? jsonOBJ = info.toJsonObjOrArray();
     if (jsonOBJ == null) {
       return;
     }
@@ -170,7 +170,9 @@ class _DioResponseSection extends StatelessWidget {
         JsonConversionErrorDetector(converter: converter, jsonOBJ: jsonOBJ);
 
     Object? jsonOBJMinify = detector.miniatureTheErrorRange();
-
-    print("????: $jsonOBJMinify");
+    if (jsonOBJMinify == null) {
+      return;
+    }
+    showJsonTreeViewDialog(context, jsonObjOrArray: jsonOBJMinify);
   }
 }

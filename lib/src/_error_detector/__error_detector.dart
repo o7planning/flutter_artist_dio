@@ -42,6 +42,7 @@ class JsonConversionErrorDetector {
       converter(jsonOBJ);
       return false;
     } catch (e) {
+      print(">>>>>>>>>>>>> error: $e");
       return true;
     }
   }

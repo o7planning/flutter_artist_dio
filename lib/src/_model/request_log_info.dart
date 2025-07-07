@@ -17,7 +17,7 @@ class RequestLogInfo {
   //
   bool __jsonDataReady = false;
   bool __hasNoResponseData = false;
-  Object? __responseJsonData;
+  Object? __responseJsonObjOrArray;
   String? __responseText;
   dynamic responseData;
 
@@ -80,16 +80,16 @@ class RequestLogInfo {
     if (!__jsonDataReady) {
       // Response Null.
       if (responseData == null) {
-        __responseJsonData = null;
+        __responseJsonObjOrArray = null;
         __responseText = null;
         __hasNoResponseData = true;
       }
       // String
       else if (responseData is String) {
         __responseText = responseData;
-        __responseJsonData = __jsonDecode(responseData);
-        if (__responseJsonData != null) {
-          String? json = toBeautifulJson(__responseJsonData!);
+        __responseJsonObjOrArray = __jsonDecode(responseData);
+        if (__responseJsonObjOrArray != null) {
+          String? json = toBeautifulJson(__responseJsonObjOrArray!);
           if (json != null) {
             __responseText = json;
           }
@@ -98,13 +98,13 @@ class RequestLogInfo {
       }
       // List or Map:
       else if (responseData is List || responseData is Map) {
-        __responseJsonData = responseData;
-        __responseText = toBeautifulJson(__responseJsonData!);
+        __responseJsonObjOrArray = responseData;
+        __responseText = toBeautifulJson(__responseJsonObjOrArray!);
         __hasNoResponseData = false;
       }
       // Others:
       else {
-        __responseJsonData = null;
+        __responseJsonObjOrArray = null;
         __responseText = null;
         __hasNoResponseData = false;
       }
@@ -116,9 +116,9 @@ class RequestLogInfo {
     return __hasNoResponseData;
   }
 
-  Object? toResponseJson() {
+  Object? toJsonObjOrArray() {
     __convertResponse();
-    return __responseJsonData;
+    return __responseJsonObjOrArray;
   }
 
   String? toResponseText() {

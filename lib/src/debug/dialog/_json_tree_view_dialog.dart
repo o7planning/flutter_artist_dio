@@ -4,21 +4,19 @@ part of '../../../rest_debug_screen.dart';
 // -----------------------------------------------------------------------------
 
 class _RestJsonTreeViewDialog extends StatelessWidget {
-  final bool showJson;
-  final bool showToken;
+  final Object jsonObjOrArray;
 
   const _RestJsonTreeViewDialog({
     super.key,
-    required this.showJson,
-    required this.showToken,
+    required this.jsonObjOrArray,
   });
 
   @override
   Widget build(BuildContext context) {
     Size size = calculatePreferredDialogSize(
       context,
-      preferredWidth: 1000,
-      preferredHeight: 620,
+      preferredWidth: 800,
+      preferredHeight: 520,
     );
 
     Widget contentWidget = _CustomAppContainer(
@@ -42,25 +40,21 @@ class _RestJsonTreeViewDialog extends StatelessWidget {
   }
 
   Widget _buildMainWidget() {
-    return RestDebugView(
-      showJson: showJson,
-      showToken: showToken,
-      showInScrollView: true,
+    return _JsonTreeView(
+      jsonObjOrArray: jsonObjOrArray,
     );
   }
 }
 
 Future<void> showJsonTreeViewDialog(
   BuildContext context, {
-  required bool showJson,
-  required bool showToken,
+  required Object jsonObjOrArray,
 }) async {
   await showDialog(
     context: context,
     builder: (BuildContext context) {
       return _RestJsonTreeViewDialog(
-        showJson: showJson,
-        showToken: showToken,
+        jsonObjOrArray: jsonObjOrArray,
       );
     },
   );

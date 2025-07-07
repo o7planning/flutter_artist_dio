@@ -29,7 +29,7 @@ class _ResponseTextViewState extends State<_ResponseTextView> {
     ApiError? apiError = widget.requestLogInfo.apiError;
     bool hasNoResponseData = widget.requestLogInfo.hasNoResponseData();
     // JSON Object or Array:
-    Object? jsonObj = widget.requestLogInfo.toResponseJson();
+    Object? jsonObj = widget.requestLogInfo.toJsonObjOrArray();
     //
     if (!hasNoResponseData) {
       // Not JSON:
