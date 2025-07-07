@@ -58,8 +58,6 @@ class _ResponseJsonTreeView extends StatelessWidget {
       indentation: const Indentation(
         style: IndentStyle.roundJoint,
         thickness: 1,
-        // width: 12,
-        // offset: Offset(5, 0),
       ),
       onTreeReady: (
         TreeViewController<dynamic, TreeNode<dynamic>> controller,

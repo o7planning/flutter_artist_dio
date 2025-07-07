@@ -27,18 +27,24 @@ class _ResponseTextViewState extends State<_ResponseTextView> {
   @override
   Widget build(BuildContext context) {
     ApiError? apiError = widget.requestLogInfo.apiError;
-    if (apiError != null) {
-      return SizedBox(
-        width: double.maxFinite,
-        child: Text(
-          apiError.originErrorText ?? "",
-          style: TextStyle(fontSize: 13, color: Colors.grey),
-        ),
-      );
-    }
-    final bool hasNoResponseData = widget.requestLogInfo.hasNoResponseData();
+    bool hasNoResponseData = widget.requestLogInfo.hasNoResponseData();
+    // JSON Object or Array:
+    Object? jsonObj = widget.requestLogInfo.toResponseJson();
     //
-    if (hasNoResponseData) {
+    if (!hasNoResponseData) {
+      // Not JSON:
+      if (jsonObj == null) {
+        return SizedBox(
+          width: double.maxFinite,
+          child: Text(
+            widget.requestLogInfo.responseData.toString(),
+            style: TextStyle(fontSize: 13, color: Colors.grey),
+          ),
+        );
+      }
+    }
+    // Has No Response:
+    else {
       return SizedBox(
         width: double.maxFinite,
         child: Text(
@@ -47,6 +53,7 @@ class _ResponseTextViewState extends State<_ResponseTextView> {
         ),
       );
     }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

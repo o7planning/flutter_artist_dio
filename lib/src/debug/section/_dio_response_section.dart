@@ -69,6 +69,18 @@ class _DioResponseSection extends StatelessWidget {
               ),
               label: 'Error Type: ',
               text: apiError.apiErrorType?.description ?? ' - ',
+              suffixIcon: apiError.apiErrorType != ApiErrorType.conversion
+                  ? null
+                  : TextButton(
+                      style: TextButton.styleFrom(
+                        minimumSize: Size.zero,
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () {
+                        _errorDetector(apiError);
+                      },
+                      child: Icon(Icons.bug_report),
+                    ),
             ),
           if (apiError != null) const SizedBox(height: 10),
           if (apiError != null)
@@ -80,6 +92,19 @@ class _DioResponseSection extends StatelessWidget {
               ),
               label: 'Error Message: ',
               text: apiError.errorMessage,
+              suffixIcon: TextButton(
+                onPressed: () {
+                  _copyText(context, apiError.errorMessage);
+                },
+                style: TextButton.styleFrom(
+                  minimumSize: Size.zero,
+                  padding: EdgeInsets.zero,
+                ),
+                child: Icon(
+                  Icons.copy,
+                  size: 14,
+                ),
+              ),
             ),
           if (apiError != null &&
               errorDetails != null &&
@@ -120,5 +145,32 @@ class _DioResponseSection extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _copyText(BuildContext context, String text) {
+    Clipboard.setData(ClipboardData(text: text ?? ""));
+    _closeAllSnackBars(context);
+    _showSnackBar(
+      context,
+      "Copied",
+    );
+  }
+
+  void _errorDetector(ApiError apiError) {
+    Function(Map<String, dynamic>)? converter = apiError.usedConverter;
+    if (converter == null) {
+      return;
+    }
+    Object? jsonOBJ = info.toResponseJson();
+    if (jsonOBJ == null) {
+      return;
+    }
+
+    JsonConversionErrorDetector detector =
+        JsonConversionErrorDetector(converter: converter, jsonOBJ: jsonOBJ);
+
+    Object? jsonOBJMinify = detector.miniatureTheErrorRange();
+
+    print("????: $jsonOBJMinify");
   }
 }
