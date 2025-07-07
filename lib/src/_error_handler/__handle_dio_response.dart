@@ -9,6 +9,13 @@ ApiResult<D> _handleDioResponse<D>({
 }) {
   RequestLogInfo? info = restLogger.getRequestLogInfo(restRequestId);
   //
+  info?._setResponseSuccessInfo(
+    dioRequestID: restRequestId,
+    responseData: response.data,
+    responseStatusCode: response.statusCode,
+    responseStatusMessage: response.statusMessage,
+  );
+  //
   ApiResult<D> apiResult;
   if (responseDataMode == ResponseDataMode.wrappedData) {
     apiResult = __handleResponseAsWrappedData(
@@ -30,13 +37,6 @@ ApiResult<D> _handleDioResponse<D>({
   //
   if (apiResult.isError()) {
     info?._setError(apiResult.apiError!);
-  } else {
-    info?._setResponseSuccessInfo(
-      dioRequestID: restRequestId,
-      responseData: response.data,
-      responseStatusCode: response.statusCode,
-      responseStatusMessage: response.statusMessage,
-    );
   }
   return apiResult;
 }

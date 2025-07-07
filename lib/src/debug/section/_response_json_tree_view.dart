@@ -12,22 +12,27 @@ class _ResponseJsonTreeView extends StatelessWidget {
   Widget build(BuildContext context) {
     ApiError? apiError = requestLogInfo.apiError;
     bool hasNoResponseData = requestLogInfo.hasNoResponseData();
+    // JSON Object or Array:
     Object? jsonObj = requestLogInfo.toResponseJson();
     //
-    if (apiError != null) {
-      return SizedBox(
-        width: double.maxFinite,
-        child: Text(
-          apiError.originErrorText ?? "",
-          style: TextStyle(fontSize: 13, color: Colors.grey),
-        ),
-      );
+    if (!hasNoResponseData) {
+      // Not JSON:
+      if (jsonObj == null) {
+        return SizedBox(
+          width: double.maxFinite,
+          child: Text(
+            requestLogInfo.responseData.toString(),
+            style: TextStyle(fontSize: 13, color: Colors.grey),
+          ),
+        );
+      }
     }
-    if (hasNoResponseData || jsonObj == null) {
+    // Has No Response:
+    else {
       return SizedBox(
         width: double.maxFinite,
         child: Text(
-          hasNoResponseData ? "No Response" : "Not JSON",
+          "No Response",
           style: TextStyle(fontSize: 13, color: Colors.grey),
         ),
       );
