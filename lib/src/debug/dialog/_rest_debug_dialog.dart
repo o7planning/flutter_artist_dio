@@ -21,13 +21,6 @@ class _RestDebugDialog extends StatelessWidget {
       preferredHeight: 620,
     );
 
-    Widget contentWidget = _CustomAppContainer(
-      padding: const EdgeInsets.all(2),
-      width: size.width,
-      height: size.height,
-      child: _buildMainWidget(),
-    );
-
     FaAlertDialog alert = FaAlertDialog(
       icon: Icon(
         Icons.bug_report,
@@ -35,7 +28,12 @@ class _RestDebugDialog extends StatelessWidget {
         color: Colors.indigo,
       ),
       titleText: "Rest Debug Viewer",
-      content: contentWidget,
+      content: Container(
+        padding: const EdgeInsets.all(2),
+        width: size.width,
+        height: size.height,
+        child: _buildMainWidget(),
+      ),
       contentPadding: EdgeInsets.zero,
     );
     return alert;

@@ -27,14 +27,6 @@ class __RestJsonTreeViewDialogState extends State<_RestJsonTreeViewDialog> {
       preferredWidth: 800,
       preferredHeight: 520,
     );
-
-    Widget contentWidget = _CustomAppContainer(
-      padding: const EdgeInsets.all(2),
-      width: size.width,
-      height: size.height,
-      child: _buildMainWidget(),
-    );
-
     FaAlertDialog alert = FaAlertDialog(
       icon: Icon(
         Icons.bug_report,
@@ -42,24 +34,43 @@ class __RestJsonTreeViewDialogState extends State<_RestJsonTreeViewDialog> {
         color: Colors.indigo,
       ),
       titleText: "Find data conversion errors.",
-      content: contentWidget,
+      content: Container(
+        width: size.width,
+        height: size.height,
+        padding: EdgeInsets.all(5),
+        child: _buildMainWidget(),
+      ),
       contentPadding: EdgeInsets.zero,
     );
     return alert;
   }
 
   Widget _buildMainWidget() {
-    return Stack(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (showTree)
-          _JsonTreeView(
-            jsonObjOrArray: widget.jsonObjOrArray,
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 5),
+          child: Text(
+              "The JSON version has been amputated to find errors easier."),
+        ),
+        Divider(),
+        Expanded(
+          child: Stack(
+            children: [
+              if (showTree)
+                _JsonTreeView(
+                  jsonObjOrArray: widget.jsonObjOrArray,
+                ),
+              if (!showTree)
+                _TextView(
+                  text: JsonUtils.toBeautifulJson(widget.jsonObjOrArray) ?? "",
+                ),
+              Positioned(top: 5, right: 5, child: _buildControlBar()),
+            ],
           ),
-        if (!showTree)
-          _TextView(
-            text: JsonUtils.toBeautifulJson(widget.jsonObjOrArray) ?? "",
-          ),
-        Positioned(top: 5, right: 5, child: _buildControlBar()),
+        ),
       ],
     );
   }
