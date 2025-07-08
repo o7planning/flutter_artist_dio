@@ -107,7 +107,7 @@ class _ResponseViewState extends State<_ResponseView> {
   }
 
   void _copy() {
-    String? text = widget.requestLogInfo.toResponseText();
+    String? text = widget.requestLogInfo.getResponseText();
     Clipboard.setData(ClipboardData(text: text ?? ""));
     _closeAllSnackBars(context);
     _showSnackBar(
