@@ -32,6 +32,7 @@ class JsonConversionErrorDetector {
       }
       w.include = false;
       String? conversionError = _getConversionErrorMessage(wrapJsonOBJ);
+
       if (conversionError == null || conversionError != conversionErrorOrigin) {
         w.include = true;
         w.tested = true;

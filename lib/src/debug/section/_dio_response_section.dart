@@ -162,10 +162,12 @@ class _DioResponseSection extends StatelessWidget {
   void _errorDetector(BuildContext context, ApiError apiError) {
     Function(Map<String, dynamic>)? converter = apiError.usedConverter;
     if (converter == null) {
+      print(">> No Converter");
       return;
     }
-    Object? realJsonOBJ = info.getRealJsonObjOrArray();
+    Object realJsonOBJ = info.getRealJsonObjOrArray() ?? <String, dynamic>{};
     if (realJsonOBJ == null) {
+      print(">> realJsonOBJ is null");
       return;
     }
     JsonConversionErrorDetector detector = JsonConversionErrorDetector(
