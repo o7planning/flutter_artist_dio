@@ -27,6 +27,7 @@ part 'src/debug/section/_json_tree_view.dart';
 part 'src/debug/section/_response_json_tree_view.dart';
 part 'src/debug/section/_response_text_view.dart';
 part 'src/debug/section/_response_view.dart';
+part 'src/debug/section/_text_view.dart';
 part 'src/debug/widget/_custom_app_container.dart';
 part 'src/debug/widget/_map_key_value_view.dart';
 

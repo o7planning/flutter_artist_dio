@@ -71,15 +71,18 @@ class _DioResponseSection extends StatelessWidget {
               text: apiError.apiErrorType?.description ?? ' - ',
               suffixIcon: apiError.apiErrorType != ApiErrorType.conversion
                   ? null
-                  : TextButton(
-                      style: TextButton.styleFrom(
-                        minimumSize: Size.zero,
-                        padding: EdgeInsets.zero,
+                  : Tooltip(
+                      message: "Remove a part of JSON to find errors easier.",
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          minimumSize: Size.zero,
+                          padding: EdgeInsets.zero,
+                        ),
+                        onPressed: () {
+                          _errorDetector(context, apiError);
+                        },
+                        child: Icon(Icons.bug_report),
                       ),
-                      onPressed: () {
-                        _errorDetector(context, apiError);
-                      },
-                      child: Icon(Icons.bug_report),
                     ),
             ),
           if (apiError != null) const SizedBox(height: 10),

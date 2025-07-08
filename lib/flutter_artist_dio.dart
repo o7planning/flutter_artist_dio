@@ -9,7 +9,7 @@ import 'package:flutter_artist_dio/src/_utils/json_utils.dart';
 import 'src/one_future_auth_interceptor.dart';
 
 part 'src/_core/__core.dart';
-part 'src/_error_detector/__error_detector.dart';
+part 'src/_error_detector/__json_conversion_error_detector.dart';
 part 'src/_error_detector/__wrap_map.dart';
 part 'src/_error_handler/__handle_dio_exception.dart';
 part 'src/_error_handler/__handle_dio_response.dart';

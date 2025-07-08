@@ -18,20 +18,21 @@ class JsonConversionErrorDetector {
     } else {
       return null;
     }
-    bool isError = _isConversionError(wrapJsonOBJ);
-    if (!isError) {
+    final String? conversionErrorOrigin =
+        _getConversionErrorMessage(wrapJsonOBJ);
+    if (conversionErrorOrigin == null) {
       throw AppError(
           errorMessage:
               "There is no JSON conversion error to Object and vice versa.");
     }
     while (true) {
-      _Wrap? w = __find(wrapJsonOBJ);
+      _Wrap? w = __find(wrapJsonOBJ, conversionErrorOrigin);
       if (w == null) {
         break;
       }
       w.include = false;
-      bool error = _isConversionError(wrapJsonOBJ);
-      if (!error) {
+      String? conversionError = _getConversionErrorMessage(wrapJsonOBJ);
+      if (conversionError == null || conversionError != conversionErrorOrigin) {
         w.include = true;
         w.tested = true;
       }
@@ -39,18 +40,17 @@ class JsonConversionErrorDetector {
     return wrapJsonOBJ.toJsonObjOrArrayOrValue();
   }
 
-  bool _isConversionError(_Wrap wrapJsonOBJ) {
+  String? _getConversionErrorMessage(_Wrap wrapJsonOBJ) {
     try {
       dynamic jsonOBJ = wrapJsonOBJ.toJsonObjOrArrayOrValue();
       converter(jsonOBJ);
-      return false;
+      return null;
     } catch (e) {
-      print(">>>>>>>>>>>>> error: $e");
-      return true;
+      return e.toString();
     }
   }
 
-  _Wrap? __find(_Wrap wrap) {
+  _Wrap? __find(_Wrap wrap, String conversionError) {
     if (wrap is _WrapList) {
       _WrapList wrapList = wrap as _WrapList;
       for (_Wrap childWrap in wrapList.list) {
@@ -60,7 +60,7 @@ class JsonConversionErrorDetector {
       }
       for (_Wrap childWrap in wrapList.list) {
         if (childWrap.tested && childWrap.include) {
-          _Wrap? w = __find(childWrap);
+          _Wrap? w = __find(childWrap, conversionError);
           if (w != null) {
             return w;
           }
@@ -69,7 +69,7 @@ class JsonConversionErrorDetector {
     } else if (wrap is _WrapMap) {
       _WrapMap wrapMap = wrap as _WrapMap;
       for (_Wrap childWrap in wrapMap.map.values) {
-        _Wrap? w = __find(childWrap);
+        _Wrap? w = __find(childWrap, conversionError);
         if (w != null) {
           return w;
         }
