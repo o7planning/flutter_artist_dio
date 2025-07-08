@@ -9,7 +9,7 @@ ApiResult<D> _handleDioResponse<D>({
 }) {
   RequestLogInfo? info = restLogger.getRequestLogInfo(restRequestId);
   //
-  info?._setResponseSuccessInfo(
+  info?._setResponseInfo(
     dioRequestID: restRequestId,
     responseData: response.data,
     responseStatusCode: response.statusCode,

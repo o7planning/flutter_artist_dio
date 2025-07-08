@@ -146,7 +146,7 @@ class RequestLogInfo {
   }
 
   // The Server return data.
-  void _setResponseSuccessInfo({
+  void _setResponseInfo({
     required int dioRequestID,
     required dynamic responseData,
     required int? responseStatusCode,

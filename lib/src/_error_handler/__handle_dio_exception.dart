@@ -51,6 +51,13 @@ ApiResult<D> _handleDioException<D>(
 
   ApiError apiError;
   if (error.response != null) {
+    info?._setResponseInfo(
+      dioRequestID: restRequestId,
+      responseData: error.response!.data,
+      responseStatusCode: error.response!.statusCode,
+      responseStatusMessage: error.response!.statusMessage,
+    );
+    //
     apiError = ApiError.fromResponseErrorData(
       apiErrorType: apiErrorType,
       statusCode: error.response!.statusCode,

@@ -9,12 +9,18 @@ class JsonConversionErrorDetector {
   Object? miniatureTheErrorRange() {
     _Wrap wrapJsonOBJ;
     if (jsonOBJ is Map<String, dynamic>) {
-      wrapJsonOBJ = _Wrap.fromMap(jsonOBJ as Map<String, dynamic>);
+      var m = jsonOBJ as Map<String, dynamic>;
+      var jsonOBJ_data = m["data"]; // ?????????????????????
+      wrapJsonOBJ = _Wrap.fromMap(jsonOBJ_data);
     } else if (jsonOBJ is List<dynamic>) {
       wrapJsonOBJ = _Wrap.fromList(jsonOBJ as List<dynamic>);
     } else {
       return null;
     }
+    Object jsonOBJ2 = wrapJsonOBJ.toJsonObjOrArrayOrValue();
+    bool same =
+        JsonUtils.deepJsonCompare(jsonObj1: jsonOBJ, jsonObj2: jsonOBJ2);
+
     bool isError = _isConversionError(wrapJsonOBJ);
     if (!isError) {
       throw AppError(
