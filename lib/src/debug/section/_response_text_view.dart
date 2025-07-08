@@ -20,7 +20,7 @@ class _ResponseTextViewState extends State<_ResponseTextView> {
   @override
   void initState() {
     super.initState();
-    final String? text = widget.requestLogInfo.toResponseText();
+    final String? text = widget.requestLogInfo.getResponseText();
     _controller = TextEditingController(text: text ?? "");
   }
 
@@ -29,7 +29,7 @@ class _ResponseTextViewState extends State<_ResponseTextView> {
     ApiError? apiError = widget.requestLogInfo.apiError;
     bool hasNoResponseData = widget.requestLogInfo.hasNoResponseData();
     // JSON Object or Array:
-    Object? jsonObj = widget.requestLogInfo.toJsonObjOrArray();
+    Object? jsonObj = widget.requestLogInfo.getResponseJsonObjOrArray();
     //
     if (!hasNoResponseData) {
       // Not JSON:

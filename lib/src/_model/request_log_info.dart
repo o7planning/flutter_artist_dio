@@ -1,6 +1,10 @@
 part of '../../flutter_artist_dio.dart';
 
 class RequestLogInfo {
+  ResponseDataMode _dataMode = ResponseDataMode.realData;
+
+  ResponseDataMode get dataMode => _dataMode;
+
   int dioRequestID;
   String baseUrl;
   String requestPath;
@@ -18,6 +22,7 @@ class RequestLogInfo {
   bool __jsonDataReady = false;
   bool __hasNoResponseData = false;
   Object? __responseJsonObjOrArray;
+  Object? __realJsonObjOrArray;
   String? __responseText;
   dynamic responseData;
 
@@ -81,6 +86,7 @@ class RequestLogInfo {
       // Response Null.
       if (responseData == null) {
         __responseJsonObjOrArray = null;
+        __realJsonObjOrArray = null;
         __responseText = null;
         __hasNoResponseData = true;
       }
@@ -88,6 +94,11 @@ class RequestLogInfo {
       else if (responseData is String) {
         __responseText = responseData;
         __responseJsonObjOrArray = __jsonDecode(responseData);
+        __realJsonObjOrArray = null;
+        if (_dataMode == ResponseDataMode.wrappedData &&
+            __responseJsonObjOrArray is Map) {
+          __realJsonObjOrArray = (__responseJsonObjOrArray as Map)["data"];
+        }
         if (__responseJsonObjOrArray != null) {
           String? json = toBeautifulJson(__responseJsonObjOrArray!);
           if (json != null) {
@@ -97,14 +108,24 @@ class RequestLogInfo {
         __hasNoResponseData = false;
       }
       // List or Map:
-      else if (responseData is List || responseData is Map) {
+      else if (responseData is List) {
         __responseJsonObjOrArray = responseData;
+        __realJsonObjOrArray = null;
+        __responseText = toBeautifulJson(__responseJsonObjOrArray!);
+        __hasNoResponseData = false;
+      } else if (responseData is Map) {
+        __responseJsonObjOrArray = responseData;
+        __realJsonObjOrArray = null;
+        if (__responseJsonObjOrArray is Map) {
+          __realJsonObjOrArray = (__responseJsonObjOrArray as Map)["data"];
+        }
         __responseText = toBeautifulJson(__responseJsonObjOrArray!);
         __hasNoResponseData = false;
       }
       // Others:
       else {
         __responseJsonObjOrArray = null;
+        __realJsonObjOrArray = null;
         __responseText = null;
         __hasNoResponseData = false;
       }
@@ -116,12 +137,17 @@ class RequestLogInfo {
     return __hasNoResponseData;
   }
 
-  Object? toJsonObjOrArray() {
+  Object? getResponseJsonObjOrArray() {
     __convertResponse();
     return __responseJsonObjOrArray;
   }
 
-  String? toResponseText() {
+  Object? getRealJsonObjOrArray() {
+    __convertResponse();
+    return __realJsonObjOrArray;
+  }
+
+  String? getResponseText() {
     __convertResponse();
     return __responseText;
   }
@@ -146,7 +172,21 @@ class RequestLogInfo {
   }
 
   // The Server return data.
-  void _setResponseInfo({
+  void _setSuccessResponseInfo({
+    required ResponseDataMode dataMode,
+    required int dioRequestID,
+    required dynamic responseData,
+    required int? responseStatusCode,
+    required String? responseStatusMessage,
+  }) {
+    assert(this.dioRequestID == dioRequestID);
+    //
+    this.responseStatusCode = responseStatusCode;
+    this.responseStatusMessage = responseStatusMessage;
+    this.responseData = responseData;
+  }
+
+  void _setErrorResponseInfo({
     required int dioRequestID,
     required dynamic responseData,
     required int? responseStatusCode,

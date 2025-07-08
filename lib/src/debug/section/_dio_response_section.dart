@@ -161,14 +161,14 @@ class _DioResponseSection extends StatelessWidget {
     if (converter == null) {
       return;
     }
-    Object? jsonOBJ = info.toJsonObjOrArray();
-    if (jsonOBJ == null) {
+    Object? realJsonOBJ = info.getRealJsonObjOrArray();
+    if (realJsonOBJ == null) {
       return;
     }
-
-    JsonConversionErrorDetector detector =
-        JsonConversionErrorDetector(converter: converter, jsonOBJ: jsonOBJ);
-
+    JsonConversionErrorDetector detector = JsonConversionErrorDetector(
+      converter: converter,
+      realJsonOBJ: realJsonOBJ,
+    );
     Object? jsonOBJMinify = detector.miniatureTheErrorRange();
     if (jsonOBJMinify == null) {
       return;
