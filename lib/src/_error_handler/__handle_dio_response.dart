@@ -73,7 +73,7 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
     data: response.data,
   );
   if (rawResult == null) {
-    return ApiResult<D>.data(
+    return ApiResult<D>.success(
       statusCode: response.statusCode,
       statusMessage: response.statusMessage,
       data: null,
@@ -85,7 +85,7 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
   }
   Map<String, dynamic>? data = rawResult.data;
   if (data == null) {
-    return ApiResult<D>.data(
+    return ApiResult<D>.success(
       statusCode: response.statusCode,
       statusMessage: response.statusMessage,
       data: null,
