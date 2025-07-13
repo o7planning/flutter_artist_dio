@@ -81,7 +81,7 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
   }
   ApiError? apiError = rawResult.apiError;
   if (apiError != null) {
-    return ApiResult<D>.apiError(apiError);
+    return ApiResult<D>.fromError(apiError);
   }
   Map<String, dynamic>? data = rawResult.data;
   if (data == null) {

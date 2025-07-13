@@ -13,7 +13,7 @@ ApiResult<D> _handleException<D>(
     print(appError.errorMessage);
   }
   //
-  ApiResult<D> apiResult = ApiResult<D>.apiError(
+  ApiResult<D> apiResult = ApiResult<D>.fromError(
     ApiError(
       statusCode: null,
       apiErrorType: ApiErrorType.unknown,
