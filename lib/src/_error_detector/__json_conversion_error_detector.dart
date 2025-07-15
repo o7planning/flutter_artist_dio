@@ -53,7 +53,7 @@ class JsonConversionErrorDetector {
 
   _Wrap? __find(_Wrap wrap, String conversionError) {
     if (wrap is _WrapList) {
-      _WrapList wrapList = wrap as _WrapList;
+      _WrapList wrapList = wrap;
       for (_Wrap childWrap in wrapList.list) {
         if (!childWrap.tested && childWrap.include) {
           return childWrap;
@@ -68,7 +68,7 @@ class JsonConversionErrorDetector {
         }
       }
     } else if (wrap is _WrapMap) {
-      _WrapMap wrapMap = wrap as _WrapMap;
+      _WrapMap wrapMap = wrap;
       for (_Wrap childWrap in wrapMap.map.values) {
         _Wrap? w = __find(childWrap, conversionError);
         if (w != null) {
