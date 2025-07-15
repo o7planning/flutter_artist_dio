@@ -11,7 +11,7 @@ void _closeAllSnackBars(BuildContext context) {
 }
 
 IconData _getErrorIconData(ApiError apiError) {
-  ApiErrorType? apiErrorType = apiError.apiErrorType;
+  ApiErrorType? apiErrorType = apiError.errorType;
   if (apiErrorType == null) {
     return Icons.warning_amber;
   }

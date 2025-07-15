@@ -16,7 +16,7 @@ ApiResult<D> _handleException<D>(
   ApiResult<D> apiResult = ApiResult<D>.fromError(
     ApiError(
       statusCode: null,
-      apiErrorType: ApiErrorType.unknown,
+      errorType: ApiErrorType.unknown,
       errorMessage: appError.errorMessage,
       errorDetails: appError.errorDetails,
       originErrorText: null,
@@ -24,7 +24,7 @@ ApiResult<D> _handleException<D>(
   );
   //
   RequestLogInfo? info = restLogger.getRequestLogInfo(restRequestId);
-  info?._setError(apiResult.apiError!);
+  info?._setError(apiResult.error!);
   //
   return apiResult;
 }

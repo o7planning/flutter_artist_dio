@@ -59,14 +59,14 @@ ApiResult<D> _handleDioException<D>(
     );
     //
     apiError = ApiError.fromResponseErrorData(
-      apiErrorType: apiErrorType,
+      errorType: apiErrorType,
       statusCode: error.response!.statusCode,
       statusMessage: error.response!.statusMessage,
       responseErrorData: error.response!.data,
     );
   } else {
     apiError = ApiError(
-      apiErrorType: apiErrorType,
+      errorType: apiErrorType,
       statusCode: null,
       statusMessage: null,
       errorMessage: "Error: $error",
@@ -76,7 +76,7 @@ ApiResult<D> _handleDioException<D>(
   //
   ApiResult<D> apiResult = ApiResult<D>.fromError(apiError);
   //
-  info?._setError(apiResult.apiError!);
+  info?._setError(apiResult.error!);
   //
   return apiResult;
 }

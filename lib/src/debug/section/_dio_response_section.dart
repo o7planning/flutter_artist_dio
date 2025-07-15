@@ -68,8 +68,8 @@ class _DioResponseSection extends StatelessWidget {
                 size: iconSize,
               ),
               label: 'Error Type: ',
-              text: apiError.apiErrorType?.description ?? ' - ',
-              suffixIcon: apiError.apiErrorType != ApiErrorType.conversion
+              text: apiError.errorType?.description ?? ' - ',
+              suffixIcon: apiError.errorType != ApiErrorType.conversion
                   ? null
                   : Tooltip(
                       message: "Remove a part of JSON to find errors easier.",

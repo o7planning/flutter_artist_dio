@@ -35,8 +35,8 @@ class _DioRequestListSection extends StatelessWidget {
   }
 
   String _toTooltip(ApiError apiError) {
-    if (apiError.apiErrorType != null) {
-      return apiError.apiErrorType!.description;
+    if (apiError.errorType != null) {
+      return apiError.errorType!.description;
     }
     return "";
   }

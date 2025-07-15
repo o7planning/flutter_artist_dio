@@ -37,7 +37,7 @@ ApiResult<D> _handleDioResponse<D>({
   }
   //
   if (apiResult.isError()) {
-    info?._setError(apiResult.apiError!);
+    info?._setError(apiResult.error!);
   }
   return apiResult;
 }
@@ -79,7 +79,7 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
       data: null,
     );
   }
-  ApiError? apiError = rawResult.apiError;
+  ApiError? apiError = rawResult.error;
   if (apiError != null) {
     return ApiResult<D>.fromError(apiError);
   }
