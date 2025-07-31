@@ -14,8 +14,7 @@ part of '../../flutter_artist_dio.dart';
 //
 Future<ApiResult<List<int>?>> _binaryGet(
   Dio dio,
-  String path,
-  dynamic savePath, {
+  String path, {
   bool showDebug = false,
   //
   ProgressCallback? onReceiveProgress,
