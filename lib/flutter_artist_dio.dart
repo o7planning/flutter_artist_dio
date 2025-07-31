@@ -5,8 +5,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter_artist_core/flutter_artist_core.dart';
 import 'package:flutter_artist_dio/src/_utils/dio_error_utils.dart';
 import 'package:flutter_artist_dio/src/_utils/json_utils.dart';
+import 'package:web/helpers.dart' hide Response, Headers, FormData;
 
 import 'src/one_future_auth_interceptor.dart';
+import 'package:web/web.dart' as web;
+
+import 'dart:typed_data';
+import 'dart:js_interop';
 
 part 'src/_core/__core.dart';
 part 'src/_error_detector/__json_conversion_error_detector.dart';
@@ -20,6 +25,8 @@ part 'src/_model/request_log_info.dart';
 part 'src/_rest_json/_delete.dart';
 part 'src/_rest_json/_get.dart';
 //
+part 'src/_rest_binary/_get_binary.dart';
+part 'src/_rest_binary/_download.dart';
 part 'src/_rest_json/_options.dart';
 part 'src/_rest_json/_post.dart';
 part 'src/_rest_json/_put.dart';
@@ -208,6 +215,31 @@ class FlutterArtistDio {
       queryParameters: queryParameters,
       options: options,
       cancelToken: cancelToken,
+    );
+  }
+
+  Future<ApiResult<List<int>?>> binaryGet(
+    String path,
+    dynamic savePath, {
+    bool showDebug = false,
+    //
+    ProgressCallback? onReceiveProgress,
+    Map<String, dynamic>? queryParameters,
+    CancelToken? cancelToken,
+    Object? data,
+    Options? options,
+  }) async {
+    return await _binaryGet(
+      dio,
+      path,
+      savePath,
+      showDebug: showDebug,
+      //
+      onReceiveProgress: onReceiveProgress,
+      queryParameters: queryParameters,
+      cancelToken: cancelToken,
+      data: data,
+      options: options,
     );
   }
 }

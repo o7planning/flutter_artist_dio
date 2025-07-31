@@ -17,7 +17,6 @@ dependencies:
   hovering: ^1.0.4
   flutter_breadcrumb: ^1.0.1
 
-
   flutter_artist_core:
     path: ../flutter_artist_core
   flutter_artist_commons_ui:
