@@ -42,6 +42,7 @@ ApiResult<D> _handleDioException<D>(
   required int restRequestId,
   required bool showDebug,
 }) {
+  print("Error on _handleDioException:");
   print(stackTrace);
   //
   RequestLogInfo? info = restLogger.getRequestLogInfo(restRequestId);
@@ -69,7 +70,9 @@ ApiResult<D> _handleDioException<D>(
       errorType: apiErrorType,
       statusCode: null,
       statusMessage: null,
-      errorMessage: "Error: $error",
+      errorMessage: error.message == null
+          ? "Unknown Dio Error"
+          : "Error: ${error.message}",
       originErrorText: null,
     );
   }
