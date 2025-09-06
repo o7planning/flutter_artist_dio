@@ -12,7 +12,7 @@ part of '../../flutter_artist_dio.dart';
 //     ProgressCallback? onReceiveProgress,
 // });
 //
-Future<ApiResult<D>> _get<D>(
+Future<ApiResult<D>> _jsonGet<D>(
   Dio dio,
   String path, {
   required ResponseDataMode responseDataMode,

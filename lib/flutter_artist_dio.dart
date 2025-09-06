@@ -66,7 +66,7 @@ class FlutterArtistDio {
   //     ProgressCallback? onReceiveProgress,
   // });
   //
-  Future<ApiResult<D>> restGet<D>(
+  Future<ApiResult<D>> jsonGet<D>(
     String path, {
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
     required Converter<D>? converter,
@@ -78,7 +78,7 @@ class FlutterArtistDio {
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
   }) async {
-    return _get<D>(
+    return _jsonGet<D>(
       dio,
       path,
       responseDataMode: responseDataMode,
@@ -106,7 +106,7 @@ class FlutterArtistDio {
   //     ProgressCallback? onReceiveProgress,
   // });
   //
-  Future<ApiResult<D>> restPost<D>(
+  Future<ApiResult<D>> jsonPost<D>(
     String path, {
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
     required Converter<D>? converter,
@@ -119,7 +119,7 @@ class FlutterArtistDio {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    return await _post<D>(
+    return await _jsonPost<D>(
       dio,
       path,
       responseDataMode: responseDataMode,
@@ -148,7 +148,7 @@ class FlutterArtistDio {
   //     ProgressCallback? onReceiveProgress,
   // });
   //
-  Future<ApiResult<D>> restPut<D>(
+  Future<ApiResult<D>> jsonPut<D>(
     String path, {
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
     required Converter<D>? converter,
@@ -161,7 +161,7 @@ class FlutterArtistDio {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    return _put<D>(
+    return _jsonPut<D>(
       dio,
       path,
       responseDataMode: responseDataMode,
@@ -188,7 +188,7 @@ class FlutterArtistDio {
   //     CancelToken? cancelToken,
   // });
   //
-  Future<ApiResult<D>> restDelete<D>(
+  Future<ApiResult<D>> jsonDelete<D>(
     String path, {
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
     required Converter<D>? converter,
@@ -199,7 +199,7 @@ class FlutterArtistDio {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    return _delete<D>(
+    return _jsonDelete<D>(
       dio,
       path,
       responseDataMode: responseDataMode,
