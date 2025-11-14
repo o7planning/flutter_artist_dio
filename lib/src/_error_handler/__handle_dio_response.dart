@@ -48,7 +48,7 @@ ApiResult<D> __handleResponseAsDirectData<D>({
   required int restRequestId,
   bool showDebug = false,
 }) {
-  ApiResult<D> apiResult = ApiResult.fromDynamicData<D>(
+  ApiResult<D> apiResult = ApiResult.fromDynamicData(
     statusCode: response.statusCode,
     statusMessage: response.statusMessage,
     data: response.data,
@@ -91,7 +91,7 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
       data: null,
     );
   }
-  return ApiResult.fromMap<D>(
+  return ApiResult.fromMap(
     statusCode: response.statusCode,
     statusMessage: response.statusMessage,
     map: data,
