@@ -54,6 +54,27 @@ class FlutterArtistDio {
     );
   }
 
+  FlutterArtistDio.dio({
+    required Dio dio,
+    required TokenStorage tokenStorage,
+    required WriteTokenToHeaders writeTokenToHeaders,
+    required ReadTokenFromHeaders readTokenFromHeaders,
+  }) {
+    _dio = dio;
+    _dio.interceptors.add(
+      OneFutureAuthInterceptor(
+        dio: _dio,
+        tokenStorage: tokenStorage,
+        writeTokenToHeaders: writeTokenToHeaders,
+      ),
+    );
+    _dio.interceptors.add(
+      FaDioInterceptor(
+        readTokenFromHeaders: readTokenFromHeaders,
+      ),
+    );
+  }
+
   //
   // Origin DIO Function:
   //
