@@ -3,12 +3,12 @@ part of '../../../rest_debug_screen.dart';
 class _ResponseView extends StatefulWidget {
   final bool fullView;
   final EdgeInsets padding;
-  final RequestLogInfo requestLogInfo;
+  final ApiLogData apiLogData;
   final Function()? onFullScreenPressed;
 
   const _ResponseView({
     super.key,
-    required this.requestLogInfo,
+    required this.apiLogData,
     required this.onFullScreenPressed,
     required this.fullView,
     this.padding = const EdgeInsets.all(5),
@@ -37,13 +37,13 @@ class _ResponseViewState extends State<_ResponseView> {
           Visibility(
             visible: !showTree,
             child: _ResponseTextView(
-              requestLogInfo: widget.requestLogInfo,
+              apiLogData: widget.apiLogData,
             ),
           ),
           Visibility(
             visible: showTree,
             child: _ResponseJsonTreeView(
-              requestLogInfo: widget.requestLogInfo,
+              apiLogData: widget.apiLogData,
             ),
           ),
           Positioned(
@@ -107,7 +107,7 @@ class _ResponseViewState extends State<_ResponseView> {
   }
 
   void _copy() {
-    String? text = widget.requestLogInfo.getResponseText();
+    String? text = widget.apiLogData.getResponseText();
     Clipboard.setData(ClipboardData(text: text ?? ""));
     _closeAllSnackBars(context);
     _showSnackBar(

@@ -1,4 +1,4 @@
-part of '../../flutter_artist_dio.dart';
+part of '../../../flutter_artist_dio.dart';
 
 //
 // switch (error.type) {
@@ -39,26 +39,14 @@ part of '../../flutter_artist_dio.dart';
 ApiResult<D> _handleDioException<D>(
   DioException error, {
   required StackTrace? stackTrace,
-  required int restRequestId,
-  required bool showDebug,
 }) {
-  print("Error on _handleDioException:");
   print(stackTrace);
-  //
-  RequestLogInfo? info = restLogger.getRequestLogInfo(restRequestId);
   //
   final ApiErrorType apiErrorType =
       DioExceptionUtils.toApiErrorType(error.type);
 
-  ApiError apiError;
+  final ApiError apiError;
   if (error.response != null) {
-    info?._setErrorResponseInfo(
-      dioRequestID: restRequestId,
-      responseData: error.response!.data,
-      responseStatusCode: error.response!.statusCode,
-      responseStatusMessage: error.response!.statusMessage,
-    );
-    //
     apiError = ApiError.fromResponseErrorData(
       errorType: apiErrorType,
       statusCode: error.response!.statusCode,
@@ -78,8 +66,5 @@ ApiResult<D> _handleDioException<D>(
   }
   //
   ApiResult<D> apiResult = ApiResult<D>.fromError(apiError);
-  //
-  info?._setError(apiResult.error!);
-  //
   return apiResult;
 }

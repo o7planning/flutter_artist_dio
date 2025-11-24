@@ -1,7 +1,7 @@
 part of '../../../rest_debug_screen.dart';
 
 class _DioRequestInfoSection extends StatelessWidget {
-  final RequestLogInfo info;
+  final ApiLogData info;
   final bool showToken;
 
   const _DioRequestInfoSection({
@@ -24,7 +24,7 @@ class _DioRequestInfoSection extends StatelessWidget {
               size: iconSize,
             ),
             label: 'Base URL: ',
-            text: info.baseUrl,
+            text: info.requestLogData.baseUrl,
           ),
           const SizedBox(height: 10),
           IconLabelText(
@@ -33,7 +33,7 @@ class _DioRequestInfoSection extends StatelessWidget {
               size: iconSize,
             ),
             label: 'Path: ',
-            text: info.requestPath,
+            text: info.requestLogData.uri.path,
           ),
           const SizedBox(height: 10),
           IconLabelText(
@@ -42,7 +42,7 @@ class _DioRequestInfoSection extends StatelessWidget {
               size: iconSize,
             ),
             label: 'Method:',
-            text: info.requestMethod,
+            text: info.requestLogData.method,
           ),
           if (info.token != null) const SizedBox(height: 10),
           if (info.token != null)
@@ -67,40 +67,49 @@ class _DioRequestInfoSection extends StatelessWidget {
                     : null,
               ),
             ),
-          if (info.requestHeaders.isNotEmpty) const SizedBox(height: 10),
-          if (info.requestHeaders.isNotEmpty)
+          if (info.responseLogData != null &&
+              info.responseLogData!.responseHeaders.isNotEmpty)
+            const SizedBox(height: 10),
+          if (info.responseLogData != null &&
+              info.responseLogData!.responseHeaders.isNotEmpty)
             const IconLabelText(
               icon: Icon(Icons.topic, size: iconSize),
               label: 'Headers:',
               text: '',
             ),
-          if (info.requestHeaders.isNotEmpty) const SizedBox(height: 10),
-          if (info.requestHeaders.isNotEmpty)
-            _MapKeyValueView(map: info.requestHeaders),
-          //
-          if (info.requestQueryParameters.isNotEmpty)
+          if (info.responseLogData != null &&
+              info.responseLogData!.responseHeaders.isNotEmpty)
             const SizedBox(height: 10),
-          if (info.requestQueryParameters.isNotEmpty)
+          if (info.responseLogData != null &&
+              info.responseLogData!.responseHeaders.isNotEmpty)
+            _MapKeyValueView(map: info.responseLogData!.responseHeaders),
+          //
+          if (info.requestLogData.queryParameters.isNotEmpty)
+            const SizedBox(height: 10),
+          if (info.requestLogData.queryParameters.isNotEmpty)
             const IconLabelText(
               icon: Icon(Icons.color_lens_outlined, size: iconSize),
               label: 'Query Parameters:',
               text: '',
             ),
-          if (info.requestQueryParameters.isNotEmpty)
+          if (info.requestLogData.queryParameters.isNotEmpty)
             const SizedBox(height: 10),
-          if (info.requestQueryParameters.isNotEmpty)
-            _MapKeyValueView(map: info.requestQueryParameters),
+          if (info.requestLogData.queryParameters.isNotEmpty)
+            _MapKeyValueView(map: info.requestLogData.queryParameters),
           //
           //
-          if (info.mapData.isNotEmpty) const SizedBox(height: 10),
-          if (info.mapData.isNotEmpty)
+          if (info.requestLogData.mapData.isNotEmpty)
+            const SizedBox(height: 10),
+          if (info.requestLogData.mapData.isNotEmpty)
             const IconLabelText(
               icon: Icon(Icons.topic, size: iconSize),
               label: 'Data:',
               text: '',
             ),
-          if (info.mapData.isNotEmpty) const SizedBox(height: 10),
-          if (info.mapData.isNotEmpty) _MapKeyValueView(map: info.mapData),
+          if (info.requestLogData.mapData.isNotEmpty)
+            const SizedBox(height: 10),
+          if (info.requestLogData.mapData.isNotEmpty)
+            _MapKeyValueView(map: info.requestLogData.mapData),
         ],
       ),
     );

@@ -1,4 +1,4 @@
-part of '../../flutter_artist_dio.dart';
+part of '../../../flutter_artist_dio.dart';
 
 //
 // Origin DIO Function:
@@ -23,11 +23,7 @@ Future<ApiResult<D>> _jsonDelete<D>(
   Options? options,
   CancelToken? cancelToken,
 }) async {
-  int restRequestId = 0;
   try {
-    options = _createOptionsWithNotNullHeaders(options);
-    restRequestId = _addRequestIdToHeaders(headers: options.headers!);
-    //
     final response = await dio.delete(
       path,
       data: data,
@@ -40,22 +36,10 @@ Future<ApiResult<D>> _jsonDelete<D>(
       responseDataMode: responseDataMode,
       response: response,
       converter: converter,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
     );
   } on DioException catch (e, stackTrace) {
-    return _handleDioException(
-      e,
-      stackTrace: stackTrace,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
-    );
+    return _handleDioException(e, stackTrace: stackTrace);
   } catch (e, stackTrace) {
-    return _handleException(
-      e,
-      stackTrace: stackTrace,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
-    );
+    return _handleException(e, stackTrace: stackTrace);
   }
 }

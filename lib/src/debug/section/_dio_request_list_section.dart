@@ -10,7 +10,7 @@ class _DioRequestListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<RequestLogInfo> infos = restLogger.getRequestLogInfos();
+    List<ApiLogData> infos = apiLogger.getApiLogDatas();
     //
     return _CustomAppContainer.transparent(
       padding: const EdgeInsets.all(5),
@@ -43,19 +43,21 @@ class _DioRequestListSection extends StatelessWidget {
     return "";
   }
 
-  Widget _buildItemWidget(RequestLogInfo info) {
-    ApiError? apiError = info.apiError;
+  Widget _buildItemWidget(ApiLogData info) {
+    ApiError? apiError = info.conversationError;
 
     return Tooltip(
-      message: info.apiError == null ? "" : _toTooltip(info.apiError!),
+      message: info.conversationError == null
+          ? ""
+          : _toTooltip(info.conversationError!),
       child: ElevatedButton.icon(
         onPressed: () {
-          onSelectRequestId(info.dioRequestID);
+          onSelectRequestId(info.apiLogId);
         },
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
-          backgroundColor: info.dioRequestID == restLogger.selectedDioRequestID
+          backgroundColor: info.apiLogId == apiLogger.selectedDioRequestID
               ? Colors.blue.withAlpha(60)
               : null,
         ),
@@ -64,7 +66,7 @@ class _DioRequestListSection extends StatelessWidget {
           color: apiError != null ? Colors.redAccent : Colors.blue,
           size: 18,
         ),
-        label: Text("${info.dioRequestID}"),
+        label: Text("${info.apiLogId}"),
       ),
     );
   }

@@ -19,13 +19,13 @@ class RestDebugView extends StatefulWidget {
 }
 
 class _RestDebugViewState extends State<RestDebugView> {
-  RequestLogInfo? info;
+  ApiLogData? info;
   bool fullView = false;
 
   @override
   void initState() {
     super.initState();
-    info = restLogger.getSelectedRequestLogInfo();
+    info = apiLogger.getSelectedApiLogData();
   }
 
   @override
@@ -44,7 +44,7 @@ class _RestDebugViewState extends State<RestDebugView> {
         if (fullView && info != null)
           Expanded(
             child: _ResponseView(
-              requestLogInfo: info!,
+              apiLogData: info!,
               onFullScreenPressed: _onFullScreenPressed,
               fullView: fullView,
             ),
@@ -84,8 +84,8 @@ class _RestDebugViewState extends State<RestDebugView> {
   }
 
   void _onSelectRequestId(int requestId) {
-    restLogger.setSelectedDioRequestID(requestId);
-    info = restLogger.getSelectedRequestLogInfo();
+    apiLogger.setSelectedDioRequestID(requestId);
+    info = apiLogger.getSelectedApiLogData();
     setState(() {});
   }
 

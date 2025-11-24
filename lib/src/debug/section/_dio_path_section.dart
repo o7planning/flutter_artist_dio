@@ -1,7 +1,7 @@
 part of '../../../rest_debug_screen.dart';
 
 class _DioPathSection extends StatelessWidget {
-  final RequestLogInfo info;
+  final ApiLogData info;
 
   const _DioPathSection({super.key, required this.info});
 
@@ -19,15 +19,16 @@ class _DioPathSection extends StatelessWidget {
                 Icons.tonality_outlined,
                 size: iconSize,
               ),
-              label: '${info.requestMethod}: ',
-              text: info.requestPath,
+              label: '${info.requestLogData.method}: ',
+              text: info.requestLogData.uri.path,
               textStyle: const TextStyle(color: Colors.indigo),
             ),
           ),
           SimpleSmallIconButton(
             iconData: Icons.copy,
             onPressed: () {
-              String text = "${info.baseUrl}${info.requestPath}";
+              String text =
+                  "${info.requestLogData.baseUrl}${info.requestLogData.uri.path}";
               Clipboard.setData(ClipboardData(text: text));
               _closeAllSnackBars(context);
               _showSnackBar(

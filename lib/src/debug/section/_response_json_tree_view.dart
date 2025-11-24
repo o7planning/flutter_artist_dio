@@ -1,18 +1,18 @@
 part of '../../../rest_debug_screen.dart';
 
 class _ResponseJsonTreeView extends StatelessWidget {
-  final RequestLogInfo requestLogInfo;
+  final ApiLogData apiLogData;
 
   const _ResponseJsonTreeView({
     super.key,
-    required this.requestLogInfo,
+    required this.apiLogData,
   });
 
   @override
   Widget build(BuildContext context) {
-    bool hasNoResponseData = requestLogInfo.hasNoResponseData();
+    bool hasNoResponseData = apiLogData.hasNoResponseData();
     // JSON Object or Array:
-    Object? jsonObjOrArray = requestLogInfo.getResponseJsonObjOrArray();
+    Object? jsonObjOrArray = apiLogData.getRealJsonObjOrArray();
     //
     if (!hasNoResponseData) {
       // Not JSON:
@@ -20,7 +20,7 @@ class _ResponseJsonTreeView extends StatelessWidget {
         return SizedBox(
           width: double.maxFinite,
           child: Text(
-            requestLogInfo.responseData.toString(),
+            apiLogData.getResponseText() ?? "",
             style: TextStyle(fontSize: 13, color: Colors.grey),
           ),
         );

@@ -1,4 +1,4 @@
-part of '../../flutter_artist_dio.dart';
+part of '../../../flutter_artist_dio.dart';
 
 //
 // Origin DIO Function:
@@ -31,11 +31,7 @@ Future<ApiResult<void>> _webDownload(
   Object? data,
   Options? options,
 }) async {
-  int restRequestId = 0;
   try {
-    options = _createOptionsWithNotNullHeaders(options);
-    restRequestId = _addRequestIdToHeaders(headers: options.headers!);
-    //
     final response = await dio.download(
       path,
       savePath,
@@ -53,22 +49,10 @@ Future<ApiResult<void>> _webDownload(
       responseDataMode: ResponseDataMode.realData,
       response: response,
       converter: null,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
     );
   } on DioException catch (e, stackTrace) {
-    return _handleDioException(
-      e,
-      stackTrace: stackTrace,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
-    );
+    return _handleDioException(e, stackTrace: stackTrace);
   } catch (e, stackTrace) {
-    return _handleException(
-      e,
-      stackTrace: stackTrace,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
-    );
+    return _handleException(e, stackTrace: stackTrace);
   }
 }

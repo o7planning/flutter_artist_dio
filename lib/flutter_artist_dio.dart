@@ -3,77 +3,37 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_artist_core/flutter_artist_core.dart';
-import 'package:flutter_artist_dio/src/_utils/dio_error_utils.dart';
-import 'package:flutter_artist_dio/src/_utils/json_utils.dart';
+import 'package:flutter_artist_dio/src/core/_model/detailed_data.dart';
+import 'package:flutter_artist_dio/src/core/_utils/api_log_utils.dart';
+import 'package:flutter_artist_dio/src/core/_utils/dio_error_utils.dart';
 
-import 'src/one_future_auth_interceptor.dart';
-
-part 'src/_core/__core.dart';
-part 'src/_error_detector/__json_conversion_error_detector.dart';
-part 'src/_error_detector/__wrap_map.dart';
-part 'src/_error_handler/__handle_dio_exception.dart';
-part 'src/_error_handler/__handle_dio_response.dart';
-part 'src/_error_handler/__handle_exception.dart';
-part 'src/_logger/rest_logger.dart';
-part 'src/_model/error_type.dart';
-part 'src/_model/request_log_info.dart';
-part 'src/_rest_binary/_download.dart';
+part 'src/core/_error_detector/__json_conversion_error_detector.dart';
+part 'src/core/_error_detector/__wrap_map.dart';
+part 'src/core/_error_handler/__handle_dio_exception.dart';
+part 'src/core/_error_handler/__handle_dio_response.dart';
+part 'src/core/_error_handler/__handle_exception.dart';
+part 'src/core/_model/api_log_data.dart';
+part 'src/core/_model/api_logger.dart';
+part 'src/core/_model/error_log_data.dart';
+part 'src/core/_model/error_type.dart';
+part 'src/core/_model/request_log_data.dart';
+part 'src/core/_model/response_log_data.dart';
+part 'src/core/_rest_binary/_download.dart';
 //
-part 'src/_rest_binary/_get_binary.dart';
-part 'src/_rest_json/_delete.dart';
-part 'src/_rest_json/_get.dart';
-part 'src/_rest_json/_options.dart';
-part 'src/_rest_json/_post.dart';
-part 'src/_rest_json/_put.dart';
-part 'src/fa_dio_interceptor.dart';
+part 'src/core/_rest_binary/_get_binary.dart';
+part 'src/core/_rest_json/_delete.dart';
+part 'src/core/_rest_json/_get.dart';
+part 'src/core/_rest_json/_options.dart';
+part 'src/core/_rest_json/_post.dart';
+part 'src/core/_rest_json/_put.dart';
+part 'src/flutter_artist_dio_auth_interceptor.dart';
+part 'src/flutter_artist_dio_logger_interceptor.dart';
 
 class FlutterArtistDio {
-  late final Dio _dio;
-
-  Dio get dio => _dio;
+  final Dio dio;
 
   // docs: 14751.
-  FlutterArtistDio({
-    required BaseOptions? baseOptions,
-    required TokenStorage tokenStorage,
-    required WriteTokenToHeaders writeTokenToHeaders,
-    required ReadTokenFromHeaders readTokenFromHeaders,
-  }) {
-    _dio = Dio(baseOptions);
-    _dio.interceptors.add(
-      OneFutureAuthInterceptor(
-        dio: _dio,
-        tokenStorage: tokenStorage,
-        writeTokenToHeaders: writeTokenToHeaders,
-      ),
-    );
-    _dio.interceptors.add(
-      FaDioInterceptor(
-        readTokenFromHeaders: readTokenFromHeaders,
-      ),
-    );
-  }
-
-  FlutterArtistDio.dio({
-    required Dio dio,
-    required TokenStorage tokenStorage,
-    required WriteTokenToHeaders writeTokenToHeaders,
-    required ReadTokenFromHeaders readTokenFromHeaders,
-  }) {
-    _dio = dio;
-    _dio.interceptors.add(
-      OneFutureAuthInterceptor(
-        dio: _dio,
-        tokenStorage: tokenStorage,
-        writeTokenToHeaders: writeTokenToHeaders,
-      ),
-    );
-    _dio.interceptors.add(
-      FaDioInterceptor(
-        readTokenFromHeaders: readTokenFromHeaders,
-      ),
-    );
-  }
+  FlutterArtistDio({required this.dio});
 
   //
   // Origin DIO Function:

@@ -1,22 +1,21 @@
-part of '../../flutter_artist_dio.dart';
+part of '../../../flutter_artist_dio.dart';
 
 //
 // Origin DIO Function:
 //
-// Future<Response<T>> post<T>(
+// Future<Response<T>> get<T>(
 //     String path, {
 //     Object? data,
 //     Map<String, dynamic>? queryParameters,
 //     Options? options,
 //     CancelToken? cancelToken,
-//     ProgressCallback? onSendProgress,
 //     ProgressCallback? onReceiveProgress,
 // });
 //
-Future<ApiResult<D>> _jsonPost<D>(
+Future<ApiResult<D>> _jsonGet<D>(
   Dio dio,
   String path, {
-  ResponseDataMode responseDataMode = ResponseDataMode.realData,
+  required ResponseDataMode responseDataMode,
   required Converter<D>? converter,
   bool showDebug = false,
   //
@@ -24,21 +23,15 @@ Future<ApiResult<D>> _jsonPost<D>(
   Map<String, dynamic>? queryParameters,
   Options? options,
   CancelToken? cancelToken,
-  ProgressCallback? onSendProgress,
   ProgressCallback? onReceiveProgress,
 }) async {
-  int restRequestId = 0;
   try {
-    options = _createOptionsWithNotNullHeaders(options);
-    restRequestId = _addRequestIdToHeaders(headers: options.headers!);
-    //
-    final response = await dio.post(
+    final response = await dio.get(
       path,
       data: data,
       queryParameters: queryParameters,
       options: options,
       cancelToken: cancelToken,
-      onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
     //
@@ -46,22 +39,10 @@ Future<ApiResult<D>> _jsonPost<D>(
       responseDataMode: responseDataMode,
       response: response,
       converter: converter,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
     );
   } on DioException catch (e, stackTrace) {
-    return _handleDioException(
-      e,
-      stackTrace: stackTrace,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
-    );
+    return _handleDioException(e, stackTrace: stackTrace);
   } catch (e, stackTrace) {
-    return _handleException(
-      e,
-      stackTrace: stackTrace,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
-    );
+    return _handleException(e, stackTrace: stackTrace);
   }
 }

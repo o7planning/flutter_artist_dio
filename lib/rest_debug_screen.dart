@@ -38,7 +38,6 @@ class RestDebugScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RequestLogInfo? info = restLogger.getSelectedRequestLogInfo();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Rest Debug"),

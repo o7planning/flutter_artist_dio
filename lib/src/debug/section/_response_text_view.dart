@@ -1,11 +1,11 @@
 part of '../../../rest_debug_screen.dart';
 
 class _ResponseTextView extends StatefulWidget {
-  final RequestLogInfo requestLogInfo;
+  final ApiLogData apiLogData;
 
   const _ResponseTextView({
     super.key,
-    required this.requestLogInfo,
+    required this.apiLogData,
   });
 
   @override
@@ -17,9 +17,9 @@ class _ResponseTextView extends StatefulWidget {
 class _ResponseTextViewState extends State<_ResponseTextView> {
   @override
   Widget build(BuildContext context) {
-    bool hasNoResponseData = widget.requestLogInfo.hasNoResponseData();
+    bool hasNoResponseData = widget.apiLogData.hasNoResponseData();
     // JSON Object or Array:
-    Object? jsonObj = widget.requestLogInfo.getResponseJsonObjOrArray();
+    Object? jsonObj = widget.apiLogData.getRealJsonObjOrArray();
     //
     if (!hasNoResponseData) {
       // Not JSON:
@@ -27,7 +27,7 @@ class _ResponseTextViewState extends State<_ResponseTextView> {
         return SizedBox(
           width: double.maxFinite,
           child: Text(
-            widget.requestLogInfo.responseData.toString(),
+            widget.apiLogData.getResponseText() ?? "",
             style: TextStyle(fontSize: 13, color: Colors.grey),
           ),
         );
@@ -44,6 +44,6 @@ class _ResponseTextViewState extends State<_ResponseTextView> {
       );
     }
 
-    return _TextView(text: widget.requestLogInfo.getResponseText() ?? "");
+    return _TextView(text: widget.apiLogData.getResponseText() ?? "");
   }
 }

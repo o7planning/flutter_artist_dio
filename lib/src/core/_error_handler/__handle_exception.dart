@@ -1,17 +1,11 @@
-part of '../../flutter_artist_dio.dart';
+part of '../../../flutter_artist_dio.dart';
 
 ApiResult<D> _handleException<D>(
   dynamic error, {
   required StackTrace? stackTrace,
-  required int restRequestId,
-  required bool showDebug,
 }) {
   print(stackTrace);
   AppError appError = ErrorUtils.toAppError(error);
-  //
-  if (showDebug) {
-    print(appError.errorMessage);
-  }
   //
   ApiResult<D> apiResult = ApiResult<D>.fromError(
     ApiError(
@@ -22,9 +16,6 @@ ApiResult<D> _handleException<D>(
       originErrorText: null,
     ),
   );
-  //
-  RequestLogInfo? info = restLogger.getRequestLogInfo(restRequestId);
-  info?._setError(apiResult.error!);
   //
   return apiResult;
 }

@@ -1,4 +1,4 @@
-part of '../../flutter_artist_dio.dart';
+part of '../../../flutter_artist_dio.dart';
 
 @Deprecated("Thay boi ApiErrorType.")
 enum ErrorType {

@@ -1,4 +1,4 @@
-part of '../../flutter_artist_dio.dart';
+part of '../../../flutter_artist_dio.dart';
 
 //
 // Origin DIO Function:
@@ -23,10 +23,7 @@ Future<ApiResult<List<int>?>> _binaryGet(
   Object? data,
   Options? options,
 }) async {
-  int restRequestId = 0;
   try {
-    options = _createOptionsWithNotNullHeaders(options);
-    restRequestId = _addRequestIdToHeaders(headers: options.headers!);
     // Make a GET request to fetch the file data as bytes.
     final Response<List<int>> response = await dio.get<List<int>>(
       path,
@@ -38,18 +35,8 @@ Future<ApiResult<List<int>?>> _binaryGet(
     );
     return ApiResult.success(data: response.data);
   } on DioException catch (e, stackTrace) {
-    return _handleDioException(
-      e,
-      stackTrace: stackTrace,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
-    );
+    return _handleDioException(e, stackTrace: stackTrace);
   } catch (e, stackTrace) {
-    return _handleException(
-      e,
-      stackTrace: stackTrace,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
-    );
+    return _handleException(e, stackTrace: stackTrace);
   }
 }

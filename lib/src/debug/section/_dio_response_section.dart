@@ -1,7 +1,7 @@
 part of '../../../rest_debug_screen.dart';
 
 class _DioResponseSection extends StatelessWidget {
-  final RequestLogInfo info;
+  final ApiLogData info;
   final bool showJson;
   final Function() onFullScreenPressed;
   final bool fullView;
@@ -16,7 +16,7 @@ class _DioResponseSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ApiError? apiError = info.apiError;
+    final ApiError? apiError = info.conversationError;
     final String? errorMessage = apiError?.errorMessage;
     final List<String>? errorDetails = apiError?.errorDetails;
     //
@@ -26,7 +26,8 @@ class _DioResponseSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (info.responseStatusCode != null)
+          if (info.responseLogData != null &&
+              info.responseLogData!.statusCode != null)
             IconLabelText(
               icon: Icon(
                 apiError != null //
@@ -42,21 +43,23 @@ class _DioResponseSection extends StatelessWidget {
                     : Colors.blue,
               ),
               label: 'Response Status Code: ',
-              text: info.responseStatusCode.toString(),
+              text: info.responseLogData!.statusCode.toString(),
             ),
           //
-          if (info.responseStatusMessage != null &&
-              info.responseStatusMessage!.isNotEmpty)
+          if (info.responseLogData != null &&
+              info.responseLogData!.statusMessage != null &&
+              info.responseLogData!.statusMessage!.isNotEmpty)
             const SizedBox(height: 10),
-          if (info.responseStatusMessage != null &&
-              info.responseStatusMessage!.isNotEmpty)
+          if (info.responseLogData != null &&
+              info.responseLogData!.statusMessage != null &&
+              info.responseLogData!.statusMessage!.isNotEmpty)
             IconLabelText(
               icon: const Icon(
                 Icons.text_snippet_outlined,
                 size: iconSize,
               ),
               label: 'Response Status Message: ',
-              text: info.responseStatusMessage!,
+              text: info.responseLogData!.statusMessage!,
             ),
           //
           if (apiError != null) const SizedBox(height: 10),
@@ -140,7 +143,7 @@ class _DioResponseSection extends StatelessWidget {
               height: 400,
               child: _ResponseView(
                 padding: EdgeInsets.zero,
-                requestLogInfo: info,
+                apiLogData: info,
                 onFullScreenPressed: onFullScreenPressed,
                 fullView: fullView,
               ),

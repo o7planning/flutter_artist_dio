@@ -1,52 +1,42 @@
-part of '../../flutter_artist_dio.dart';
+part of '../../../flutter_artist_dio.dart';
 
 ApiResult<D> _handleDioResponse<D>({
   required ResponseDataMode responseDataMode,
   required Response response,
   required Converter? converter,
-  required int restRequestId,
-  bool showDebug = false,
 }) {
-  RequestLogInfo? info = restLogger.getRequestLogInfo(restRequestId);
+  final ApiLogData? apiLogData =
+      ApiLogUtils.getApiLogData(response.requestOptions);
   //
-  info?._setSuccessResponseInfo(
-    dataMode: responseDataMode,
-    dioRequestID: restRequestId,
-    responseData: response.data,
-    responseStatusCode: response.statusCode,
-    responseStatusMessage: response.statusMessage,
-  );
-  //
-  ApiResult<D> apiResult;
-  if (responseDataMode == ResponseDataMode.wrappedData) {
-    apiResult = __handleResponseAsWrappedData(
-      response: response,
-      converter: converter,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
-    );
+  switch (responseDataMode) {
+    case ResponseDataMode.wrappedData:
+      ApiResult<D> apiResult = __handleResponseAsWrappedData<D>(
+        response: response,
+        converter: converter,
+      );
+      //
+      if (apiResult.isError()) {
+        apiLogData?._setConversationError(apiResult.error);
+      }
+      return apiResult;
+    case ResponseDataMode.realData:
+      ApiResult<D> apiResult = __handleResponseAsDirectData<D>(
+        response: response,
+        converter: converter,
+      );
+      //
+      if (apiResult.isError()) {
+        apiLogData?._setConversationError(apiResult.error);
+      }
+      return apiResult;
   }
-  // ResponseDataMode.realData:
-  else {
-    apiResult = __handleResponseAsDirectData<D>(
-      response: response,
-      converter: converter,
-      restRequestId: restRequestId,
-      showDebug: showDebug,
-    );
-  }
-  //
-  if (apiResult.isError()) {
-    info?._setError(apiResult.error!);
-  }
-  return apiResult;
 }
+
+// *****************************************************************************
 
 ApiResult<D> __handleResponseAsDirectData<D>({
   required Response response,
   required Converter? converter,
-  required int restRequestId,
-  bool showDebug = false,
 }) {
   ApiResult<D> apiResult = ApiResult.fromDynamicData(
     statusCode: response.statusCode,
@@ -58,14 +48,10 @@ ApiResult<D> __handleResponseAsDirectData<D>({
 }
 
 // *****************************************************************************
-// *****
-// *****************************************************************************
 
 ApiResult<D> __handleResponseAsWrappedData<D>({
   required Response response,
   required Converter? converter,
-  required int restRequestId,
-  bool showDebug = false,
 }) {
   WrapApiResult? rawResult = WrapApiResult.fromDynamicData(
     statusCode: response.statusCode,
@@ -98,3 +84,5 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
     dataConverter: converter,
   );
 }
+
+// *****************************************************************************

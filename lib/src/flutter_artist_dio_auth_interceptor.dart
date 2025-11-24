@@ -1,8 +1,7 @@
-import 'package:dio/dio.dart';
-import 'package:flutter_artist_core/flutter_artist_core.dart';
+part of '../flutter_artist_dio.dart';
 
 // https://dev.to/7twilight/mastering-auth-in-flutter-with-dio-from-simple-access-tokens-to-a-refresh-flow-27cf
-class OneFutureAuthInterceptor extends Interceptor {
+class FlutterArtistDioAuthInterceptor extends Interceptor {
   final Dio dio;
 
   // A class that reads/writes tokens
@@ -11,7 +10,7 @@ class OneFutureAuthInterceptor extends Interceptor {
 
   Future<String?>? _refreshTokenFuture;
 
-  OneFutureAuthInterceptor({
+  FlutterArtistDioAuthInterceptor({
     required this.dio,
     required this.tokenStorage,
     required this.writeTokenToHeaders,
