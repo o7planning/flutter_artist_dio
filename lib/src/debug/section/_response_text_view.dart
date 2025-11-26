@@ -4,7 +4,7 @@ class _ResponseTextView extends StatefulWidget {
   final ApiLogData apiLogData;
 
   const _ResponseTextView({
-    super.key,
+    required super.key,
     required this.apiLogData,
   });
 

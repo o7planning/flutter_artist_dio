@@ -37,6 +37,7 @@ class _ResponseViewState extends State<_ResponseView> {
           Visibility(
             visible: !showTree,
             child: _ResponseTextView(
+              key: Key("ResponseTextView-${widget.apiLogData.apiLogId}"),
               apiLogData: widget.apiLogData,
             ),
           ),
