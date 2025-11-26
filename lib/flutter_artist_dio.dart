@@ -14,7 +14,7 @@ part 'src/core/_error_handler/__handle_dio_response.dart';
 part 'src/core/_error_handler/__handle_exception.dart';
 part 'src/core/_model/api_log_data.dart';
 part 'src/core/_model/api_logger.dart';
-part 'src/core/_model/error_log_data.dart';
+part 'src/core/_model/dio_error_log_data.dart';
 part 'src/core/_model/error_type.dart';
 part 'src/core/_model/request_log_data.dart';
 part 'src/core/_model/response_log_data.dart';

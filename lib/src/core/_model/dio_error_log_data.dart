@@ -1,6 +1,6 @@
 part of '../../../flutter_artist_dio.dart';
 
-class ErrorLogData {
+class DioErrorLogData {
   final int responseTime;
   late final int? statusCode;
   late final String? statusMessage;
@@ -9,7 +9,7 @@ class ErrorLogData {
 
   DetailedData? __detailedData;
 
-  ErrorLogData(DioException err, this.responseTime) {
+  DioErrorLogData(DioException err, this.responseTime) {
     statusCode = err.response?.statusCode;
     statusMessage = err.response?.statusMessage;
     apiErrorType = DioExceptionUtils.toApiErrorType(err.type);
@@ -29,5 +29,25 @@ class ErrorLogData {
   String? getResponseText() {
     __detailedData ??= DetailedData.fromData(data);
     return __detailedData!.text;
+  }
+
+  ApiError toApiError() {
+    return ApiError(
+      statusCode: statusCode,
+      statusMessage: statusMessage,
+      errorType: apiErrorType,
+      originErrorText: getResponseText(),
+      errorMessage: _getErrorMessage(),
+      errorDetails: _getErrorDetails(),
+      usedConverter: null,
+    );
+  }
+
+  String _getErrorMessage() {
+    return "TODO-1";
+  }
+
+  List<String>? _getErrorDetails() {
+    return ["TODO-2"];
   }
 }

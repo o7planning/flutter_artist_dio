@@ -10,12 +10,12 @@ class ApiLogData {
 
   ResponseLogData? get responseLogData => _responseLogData;
 
-  ErrorLogData? get errorLogData => _errorLogData;
+  DioErrorLogData? get dioErrorLogData => _dioErrorLogData;
 
   ApiError? get conversationError => _conversationError;
 
   ResponseLogData? _responseLogData;
-  ErrorLogData? _errorLogData;
+  DioErrorLogData? _dioErrorLogData;
 
   // Conversation error:
   ApiError? _conversationError;
@@ -27,14 +27,17 @@ class ApiLogData {
     );
   }
 
-  bool get isResponseError =>
-      _errorLogData != null || _conversationError != null;
+  ApiError? getApiError() {
+    return _dioErrorLogData?.toApiError() ?? conversationError;
+  }
+
+  bool get hasError => _dioErrorLogData != null || _conversationError != null;
 
   String? getResponseText() {
     if (_responseLogData != null) {
       return _responseLogData!.getResponseText();
-    } else if (_errorLogData != null) {
-      return _errorLogData!.getResponseText();
+    } else if (_dioErrorLogData != null) {
+      return _dioErrorLogData!.getResponseText();
     } else {
       return null;
     }
@@ -43,8 +46,8 @@ class ApiLogData {
   Object? getRealJsonObjOrArray() {
     if (_responseLogData != null) {
       return _responseLogData!.getRealJsonObjOrArray();
-    } else if (_errorLogData != null) {
-      return _errorLogData!.getRealJsonObjOrArray();
+    } else if (_dioErrorLogData != null) {
+      return _dioErrorLogData!.getRealJsonObjOrArray();
     } else {
       return null;
     }
@@ -52,15 +55,15 @@ class ApiLogData {
 
   bool hasNoResponseData() {
     // TODO: Xem lai.
-    return _responseLogData == null && _errorLogData == null;
+    return _responseLogData == null && _dioErrorLogData == null;
   }
 
   void _setResponseInfo(ResponseLogData responseInfo) {
     _responseLogData = responseInfo;
   }
 
-  void _setErrorInfo(ErrorLogData errorInfo) {
-    _errorLogData = errorInfo;
+  void _setErrorInfo(DioErrorLogData errorInfo) {
+    _dioErrorLogData = errorInfo;
   }
 
   // Error after response successful (For example: Conversation error).

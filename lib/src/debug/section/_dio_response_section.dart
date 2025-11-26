@@ -16,7 +16,7 @@ class _DioResponseSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ApiError? apiError = info.conversationError;
+    final ApiError? apiError = info.getApiError();
     final String? errorMessage = apiError?.errorMessage;
     final List<String>? errorDetails = apiError?.errorDetails;
     //
@@ -30,14 +30,10 @@ class _DioResponseSection extends StatelessWidget {
               info.responseLogData!.statusCode != null)
             IconLabelText(
               icon: Icon(
-                apiError != null //
-                    ? info.isResponseError
-                        ? _getErrorIconData(apiError)
-                        : Icons.check_box_rounded
-                    : Icons.check_box_rounded,
+                _getErrorIconData(apiError?.errorType),
                 size: iconSize,
                 color: apiError != null //
-                    ? info.isResponseError
+                    ? info.hasError
                         ? Colors.red
                         : Colors.blue
                     : Colors.blue,
@@ -66,7 +62,7 @@ class _DioResponseSection extends StatelessWidget {
           if (apiError != null)
             IconLabelText(
               icon: Icon(
-                _getErrorIconData(apiError),
+                _getErrorIconData(apiError.errorType),
                 color: Colors.red,
                 size: iconSize,
               ),
@@ -92,7 +88,7 @@ class _DioResponseSection extends StatelessWidget {
           if (apiError != null)
             IconLabelText(
               icon: Icon(
-                _getErrorIconData(apiError),
+                _getErrorIconData(apiError.errorType),
                 color: Colors.red,
                 size: iconSize,
               ),

@@ -10,10 +10,9 @@ void _closeAllSnackBars(BuildContext context) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
 }
 
-IconData _getErrorIconData(ApiError apiError) {
-  ApiErrorType? apiErrorType = apiError.errorType;
+IconData _getErrorIconData(ApiErrorType? apiErrorType) {
   if (apiErrorType == null) {
-    return Icons.warning_amber;
+    return Icons.check_box_rounded;
   }
   switch (apiErrorType) {
     case ApiErrorType.connectionTimeout:
@@ -23,11 +22,11 @@ IconData _getErrorIconData(ApiError apiError) {
     case ApiErrorType.badResponse:
     case ApiErrorType.cancel:
     case ApiErrorType.connectionError:
-      return Icons.error;
+      return Icons.warning;
     case ApiErrorType.unknown:
     case ApiErrorType.invalidJson:
     case ApiErrorType.notJson:
     case ApiErrorType.conversion:
-      return Icons.warning;
+      return Icons.warning_amber;
   }
 }

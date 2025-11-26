@@ -22,7 +22,7 @@ class FlutterArtistDioLoggerInterceptor extends Interceptor {
     }
     final ApiLogData? apiLogData =
         ApiLogUtils.getApiLogData(err.requestOptions);
-    final errorInfo = ErrorLogData(err, responseTime);
+    final errorInfo = DioErrorLogData(err, responseTime);
     apiLogData?._setErrorInfo(errorInfo);
     handler.next(err);
   }
