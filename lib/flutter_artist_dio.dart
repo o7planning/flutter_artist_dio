@@ -6,6 +6,7 @@ import 'package:flutter_artist_core/flutter_artist_core.dart';
 import 'package:flutter_artist_dio/src/core/_model/detailed_data.dart';
 import 'package:flutter_artist_dio/src/core/_utils/api_log_utils.dart';
 import 'package:flutter_artist_dio/src/core/_utils/dio_error_utils.dart';
+import 'package:fresh_dio/fresh_dio.dart';
 
 part 'src/core/_error_detector/__json_conversion_error_detector.dart';
 part 'src/core/_error_detector/__wrap_map.dart';
@@ -14,8 +15,7 @@ part 'src/core/_error_handler/__handle_dio_response.dart';
 part 'src/core/_error_handler/__handle_exception.dart';
 part 'src/core/_model/api_log_data.dart';
 part 'src/core/_model/api_logger.dart';
-part 'src/core/_model/dio_error_log_data.dart';
-part 'src/core/_model/error_type.dart';
+part 'src/core/_model/error_log_data.dart';
 part 'src/core/_model/request_log_data.dart';
 part 'src/core/_model/response_log_data.dart';
 part 'src/core/_rest_binary/_download.dart';
@@ -26,14 +26,17 @@ part 'src/core/_rest_json/_get.dart';
 part 'src/core/_rest_json/_options.dart';
 part 'src/core/_rest_json/_post.dart';
 part 'src/core/_rest_json/_put.dart';
-part 'src/flutter_artist_dio_auth_interceptor.dart';
 part 'src/flutter_artist_dio_logger_interceptor.dart';
 
 class FlutterArtistDio {
+  final ErrorInfoExtractor errorInfoExtractor;
   final Dio dio;
 
   // docs: 14751.
-  FlutterArtistDio({required this.dio});
+  FlutterArtistDio({
+    required this.dio,
+    this.errorInfoExtractor = const SimpleErrorInfoExtractor(),
+  });
 
   //
   // Origin DIO Function:
@@ -64,6 +67,7 @@ class FlutterArtistDio {
       path,
       responseDataMode: responseDataMode,
       converter: converter,
+      errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       //
       data: data,
@@ -105,6 +109,7 @@ class FlutterArtistDio {
       path,
       responseDataMode: responseDataMode,
       converter: converter,
+      errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       //
       data: data,
@@ -147,6 +152,7 @@ class FlutterArtistDio {
       path,
       responseDataMode: responseDataMode,
       converter: converter,
+      errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       //
       data: data,
@@ -185,6 +191,7 @@ class FlutterArtistDio {
       path,
       responseDataMode: responseDataMode,
       converter: converter,
+      errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       //
       data: data,
@@ -207,6 +214,7 @@ class FlutterArtistDio {
     return await _binaryGet(
       dio,
       path,
+      errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       //
       onReceiveProgress: onReceiveProgress,

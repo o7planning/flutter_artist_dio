@@ -69,7 +69,7 @@ class _RestDebugViewState extends State<RestDebugView> {
       child: Column(
         children: [
           if (info != null) //
-            _DioRequestInfoSection(info: info!, showToken: widget.showToken),
+            _DioRequestInfoSection(apiLogData: info!, showAuthorization: widget.showToken),
           if (info != null) const SizedBox(height: 10),
           if (info != null) //
             _DioResponseSection(

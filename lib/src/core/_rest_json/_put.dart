@@ -18,6 +18,7 @@ Future<ApiResult<D>> _jsonPut<D>(
   String path, {
   ResponseDataMode responseDataMode = ResponseDataMode.realData,
   required Converter<D>? converter,
+  required ErrorInfoExtractor errorInfoExtractor,
   bool showDebug = false,
   //
   Object? data,
@@ -43,7 +44,11 @@ Future<ApiResult<D>> _jsonPut<D>(
         response: response,
         converter: converter);
   } on DioException catch (e, stackTrace) {
-    return _handleDioException(e, stackTrace: stackTrace);
+    return _handleDioException(
+      e,
+      stackTrace: stackTrace,
+      errorInfoExtractor: errorInfoExtractor,
+    );
   } catch (e, stackTrace) {
     return _handleException(e, stackTrace: stackTrace);
   }

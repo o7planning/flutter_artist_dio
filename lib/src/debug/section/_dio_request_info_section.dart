@@ -1,13 +1,13 @@
 part of '../../../rest_debug_screen.dart';
 
 class _DioRequestInfoSection extends StatelessWidget {
-  final ApiLogData info;
-  final bool showToken;
+  final ApiLogData apiLogData;
+  final bool showAuthorization;
 
   const _DioRequestInfoSection({
     super.key,
-    required this.info,
-    required this.showToken,
+    required this.apiLogData,
+    required this.showAuthorization,
   });
 
   @override
@@ -24,7 +24,7 @@ class _DioRequestInfoSection extends StatelessWidget {
               size: iconSize,
             ),
             label: 'Base URL: ',
-            text: info.requestLogData.baseUrl,
+            text: apiLogData.requestLogData.baseUrl,
           ),
           const SizedBox(height: 10),
           IconLabelText(
@@ -33,7 +33,7 @@ class _DioRequestInfoSection extends StatelessWidget {
               size: iconSize,
             ),
             label: 'Path: ',
-            text: info.requestLogData.uri.path,
+            text: apiLogData.requestLogData.uri.path,
           ),
           const SizedBox(height: 10),
           IconLabelText(
@@ -42,22 +42,22 @@ class _DioRequestInfoSection extends StatelessWidget {
               size: iconSize,
             ),
             label: 'Method:',
-            text: info.requestLogData.method,
+            text: apiLogData.requestLogData.method,
           ),
-          if (info.token != null) const SizedBox(height: 10),
-          if (info.token != null)
+          if (apiLogData.authorization != null) const SizedBox(height: 10),
+          if (apiLogData.authorization != null)
             IconLabelText(
               icon: const Icon(
                 Icons.token,
                 size: iconSize,
               ),
-              label: 'Token: ',
-              text: showToken ? info.token! : '[Not Show]',
+              label: 'Authorization: ',
+              text: showAuthorization ? apiLogData.authorization! : '[Not Show]',
               suffixIcon: SimpleSmallIconButton(
                 iconData: Icons.copy,
-                onPressed: showToken
+                onPressed: showAuthorization
                     ? () {
-                        Clipboard.setData(ClipboardData(text: info.token!));
+                        Clipboard.setData(ClipboardData(text: apiLogData.authorization!));
                         _closeAllSnackBars(context);
                         _showSnackBar(
                           context,
@@ -67,49 +67,49 @@ class _DioRequestInfoSection extends StatelessWidget {
                     : null,
               ),
             ),
-          if (info.responseLogData != null &&
-              info.responseLogData!.responseHeaders.isNotEmpty)
+          if (apiLogData.responseLogData != null &&
+              apiLogData.responseLogData!.responseHeaders.isNotEmpty)
             const SizedBox(height: 10),
-          if (info.responseLogData != null &&
-              info.responseLogData!.responseHeaders.isNotEmpty)
+          if (apiLogData.responseLogData != null &&
+              apiLogData.responseLogData!.responseHeaders.isNotEmpty)
             const IconLabelText(
               icon: Icon(Icons.topic, size: iconSize),
               label: 'Headers:',
               text: '',
             ),
-          if (info.responseLogData != null &&
-              info.responseLogData!.responseHeaders.isNotEmpty)
+          if (apiLogData.responseLogData != null &&
+              apiLogData.responseLogData!.responseHeaders.isNotEmpty)
             const SizedBox(height: 10),
-          if (info.responseLogData != null &&
-              info.responseLogData!.responseHeaders.isNotEmpty)
-            _MapKeyValueView(map: info.responseLogData!.responseHeaders),
+          if (apiLogData.responseLogData != null &&
+              apiLogData.responseLogData!.responseHeaders.isNotEmpty)
+            _MapKeyValueView(map: apiLogData.responseLogData!.responseHeaders),
           //
-          if (info.requestLogData.queryParameters.isNotEmpty)
+          if (apiLogData.requestLogData.queryParameters.isNotEmpty)
             const SizedBox(height: 10),
-          if (info.requestLogData.queryParameters.isNotEmpty)
+          if (apiLogData.requestLogData.queryParameters.isNotEmpty)
             const IconLabelText(
               icon: Icon(Icons.color_lens_outlined, size: iconSize),
               label: 'Query Parameters:',
               text: '',
             ),
-          if (info.requestLogData.queryParameters.isNotEmpty)
+          if (apiLogData.requestLogData.queryParameters.isNotEmpty)
             const SizedBox(height: 10),
-          if (info.requestLogData.queryParameters.isNotEmpty)
-            _MapKeyValueView(map: info.requestLogData.queryParameters),
+          if (apiLogData.requestLogData.queryParameters.isNotEmpty)
+            _MapKeyValueView(map: apiLogData.requestLogData.queryParameters),
           //
           //
-          if (info.requestLogData.mapData.isNotEmpty)
+          if (apiLogData.requestLogData.mapData.isNotEmpty)
             const SizedBox(height: 10),
-          if (info.requestLogData.mapData.isNotEmpty)
+          if (apiLogData.requestLogData.mapData.isNotEmpty)
             const IconLabelText(
               icon: Icon(Icons.topic, size: iconSize),
               label: 'Data:',
               text: '',
             ),
-          if (info.requestLogData.mapData.isNotEmpty)
+          if (apiLogData.requestLogData.mapData.isNotEmpty)
             const SizedBox(height: 10),
-          if (info.requestLogData.mapData.isNotEmpty)
-            _MapKeyValueView(map: info.requestLogData.mapData),
+          if (apiLogData.requestLogData.mapData.isNotEmpty)
+            _MapKeyValueView(map: apiLogData.requestLogData.mapData),
         ],
       ),
     );

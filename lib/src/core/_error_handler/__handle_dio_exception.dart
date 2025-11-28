@@ -39,19 +39,18 @@ part of '../../../flutter_artist_dio.dart';
 ApiResult<D> _handleDioException<D>(
   DioException error, {
   required StackTrace? stackTrace,
+  required ErrorInfoExtractor errorInfoExtractor,
 }) {
   print(stackTrace);
   //
-  final ApiErrorType apiErrorType =
-      DioExceptionUtils.toApiErrorType(error.type);
+  final ApiErrorType apiErrorType = DioErrorUtils.toApiErrorType(error.type);
 
   final ApiError apiError;
   if (error.response != null) {
-    apiError = ApiError.fromResponseErrorData(
-      errorType: apiErrorType,
-      statusCode: error.response!.statusCode,
-      statusMessage: error.response!.statusMessage,
-      responseErrorData: error.response!.data,
+    apiError = DioErrorUtils.parseErrorResponse(
+      errorResponse: error.response!,
+      apiErrorType: apiErrorType,
+      errorInfoExtractor: errorInfoExtractor,
     );
   } else {
     apiError = ApiError(
@@ -64,6 +63,9 @@ ApiResult<D> _handleDioException<D>(
       originErrorText: null,
     );
   }
+  //
+  ApiLogData? apiLogData = ApiLogUtils.getApiLogData(error.requestOptions);
+  apiLogData?._setApiError(apiError);
   //
   ApiResult<D> apiResult = ApiResult<D>.fromError(apiError);
   return apiResult;

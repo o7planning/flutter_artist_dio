@@ -15,6 +15,7 @@ part of '../../../flutter_artist_dio.dart';
 Future<ApiResult<List<int>?>> _binaryGet(
   Dio dio,
   String path, {
+  required ErrorInfoExtractor errorInfoExtractor,
   bool showDebug = false,
   //
   ProgressCallback? onReceiveProgress,
@@ -35,7 +36,11 @@ Future<ApiResult<List<int>?>> _binaryGet(
     );
     return ApiResult.success(data: response.data);
   } on DioException catch (e, stackTrace) {
-    return _handleDioException(e, stackTrace: stackTrace);
+    return _handleDioException(
+      e,
+      stackTrace: stackTrace,
+      errorInfoExtractor: errorInfoExtractor,
+    );
   } catch (e, stackTrace) {
     return _handleException(e, stackTrace: stackTrace);
   }

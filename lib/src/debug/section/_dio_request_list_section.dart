@@ -44,7 +44,7 @@ class _DioRequestListSection extends StatelessWidget {
   }
 
   Widget _buildItemWidget(ApiLogData info) {
-    final DioErrorLogData? dioErrorData = info.dioErrorLogData;
+    final ErrorLogData? dioErrorData = info.errorLogData;
     ApiError? conversationError = info.conversationError;
 
     final ApiErrorType? apiErrorType =

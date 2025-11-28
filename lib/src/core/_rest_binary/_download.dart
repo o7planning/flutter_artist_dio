@@ -20,6 +20,7 @@ Future<ApiResult<void>> _webDownload(
   Dio dio,
   String path,
   dynamic savePath, {
+  required ErrorInfoExtractor errorInfoExtractor,
   bool showDebug = false,
   //
   ProgressCallback? onReceiveProgress,
@@ -51,7 +52,11 @@ Future<ApiResult<void>> _webDownload(
       converter: null,
     );
   } on DioException catch (e, stackTrace) {
-    return _handleDioException(e, stackTrace: stackTrace);
+    return _handleDioException(
+      e,
+      stackTrace: stackTrace,
+      errorInfoExtractor: errorInfoExtractor,
+    );
   } catch (e, stackTrace) {
     return _handleException(e, stackTrace: stackTrace);
   }

@@ -16,9 +16,15 @@ class _DioResponseSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Dio Error or Conversion Error.
     final ApiError? apiError = info.getApiError();
     final String? errorMessage = apiError?.errorMessage;
     final List<String>? errorDetails = apiError?.errorDetails;
+    //
+    final int? statusCode =
+        info.responseLogData?.statusCode ?? info.errorLogData?.statusCode;
+    final String? statusMessage =
+        info.responseLogData?.statusMessage ?? info.errorLogData?.statusMessage;
     //
     const double iconSize = 18;
     return _CustomAppContainer(
@@ -26,8 +32,16 @@ class _DioResponseSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (info.responseLogData != null &&
-              info.responseLogData!.statusCode != null)
+          IconLabelText(
+            icon: Icon(
+              Icons.access_time_outlined,
+              size: iconSize,
+            ),
+            label: 'Response Time: ',
+            text: info.getResponseTimeAsString(),
+          ),
+          if (statusCode != null) const SizedBox(height: 10),
+          if (statusCode != null)
             IconLabelText(
               icon: Icon(
                 _getErrorIconData(apiError?.errorType),
@@ -38,24 +52,20 @@ class _DioResponseSection extends StatelessWidget {
                         : Colors.blue
                     : Colors.blue,
               ),
-              label: 'Response Status Code: ',
-              text: info.responseLogData!.statusCode.toString(),
+              label: 'Response Status: ',
+              text: statusCode.toString(),
             ),
           //
-          if (info.responseLogData != null &&
-              info.responseLogData!.statusMessage != null &&
-              info.responseLogData!.statusMessage!.isNotEmpty)
+          if (statusMessage != null && statusMessage.isNotEmpty)
             const SizedBox(height: 10),
-          if (info.responseLogData != null &&
-              info.responseLogData!.statusMessage != null &&
-              info.responseLogData!.statusMessage!.isNotEmpty)
+          if (statusMessage != null && statusMessage.isNotEmpty)
             IconLabelText(
               icon: const Icon(
                 Icons.text_snippet_outlined,
                 size: iconSize,
               ),
               label: 'Response Status Message: ',
-              text: info.responseLogData!.statusMessage!,
+              text: statusMessage,
             ),
           //
           if (apiError != null) const SizedBox(height: 10),
