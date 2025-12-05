@@ -72,7 +72,7 @@ class _JsonTreeView extends StatelessWidget {
               package: 'flutter_artist_dio',
             );
           }
-          value = " : $nodeData";
+          value =  nodeData.toString();
         }
         //
         return ListTile(
@@ -168,7 +168,7 @@ class _JsonTreeView extends StatelessWidget {
   }) {
     return IconLabelText(
       icon: icon,
-      label: label,
+      label: "$label: ",
       text: text ?? '',
       style: TextStyle(
         overflow: TextOverflow.ellipsis,
@@ -177,7 +177,7 @@ class _JsonTreeView extends StatelessWidget {
       suffixIcon: isHovering && text != null //
           ? SimpleSmallIconButton(
               iconData: Icons.copy,
-              iconSize: 14,
+              iconSize: 13,
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: text));
                 _closeAllSnackBars(context);
