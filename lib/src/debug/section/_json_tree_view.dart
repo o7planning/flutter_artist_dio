@@ -72,7 +72,7 @@ class _JsonTreeView extends StatelessWidget {
               package: 'flutter_artist_dio',
             );
           }
-          value =  nodeData.toString();
+          value = nodeData.toString();
         }
         //
         return ListTile(
