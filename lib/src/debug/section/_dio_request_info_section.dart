@@ -52,12 +52,14 @@ class _DioRequestInfoSection extends StatelessWidget {
                 size: iconSize,
               ),
               label: 'Authorization: ',
-              text: showAuthorization ? apiLogData.authorization! : '[Not Show]',
+              text:
+                  showAuthorization ? apiLogData.authorization! : '[Not Show]',
               suffixIcon: SimpleSmallIconButton(
                 iconData: Icons.copy,
                 onPressed: showAuthorization
                     ? () {
-                        Clipboard.setData(ClipboardData(text: apiLogData.authorization!));
+                        Clipboard.setData(
+                            ClipboardData(text: apiLogData.authorization!));
                         _closeAllSnackBars(context);
                         _showSnackBar(
                           context,

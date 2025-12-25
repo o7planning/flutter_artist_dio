@@ -39,6 +39,8 @@ class _RestDebugViewState extends State<RestDebugView> {
         if (info != null)
           _DioPathSection(
             info: info!,
+            fullView: fullView,
+            onFullScreenPressed: _onFullScreenPressed,
           ),
         const Divider(height: 6),
         if (fullView && info != null)
@@ -69,7 +71,8 @@ class _RestDebugViewState extends State<RestDebugView> {
       child: Column(
         children: [
           if (info != null) //
-            _DioRequestInfoSection(apiLogData: info!, showAuthorization: widget.showToken),
+            _DioRequestInfoSection(
+                apiLogData: info!, showAuthorization: widget.showToken),
           if (info != null) const SizedBox(height: 10),
           if (info != null) //
             _DioResponseSection(

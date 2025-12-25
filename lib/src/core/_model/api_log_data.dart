@@ -6,6 +6,7 @@ class ApiLogData {
   late final int apiLogId;
 
   String? _authorization;
+
   String? get authorization => _authorization;
 
   ResponseLogData? _responseLogData;

@@ -6,7 +6,6 @@ import 'package:flutter_artist_core/flutter_artist_core.dart';
 import 'package:flutter_artist_dio/src/core/_model/detailed_data.dart';
 import 'package:flutter_artist_dio/src/core/_utils/api_log_utils.dart';
 import 'package:flutter_artist_dio/src/core/_utils/dio_error_utils.dart';
-import 'package:fresh_dio/fresh_dio.dart';
 
 part 'src/core/_error_detector/__json_conversion_error_detector.dart';
 part 'src/core/_error_detector/__wrap_map.dart';
