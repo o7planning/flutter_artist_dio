@@ -21,7 +21,7 @@ class _DioPathSection extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: IconLabelText(
+            child: IconLabelSelectableText(
               icon: const Icon(
                 Icons.tonality_outlined,
                 size: iconSize,

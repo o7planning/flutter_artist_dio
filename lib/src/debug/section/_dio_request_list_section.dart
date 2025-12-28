@@ -3,6 +3,11 @@ part of '../../../rest_debug_screen.dart';
 class _DioRequestListSection extends StatelessWidget {
   final void Function(int requestId) onSelectRequestId;
 
+  final double _fontSize = 13;
+  final double _iconSize = 16;
+  final double _verticalPadding = 10;
+  final double _horizontalPadding = 6;
+
   const _DioRequestListSection({
     required this.onSelectRequestId,
     super.key,
@@ -15,24 +20,31 @@ class _DioRequestListSection extends StatelessWidget {
     return _CustomAppContainer.transparent(
       padding: const EdgeInsets.all(5),
       width: double.infinity,
-      child: infos.isEmpty
-          ? SizedBox()
-          : BreadCrumb(
-              divider: const SizedBox(width: 5),
-              overflow: ScrollableOverflow(
-                keepLastDivider: false,
-                reverse: false,
-                direction: Axis.horizontal,
-              ),
-              items: infos
-                  .map(
-                    (e) => BreadCrumbItem(
-                      padding: EdgeInsets.all(2),
-                      content: _buildItemWidget(e),
+      child: Row(
+        children: [
+          Expanded(
+            child: infos.isEmpty
+                ? SizedBox()
+                : BreadCrumb(
+                    divider: const SizedBox(width: 5),
+                    overflow: ScrollableOverflow(
+                      keepLastDivider: false,
+                      reverse: false,
+                      direction: Axis.horizontal,
                     ),
-                  )
-                  .toList(),
-            ),
+                    items: infos
+                        .map(
+                          (e) => BreadCrumbItem(
+                            padding: EdgeInsets.all(2),
+                            content: _buildItemWidget(e),
+                          ),
+                        )
+                        .toList(),
+                  ),
+          ),
+          Text("?")
+        ],
+      ),
     );
   }
 
@@ -60,7 +72,10 @@ class _DioRequestListSection extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+          padding: EdgeInsets.symmetric(
+            vertical: _verticalPadding,
+            horizontal: _horizontalPadding,
+          ),
           backgroundColor: info.apiLogId == apiLogger.selectedDioRequestID
               ? Colors.blue.withAlpha(60)
               : null,
@@ -68,9 +83,14 @@ class _DioRequestListSection extends StatelessWidget {
         icon: Icon(
           apiErrorType != null ? _getErrorIconData(apiErrorType) : Icons.check,
           color: apiErrorType != null ? Colors.redAccent : Colors.blue,
-          size: 18,
+          size: _iconSize,
         ),
-        label: Text("${info.apiLogId}"),
+        label: Text(
+          "${info.apiLogId}",
+          style: TextStyle(
+            fontSize: _fontSize,
+          ),
+        ),
       ),
     );
   }

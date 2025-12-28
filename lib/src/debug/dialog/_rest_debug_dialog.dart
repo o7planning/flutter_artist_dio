@@ -6,11 +6,13 @@ part of '../../../rest_debug_screen.dart';
 class _RestDebugDialog extends StatelessWidget {
   final bool showJson;
   final bool showToken;
+  final Function()? onHelpPressed;
 
   const _RestDebugDialog({
     super.key,
     required this.showJson,
     required this.showToken,
+    required this.onHelpPressed,
   });
 
   @override
@@ -52,6 +54,7 @@ Future<void> showRestDebugDialog(
   BuildContext context, {
   required bool showJson,
   required bool showToken,
+  Function()? onHelpPressed,
 }) async {
   await showDialog(
     context: context,
@@ -59,6 +62,7 @@ Future<void> showRestDebugDialog(
       return _RestDebugDialog(
         showJson: showJson,
         showToken: showToken,
+        onHelpPressed: onHelpPressed,
       );
     },
   );
