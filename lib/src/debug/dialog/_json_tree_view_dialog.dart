@@ -85,8 +85,14 @@ class __RestJsonTreeViewDialogState extends State<_RestJsonTreeViewDialog> {
           initialValue: showTree,
           activeColor: Colors.indigo,
           inactiveColor: Colors.grey,
-          activeChild: const Text('JSON Tree View'),
-          inactiveChild: const Text('Response Text'),
+          activeChild: const Text(
+            'JSON Tree View',
+            style: TextStyle(fontSize: 12),
+          ),
+          inactiveChild: const Text(
+            'Response Text',
+            style: TextStyle(fontSize: 12),
+          ),
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           width: 130.0,
           height: 20.0,

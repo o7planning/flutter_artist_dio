@@ -67,10 +67,14 @@ class _ResponseViewState extends State<_ResponseView> {
           initialValue: showTree,
           activeColor: Colors.indigo,
           inactiveColor: Colors.grey,
-          activeChild:
-              const Text('JSON Tree View', style: TextStyle(fontSize: 13)),
-          inactiveChild:
-              const Text('Response Text', style: TextStyle(fontSize: 13)),
+          activeChild: const Text(
+            'JSON Tree View',
+            style: TextStyle(fontSize: 12),
+          ),
+          inactiveChild: const Text(
+            'Response Text',
+            style: TextStyle(fontSize: 12),
+          ),
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           width: 130.0,
           height: 18.0,
