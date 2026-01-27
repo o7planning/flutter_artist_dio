@@ -49,7 +49,7 @@ class _ResponseViewState extends State<_ResponseView> {
           ),
           Positioned(
             top: 5,
-            right: 5,
+            right: 0,
             child: _buildControlBar(),
           ),
         ],
