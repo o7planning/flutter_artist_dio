@@ -19,13 +19,14 @@ class RestDebugView extends StatefulWidget {
 }
 
 class _RestDebugViewState extends State<RestDebugView> {
-  ApiLogData? info;
+  ApiLogData? apiLogData;
   bool fullView = false;
+  int selectedTabIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    info = apiLogger.getSelectedApiLogData();
+    apiLogData = apiLogger.getSelectedApiLogData();
   }
 
   @override
@@ -35,60 +36,108 @@ class _RestDebugViewState extends State<RestDebugView> {
         _DioRequestListSection(
           onSelectRequestId: _onSelectRequestId,
         ),
-        if (info != null) const Divider(height: 6),
-        if (info != null)
+        if (apiLogData != null) const Divider(height: 6),
+        if (apiLogData != null)
           _DioPathSection(
-            info: info!,
-            fullView: fullView,
+            info: apiLogData!,
             onFullScreenPressed: _onFullScreenPressed,
           ),
-        const Divider(height: 6),
-        if (fullView && info != null)
+        SizedBox(height: 5),
+        if (!fullView && apiLogData != null)
+          Expanded(
+            child: _buildMain(context),
+          ),
+        if (fullView && apiLogData != null) Divider(height: 6),
+        if (fullView && apiLogData != null)
           Expanded(
             child: _ResponseView(
-              apiLogData: info!,
+              apiLogData: apiLogData!,
               onFullScreenPressed: _onFullScreenPressed,
               fullView: fullView,
             ),
-          ),
-        if ((!fullView || info == null) && widget.showInScrollView)
-          Expanded(
-            child: SingleChildScrollView(
-              child: _buildMain(context),
-            ),
-          ),
-        if ((!fullView || info == null) && !widget.showInScrollView)
-          SingleChildScrollView(
-            child: _buildMain(context),
           ),
       ],
     );
   }
 
   Widget _buildMain(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          if (info != null) //
-            _DioRequestInfoSection(
-                apiLogData: info!, showAuthorization: widget.showToken),
-          if (info != null) const SizedBox(height: 10),
-          if (info != null) //
-            _DioResponseSection(
-              info: info!,
-              showJson: widget.showJson,
-              onFullScreenPressed: _onFullScreenPressed,
-              fullView: fullView,
-            ),
-        ],
-      ),
+    List<TabData> tabs = [];
+
+    if (apiLogData != null) {
+      tabs.add(
+        TabData(
+          text: ' Request',
+          closable: false,
+          leading: (context, status) => Icon(
+            Icons.request_page,
+            color: Colors.black,
+            size: 16,
+          ),
+          content: _DioRequestInfoSection(
+            apiLogData: apiLogData!,
+            showAuthorization: widget.showToken,
+          ),
+        ),
+      );
+    }
+    if (apiLogData != null) {
+      tabs.add(
+        TabData(
+          text: ' Response Headers',
+          closable: false,
+          leading: (context, status) => Icon(
+            Icons.list_alt,
+            color: apiLogData!.hasError ? Colors.red : Colors.black,
+            size: 16,
+          ),
+          content: _DioResponseSection(
+            apiLogData: apiLogData!,
+            showJson: widget.showJson,
+            onFullScreenPressed: _onFullScreenPressed,
+            fullView: fullView,
+          ),
+        ),
+      );
+    }
+    if (apiLogData != null) {
+      tabs.add(
+        TabData(
+          text: ' Response Body',
+          closable: false,
+          leading: (context, status) => Icon(
+            Icons.comment,
+            color: Colors.black,
+            size: 16,
+          ),
+          content: _ResponseView(
+            apiLogData: apiLogData!,
+            onFullScreenPressed: _onFullScreenPressed,
+            fullView: fullView,
+          ),
+        ),
+      );
+    }
+    //
+    TabbedViewController _controller = TabbedViewController(tabs);
+    _controller.selectedIndex = selectedTabIndex;
+    _controller.onTabSelection = ((int? idx, __) {
+      selectedTabIndex = idx ?? 0;
+    });
+    TabbedView tabbedView = TabbedView(controller: _controller);
+
+    TabbedViewThemeData themeData = TabThemeUtils.getTabbedViewThemeData();
+
+    TabbedViewTheme tabbedViewTheme = TabbedViewTheme(
+      data: themeData,
+      child: tabbedView,
     );
+    //
+    return tabbedViewTheme;
   }
 
   void _onSelectRequestId(int requestId) {
     apiLogger.setSelectedDioRequestID(requestId);
-    info = apiLogger.getSelectedApiLogData();
+    apiLogData = apiLogger.getSelectedApiLogData();
     setState(() {});
   }
 

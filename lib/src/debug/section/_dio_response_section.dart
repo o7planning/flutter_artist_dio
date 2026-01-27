@@ -1,14 +1,14 @@
 part of '../../../rest_debug_screen.dart';
 
 class _DioResponseSection extends StatelessWidget {
-  final ApiLogData info;
+  final ApiLogData apiLogData;
   final bool showJson;
   final Function() onFullScreenPressed;
   final bool fullView;
 
   const _DioResponseSection({
     super.key,
-    required this.info,
+    required this.apiLogData,
     required this.showJson,
     required this.onFullScreenPressed,
     required this.fullView,
@@ -17,144 +17,143 @@ class _DioResponseSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Dio Error or Conversion Error.
-    final ApiError? apiError = info.getApiError();
+    final ApiError? apiError = apiLogData.getApiError();
     final String? errorMessage = apiError?.errorMessage;
     final List<String>? errorDetails = apiError?.errorDetails;
     //
-    final int? statusCode =
-        info.responseLogData?.statusCode ?? info.errorLogData?.statusCode;
-    final String? statusMessage =
-        info.responseLogData?.statusMessage ?? info.errorLogData?.statusMessage;
+    final int? statusCode = apiLogData.responseLogData?.statusCode ??
+        apiLogData.errorLogData?.statusCode;
+    final String? statusMessage = apiLogData.responseLogData?.statusMessage ??
+        apiLogData.errorLogData?.statusMessage;
     //
     const double iconSize = 18;
     return _CustomAppContainer(
       width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          IconLabelText(
-            icon: Icon(
-              Icons.access_time_outlined,
-              size: iconSize,
-            ),
-            label: 'Response Time: ',
-            text: info.getResponseTimeAsString(),
-          ),
-          if (statusCode != null) const SizedBox(height: 10),
-          if (statusCode != null)
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             IconLabelText(
               icon: Icon(
-                _getErrorIconData(apiError?.errorType),
+                Icons.access_time_outlined,
                 size: iconSize,
-                color: apiError != null //
-                    ? info.hasError
-                        ? Colors.red
-                        : Colors.blue
-                    : Colors.blue,
               ),
-              label: 'Response Status: ',
-              text: statusCode.toString(),
+              label: 'Response Time: ',
+              text: apiLogData.getResponseTimeAsString(),
             ),
-          //
-          if (statusMessage != null && statusMessage.isNotEmpty)
-            const SizedBox(height: 10),
-          if (statusMessage != null && statusMessage.isNotEmpty)
-            IconLabelText(
-              icon: const Icon(
-                Icons.text_snippet_outlined,
-                size: iconSize,
+            if (statusCode != null) const SizedBox(height: 10),
+            if (statusCode != null)
+              IconLabelText(
+                icon: Icon(
+                  _getErrorIconData(apiError?.errorType),
+                  size: iconSize,
+                  color: apiError != null //
+                      ? apiLogData.hasError
+                          ? Colors.red
+                          : Colors.blue
+                      : Colors.blue,
+                ),
+                label: 'Response Status: ',
+                text: statusCode.toString(),
               ),
-              label: 'Response Status Message: ',
-              text: statusMessage,
-            ),
-          //
-          if (apiError != null) const SizedBox(height: 10),
-          if (apiError != null)
-            IconLabelText(
-              icon: Icon(
-                _getErrorIconData(apiError.errorType),
-                color: Colors.red,
-                size: iconSize,
+            //
+            if (statusMessage != null && statusMessage.isNotEmpty)
+              const SizedBox(height: 10),
+            if (statusMessage != null && statusMessage.isNotEmpty)
+              IconLabelText(
+                icon: const Icon(
+                  Icons.text_snippet_outlined,
+                  size: iconSize,
+                ),
+                label: 'Response Status Message: ',
+                text: statusMessage,
               ),
-              label: 'Error Type: ',
-              text: apiError.errorType?.description ?? ' - ',
-              suffixIcon: apiError.errorType != ApiErrorType.conversion
-                  ? null
-                  : Tooltip(
-                      message: "Remove a part of JSON to find errors easier.",
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          minimumSize: Size.zero,
-                          padding: EdgeInsets.zero,
+            //
+            if (apiError != null) const SizedBox(height: 10),
+            if (apiError != null)
+              IconLabelText(
+                icon: Icon(
+                  _getErrorIconData(apiError.errorType),
+                  color: Colors.red,
+                  size: iconSize,
+                ),
+                label: 'Error Type: ',
+                text: apiError.errorType?.description ?? ' - ',
+                suffixIcon: apiError.errorType != ApiErrorType.conversion
+                    ? null
+                    : Tooltip(
+                        message: "Remove a part of JSON to find errors easier.",
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            minimumSize: Size.zero,
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            _errorDetector(context, apiError);
+                          },
+                          child: Icon(Icons.bug_report),
                         ),
-                        onPressed: () {
-                          _errorDetector(context, apiError);
-                        },
-                        child: Icon(Icons.bug_report),
                       ),
-                    ),
-            ),
-          if (apiError != null) const SizedBox(height: 10),
-          if (apiError != null)
-            IconLabelText(
-              icon: Icon(
-                _getErrorIconData(apiError.errorType),
-                color: Colors.red,
-                size: iconSize,
               ),
-              label: 'Error Message: ',
-              text: apiError.errorMessage,
-              suffixIcon: TextButton(
-                onPressed: () {
-                  _copyText(context, apiError.errorMessage);
-                },
-                style: TextButton.styleFrom(
-                  minimumSize: Size.zero,
-                  padding: EdgeInsets.zero,
+            if (apiError != null) const SizedBox(height: 10),
+            if (apiError != null)
+              IconLabelText(
+                icon: Icon(
+                  _getErrorIconData(apiError.errorType),
+                  color: Colors.red,
+                  size: iconSize,
                 ),
-                child: Icon(
-                  Icons.copy,
-                  size: 14,
-                ),
-              ),
-            ),
-          if (apiError != null &&
-              errorDetails != null &&
-              errorDetails.isNotEmpty)
-            ...errorDetails.map(
-              (detail) => Padding(
-                padding: EdgeInsets.fromLTRB(20, 5, 2, 5),
-                child: IconLabelText(
-                  icon: Icon(
-                    Icons.arrow_right_alt,
-                    size: 16,
+                label: 'Error Message: ',
+                text: apiError.errorMessage,
+                suffixIcon: TextButton(
+                  onPressed: () {
+                    _copyText(context, apiError.errorMessage);
+                  },
+                  style: TextButton.styleFrom(
+                    minimumSize: Size.zero,
+                    padding: EdgeInsets.zero,
                   ),
-                  text: detail,
-                  textStyle: TextStyle(fontSize: 13, color: Colors.black87),
+                  child: Icon(
+                    Icons.copy,
+                    size: 14,
+                  ),
                 ),
               ),
-            ),
-          const SizedBox(height: 10),
-          IconLabelText(
-            icon: Icon(
-              Icons.dataset_outlined,
-              size: iconSize,
-            ),
-            label: 'Response Data:',
-            text: '',
-          ),
-          if (showJson) const SizedBox(height: 10),
-          if (showJson)
-            _CustomAppContainer(
-              height: 400,
-              child: _ResponseView(
-                padding: EdgeInsets.zero,
-                apiLogData: info,
-                onFullScreenPressed: onFullScreenPressed,
-                fullView: fullView,
+            if (apiError != null &&
+                errorDetails != null &&
+                errorDetails.isNotEmpty)
+              ...errorDetails.map(
+                (detail) => Padding(
+                  padding: EdgeInsets.fromLTRB(20, 5, 2, 5),
+                  child: IconLabelText(
+                    icon: Icon(
+                      Icons.arrow_right_alt,
+                      size: 16,
+                    ),
+                    text: detail,
+                    textStyle: TextStyle(fontSize: 13, color: Colors.black87),
+                  ),
+                ),
               ),
-            ),
-        ],
+            if (apiLogData.responseLogData != null &&
+                apiLogData.responseLogData!.responseHeaders.isNotEmpty)
+              const SizedBox(height: 10),
+            if (apiLogData.responseLogData != null &&
+                apiLogData.responseLogData!.responseHeaders.isNotEmpty)
+              const IconLabelText(
+                icon: Icon(Icons.topic, size: iconSize),
+                label: 'Headers: ',
+                text: '',
+              ),
+            if (apiLogData.responseLogData != null &&
+                apiLogData.responseLogData!.responseHeaders.isNotEmpty)
+              const SizedBox(height: 10),
+            if (apiLogData.responseLogData != null &&
+                apiLogData.responseLogData!.responseHeaders.isNotEmpty)
+              _MapKeyValueView(
+                  map: apiLogData.responseLogData!.responseHeaders),
+          ],
+        ),
       ),
     );
   }
@@ -174,7 +173,8 @@ class _DioResponseSection extends StatelessWidget {
       print(">> No Converter");
       return;
     }
-    Object realJsonOBJ = info.getRealJsonObjOrArray() ?? <String, dynamic>{};
+    Object realJsonOBJ =
+        apiLogData.getRealJsonObjOrArray() ?? <String, dynamic>{};
     if (realJsonOBJ == null) {
       print(">> realJsonOBJ is null");
       return;

@@ -67,11 +67,13 @@ class _ResponseViewState extends State<_ResponseView> {
           initialValue: showTree,
           activeColor: Colors.indigo,
           inactiveColor: Colors.grey,
-          activeChild: const Text('JSON Tree View'),
-          inactiveChild: const Text('Response Text'),
+          activeChild:
+              const Text('JSON Tree View', style: TextStyle(fontSize: 13)),
+          inactiveChild:
+              const Text('Response Text', style: TextStyle(fontSize: 13)),
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           width: 130.0,
-          height: 20.0,
+          height: 18.0,
           enabled: true,
           onChanged: (dynamic checked) {
             showTree = !showTree;
@@ -87,7 +89,7 @@ class _ResponseViewState extends State<_ResponseView> {
           ),
           child: Icon(
             Icons.copy,
-            size: 18,
+            size: 16,
           ),
         ),
         if (widget.onFullScreenPressed != null) SizedBox(width: 10),
@@ -100,7 +102,7 @@ class _ResponseViewState extends State<_ResponseView> {
             ),
             child: Icon(
               widget.fullView ? Icons.fullscreen_exit : Icons.fullscreen,
-              size: 24,
+              size: 22,
             ),
           ),
       ],

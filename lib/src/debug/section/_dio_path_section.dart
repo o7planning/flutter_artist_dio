@@ -1,14 +1,12 @@
 part of '../../../rest_debug_screen.dart';
 
 class _DioPathSection extends StatelessWidget {
-  final bool fullView;
   final ApiLogData info;
   final Function() onFullScreenPressed;
 
   const _DioPathSection({
     super.key,
     required this.info,
-    required this.fullView,
     required this.onFullScreenPressed,
   });
 
@@ -46,19 +44,7 @@ class _DioPathSection extends StatelessWidget {
                 "Copied",
               );
             },
-            child: Icon(Icons.copy, size: 18),
-          ),
-          SizedBox(width: 10),
-          TextButton(
-            style: TextButton.styleFrom(
-              minimumSize: Size.zero,
-              padding: EdgeInsets.zero,
-            ),
-            onPressed: onFullScreenPressed,
-            child: Icon(
-              fullView ? Icons.fullscreen_exit : Icons.fullscreen,
-              size: 24,
-            ),
+            child: Icon(Icons.copy, size: 16),
           ),
           SizedBox(width: 5),
         ],

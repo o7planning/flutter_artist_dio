@@ -20,30 +20,21 @@ class _DioRequestListSection extends StatelessWidget {
     return _CustomAppContainer.transparent(
       padding: const EdgeInsets.all(5),
       width: double.infinity,
-      child: Row(
-        children: [
-          Expanded(
-            child: infos.isEmpty
-                ? SizedBox()
-                : BreadCrumb(
-                    divider: const SizedBox(width: 5),
-                    overflow: ScrollableOverflow(
-                      keepLastDivider: false,
-                      reverse: false,
-                      direction: Axis.horizontal,
-                    ),
-                    items: infos
-                        .map(
-                          (e) => BreadCrumbItem(
-                            padding: EdgeInsets.all(2),
-                            content: _buildItemWidget(e),
-                          ),
-                        )
-                        .toList(),
-                  ),
-          ),
-          Text("?")
-        ],
+      child: BreadCrumb(
+        divider: const SizedBox(width: 5),
+        overflow: ScrollableOverflow(
+          keepLastDivider: false,
+          reverse: false,
+          direction: Axis.horizontal,
+        ),
+        items: infos
+            .map(
+              (e) => BreadCrumbItem(
+                padding: EdgeInsets.all(2),
+                content: _buildItemWidget(e),
+              ),
+            )
+            .toList(),
       ),
     );
   }
