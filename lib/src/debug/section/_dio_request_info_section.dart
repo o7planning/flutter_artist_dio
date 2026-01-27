@@ -12,52 +12,60 @@ class _DioRequestInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double iconSize = 18;
     return _CustomAppContainer(
       width: double.infinity,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconLabelText(
+            IconLabelSelectableText(
               icon: const Icon(
                 Icons.language,
-                size: iconSize,
+                size: defaultIconSize,
               ),
               label: 'Base URL: ',
               text: apiLogData.requestLogData.baseUrl,
+              labelStyle: defaultLabelStyle,
+              textStyle: defaultTextStyle,
             ),
             const SizedBox(height: 10),
-            IconLabelText(
+            IconLabelSelectableText(
               icon: const Icon(
                 Icons.link,
-                size: iconSize,
+                size: defaultIconSize,
               ),
               label: 'Path: ',
               text: apiLogData.requestLogData.uri.path,
+              labelStyle: defaultLabelStyle,
+              textStyle: defaultTextStyle,
             ),
             const SizedBox(height: 10),
-            IconLabelText(
+            IconLabelSelectableText(
               icon: const Icon(
                 Icons.tonality_outlined,
-                size: iconSize,
+                size: defaultIconSize,
               ),
               label: 'Method: ',
               text: apiLogData.requestLogData.method,
+              labelStyle: defaultLabelStyle,
+              textStyle: defaultTextStyle,
             ),
             if (apiLogData.authorization != null) const SizedBox(height: 10),
             if (apiLogData.authorization != null)
-              IconLabelText(
+              IconLabelSelectableText(
                 icon: const Icon(
                   Icons.token,
-                  size: iconSize,
+                  size: defaultIconSize,
                 ),
                 label: 'Authorization: ',
                 text: showAuthorization
                     ? apiLogData.authorization!
                     : '[Not Show]',
+                labelStyle: defaultLabelStyle,
+                textStyle: defaultTextStyle,
                 suffixIcon: SimpleSmallIconButton(
                   iconData: Icons.copy,
+                  iconSize: defaultIconSize,
                   onPressed: showAuthorization
                       ? () {
                           Clipboard.setData(
@@ -76,9 +84,11 @@ class _DioRequestInfoSection extends StatelessWidget {
               const SizedBox(height: 10),
             if (apiLogData.requestLogData.queryParameters.isNotEmpty)
               const IconLabelText(
-                icon: Icon(Icons.color_lens_outlined, size: iconSize),
+                icon: Icon(Icons.color_lens_outlined, size: defaultIconSize),
                 label: 'Query Parameters:',
                 text: '',
+                labelStyle: defaultLabelStyle,
+                textStyle: defaultTextStyle,
               ),
             if (apiLogData.requestLogData.queryParameters.isNotEmpty)
               const SizedBox(height: 10),
@@ -90,9 +100,11 @@ class _DioRequestInfoSection extends StatelessWidget {
               const SizedBox(height: 10),
             if (apiLogData.requestLogData.mapData.isNotEmpty)
               const IconLabelText(
-                icon: Icon(Icons.topic, size: iconSize),
+                icon: Icon(Icons.topic, size: defaultIconSize),
                 label: 'Data: ',
                 text: '',
+                labelStyle: defaultLabelStyle,
+                textStyle: defaultTextStyle,
               ),
             if (apiLogData.requestLogData.mapData.isNotEmpty)
               const SizedBox(height: 10),

@@ -26,7 +26,7 @@ class _DioResponseSection extends StatelessWidget {
     final String? statusMessage = apiLogData.responseLogData?.statusMessage ??
         apiLogData.errorLogData?.statusMessage;
     //
-    const double iconSize = 18;
+    const double defaultIconSize = 18;
     return _CustomAppContainer(
       width: double.infinity,
       child: SingleChildScrollView(
@@ -36,17 +36,19 @@ class _DioResponseSection extends StatelessWidget {
             IconLabelText(
               icon: Icon(
                 Icons.access_time_outlined,
-                size: iconSize,
+                size: defaultIconSize,
               ),
               label: 'Response Time: ',
               text: apiLogData.getResponseTimeAsString(),
+              labelStyle: defaultLabelStyle,
+              textStyle: defaultTextStyle,
             ),
             if (statusCode != null) const SizedBox(height: 10),
             if (statusCode != null)
               IconLabelText(
                 icon: Icon(
                   _getErrorIconData(apiError?.errorType),
-                  size: iconSize,
+                  size: defaultIconSize,
                   color: apiError != null //
                       ? apiLogData.hasError
                           ? Colors.red
@@ -55,6 +57,8 @@ class _DioResponseSection extends StatelessWidget {
                 ),
                 label: 'Response Status: ',
                 text: statusCode.toString(),
+                labelStyle: defaultLabelStyle,
+                textStyle: defaultTextStyle,
               ),
             //
             if (statusMessage != null && statusMessage.isNotEmpty)
@@ -63,10 +67,12 @@ class _DioResponseSection extends StatelessWidget {
               IconLabelText(
                 icon: const Icon(
                   Icons.text_snippet_outlined,
-                  size: iconSize,
+                  size: defaultIconSize,
                 ),
                 label: 'Response Status Message: ',
                 text: statusMessage,
+                labelStyle: defaultLabelStyle,
+                textStyle: defaultTextStyle,
               ),
             //
             if (apiError != null) const SizedBox(height: 10),
@@ -75,10 +81,12 @@ class _DioResponseSection extends StatelessWidget {
                 icon: Icon(
                   _getErrorIconData(apiError.errorType),
                   color: Colors.red,
-                  size: iconSize,
+                  size: defaultIconSize,
                 ),
                 label: 'Error Type: ',
                 text: apiError.errorType?.description ?? ' - ',
+                labelStyle: defaultLabelStyle,
+                textStyle: defaultTextStyle,
                 suffixIcon: apiError.errorType != ApiErrorType.conversion
                     ? null
                     : Tooltip(
@@ -101,10 +109,12 @@ class _DioResponseSection extends StatelessWidget {
                 icon: Icon(
                   _getErrorIconData(apiError.errorType),
                   color: Colors.red,
-                  size: iconSize,
+                  size: defaultIconSize,
                 ),
                 label: 'Error Message: ',
                 text: apiError.errorMessage,
+                labelStyle: defaultLabelStyle,
+                textStyle: defaultTextStyle,
                 suffixIcon: TextButton(
                   onPressed: () {
                     _copyText(context, apiError.errorMessage);
@@ -141,9 +151,11 @@ class _DioResponseSection extends StatelessWidget {
             if (apiLogData.responseLogData != null &&
                 apiLogData.responseLogData!.responseHeaders.isNotEmpty)
               const IconLabelText(
-                icon: Icon(Icons.topic, size: iconSize),
+                icon: Icon(Icons.topic, size: defaultIconSize),
                 label: 'Headers: ',
                 text: '',
+                labelStyle: defaultLabelStyle,
+                textStyle: defaultTextStyle,
               ),
             if (apiLogData.responseLogData != null &&
                 apiLogData.responseLogData!.responseHeaders.isNotEmpty)
