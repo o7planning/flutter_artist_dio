@@ -59,7 +59,7 @@ class _DioRequestInfoSection extends StatelessWidget {
                 ),
                 label: 'Authorization: ',
                 text: showAuthorization
-                    ? apiLogData.authorization!
+                    ? _truncate(apiLogData.authorization!, 30)
                     : '[Not Show]',
                 labelStyle: defaultLabelStyle,
                 textStyle: defaultTextStyle,
@@ -114,5 +114,12 @@ class _DioRequestInfoSection extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _truncate(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return "${text.substring(0, maxLength)}...";
   }
 }

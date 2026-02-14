@@ -41,6 +41,7 @@ ApiResult<D> _handleDioException<D>(
   required StackTrace? stackTrace,
   required ErrorInfoExtractor errorInfoExtractor,
 }) {
+  print("Error: $error");
   print(stackTrace);
   //
   final ApiErrorType apiErrorType = DioErrorUtils.toApiErrorType(error.type);
@@ -53,14 +54,27 @@ ApiResult<D> _handleDioException<D>(
       errorInfoExtractor: errorInfoExtractor,
     );
   } else {
+    final dynamic internalError = error.error;
+
+    // 1. Check specifically for FormatException to get the raw source
+    final bool isParsingError = internalError is FormatException;
+
+    // 2. Extract the raw text that failed to parse
+    String? rawText;
+    if (internalError is FormatException) {
+      // .source contains the actual string the server sent
+      rawText = internalError.source?.toString();
+    }
     apiError = ApiError(
       errorType: apiErrorType,
       statusCode: null,
       statusMessage: null,
-      errorMessage: error.message == null
-          ? "Unknown Dio Error"
-          : "Error: ${error.message}",
-      originErrorText: null,
+      errorMessage: isParsingError
+          ? rawText == null
+              ? "Format Error: The server returned a text message that isn't valid JSON."
+              : "Raw Response: $rawText"
+          : (error.message ?? "Unknown Dio Error"),
+      originErrorText: rawText,
     );
   }
   //

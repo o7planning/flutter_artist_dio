@@ -47,15 +47,15 @@ class _RestDebugViewState extends State<RestDebugView> {
           Expanded(
             child: _buildMain(context),
           ),
-        // if (fullView && apiLogData != null) Divider(height: 6),
-        // if (fullView && apiLogData != null)
-        //   Expanded(
-        //     child: _ResponseView(
-        //       apiLogData: apiLogData!,
-        //       onFullScreenPressed: _onFullScreenPressed,
-        //       fullView: fullView,
-        //     ),
-        //   ),
+        if (fullView && apiLogData != null) Divider(height: 6),
+        if (fullView && apiLogData != null)
+          Expanded(
+            child: _ResponseView(
+              apiLogData: apiLogData!,
+              onFullScreenPressed: _onFullScreenPressed,
+              fullView: fullView,
+            ),
+          ),
       ],
     );
   }
@@ -110,6 +110,7 @@ class _RestDebugViewState extends State<RestDebugView> {
             size: 16,
           ),
           content: _ResponseView(
+            key: Key("_ResponseView-${apiLogData!.apiLogId}"),
             apiLogData: apiLogData!,
             onFullScreenPressed: _onFullScreenPressed,
             fullView: fullView,

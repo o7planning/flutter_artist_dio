@@ -22,10 +22,22 @@ class _ResponseView extends StatefulWidget {
 
 class _ResponseViewState extends State<_ResponseView> {
   bool showTree = true;
+  late ApiLogData _apiLogData;
 
   @override
   void initState() {
     super.initState();
+    _apiLogData = widget.apiLogData;
+  }
+
+  @override
+  void didUpdateWidget(_ResponseView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_apiLogData.apiLogId != widget.apiLogData.apiLogId) {
+      setState(() {
+        _apiLogData = widget.apiLogData;
+      });
+    }
   }
 
   @override
@@ -37,14 +49,15 @@ class _ResponseViewState extends State<_ResponseView> {
           Visibility(
             visible: !showTree,
             child: _ResponseTextView(
-              key: Key("ResponseTextView-${widget.apiLogData.apiLogId}"),
-              apiLogData: widget.apiLogData,
+              key: Key("ResponseTextView-${_apiLogData.apiLogId}"),
+              apiLogData: _apiLogData,
             ),
           ),
           Visibility(
             visible: showTree,
             child: _ResponseJsonTreeView(
-              apiLogData: widget.apiLogData,
+              key: Key("_ResponseJsonTreeView-${_apiLogData.apiLogId}"),
+              apiLogData: _apiLogData,
             ),
           ),
           Positioned(
@@ -114,7 +127,7 @@ class _ResponseViewState extends State<_ResponseView> {
   }
 
   void _copy() {
-    String? text = widget.apiLogData.getResponseText();
+    String? text = _apiLogData.getResponseText();
     Clipboard.setData(ClipboardData(text: text ?? ""));
     _closeAllSnackBars(context);
     _showSnackBar(
