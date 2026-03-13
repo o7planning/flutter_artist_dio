@@ -34,7 +34,7 @@ class FlutterArtistDio {
   // docs: 14751.
   FlutterArtistDio({
     required this.dio,
-    this.errorInfoExtractor = const SimpleErrorInfoExtractor(),
+    this.errorInfoExtractor = const FlexibleErrorInfoExtractor(),
   });
 
   //
