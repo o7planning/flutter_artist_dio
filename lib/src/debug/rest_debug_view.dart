@@ -66,14 +66,15 @@ class _RestDebugViewState extends State<RestDebugView> {
     if (apiLogData != null) {
       tabs.add(
         TabData(
+          id: "Request",
           text: ' Request',
           closable: false,
           leading: (context, status) => Icon(
             Icons.request_page,
-            color: Colors.black,
+            color: TabThemeUtils.getTabIconColor(context, status),
             size: 16,
           ),
-          content: _DioRequestInfoSection(
+          view: _DioRequestInfoSection(
             apiLogData: apiLogData!,
             showAuthorization: widget.showToken,
           ),
@@ -83,14 +84,17 @@ class _RestDebugViewState extends State<RestDebugView> {
     if (apiLogData != null) {
       tabs.add(
         TabData(
+          id: "Response Headers",
           text: ' Response Headers',
           closable: false,
           leading: (context, status) => Icon(
             Icons.list_alt,
-            color: apiLogData!.hasError ? Colors.red : Colors.black,
+            color: apiLogData!.hasError
+                ? Colors.red
+                : TabThemeUtils.getTabIconColor(context, status),
             size: 16,
           ),
-          content: _DioResponseSection(
+          view: _DioResponseSection(
             apiLogData: apiLogData!,
             showJson: widget.showJson,
             onFullScreenPressed: _onFullScreenPressed,
@@ -102,14 +106,15 @@ class _RestDebugViewState extends State<RestDebugView> {
     if (apiLogData != null) {
       tabs.add(
         TabData(
+          id: "Response Body",
           text: ' Response Body',
           closable: false,
           leading: (context, status) => Icon(
             Icons.comment,
-            color: Colors.black,
+            color: TabThemeUtils.getTabIconColor(context, status),
             size: 16,
           ),
-          content: _ResponseView(
+          view: _ResponseView(
             key: Key("_ResponseView-${apiLogData!.apiLogId}"),
             apiLogData: apiLogData!,
             onFullScreenPressed: _onFullScreenPressed,
@@ -121,12 +126,13 @@ class _RestDebugViewState extends State<RestDebugView> {
     //
     TabbedViewController _controller = TabbedViewController(tabs);
     _controller.selectedIndex = selectedTabIndex;
-    _controller.onTabSelection = ((int? idx, __) {
-      selectedTabIndex = idx ?? 0;
+    _controller.onTabSelected = ((TabSelection? tabSelection) {
+      selectedTabIndex = tabSelection?.index ?? 0;
     });
     TabbedView tabbedView = TabbedView(controller: _controller);
 
-    TabbedViewThemeData themeData = TabThemeUtils.getTabbedViewThemeData();
+    TabbedViewThemeData themeData =
+        TabThemeUtils.getTabbedViewThemeData(context);
 
     TabbedViewTheme tabbedViewTheme = TabbedViewTheme(
       data: themeData,

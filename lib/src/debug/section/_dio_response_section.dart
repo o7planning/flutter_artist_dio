@@ -40,8 +40,8 @@ class _DioResponseSection extends StatelessWidget {
               ),
               label: 'Response Time: ',
               text: apiLogData.getResponseTimeAsString(),
-              labelStyle: defaultLabelStyle,
-              textStyle: defaultTextStyle,
+              labelStyle: defaultLabelStyle(context),
+              textStyle: defaultTextStyle(context),
             ),
             if (statusCode != null) const SizedBox(height: 10),
             if (statusCode != null)
@@ -57,8 +57,8 @@ class _DioResponseSection extends StatelessWidget {
                 ),
                 label: 'Response Status: ',
                 text: statusCode.toString(),
-                labelStyle: defaultLabelStyle,
-                textStyle: defaultTextStyle,
+                labelStyle: defaultLabelStyle(context),
+                textStyle: defaultTextStyle(context),
               ),
             //
             if (statusMessage != null && statusMessage.isNotEmpty)
@@ -71,8 +71,8 @@ class _DioResponseSection extends StatelessWidget {
                 ),
                 label: 'Response Status Message: ',
                 text: statusMessage,
-                labelStyle: defaultLabelStyle,
-                textStyle: defaultTextStyle,
+                labelStyle: defaultLabelStyle(context),
+                textStyle: defaultTextStyle(context),
               ),
             //
             if (apiError != null) const SizedBox(height: 10),
@@ -85,8 +85,8 @@ class _DioResponseSection extends StatelessWidget {
                 ),
                 label: 'Error Type: ',
                 text: apiError.errorType?.description ?? ' - ',
-                labelStyle: defaultLabelStyle,
-                textStyle: defaultTextStyle,
+                labelStyle: defaultLabelStyle(context),
+                textStyle: defaultTextStyle(context),
                 suffixIcon: apiError.errorType != ApiErrorType.conversion
                     ? null
                     : Tooltip(
@@ -113,8 +113,8 @@ class _DioResponseSection extends StatelessWidget {
                 ),
                 label: 'Error Message: ',
                 text: apiError.errorMessage,
-                labelStyle: defaultLabelStyle,
-                textStyle: defaultTextStyle,
+                labelStyle: defaultLabelStyle(context),
+                textStyle: defaultTextStyle(context),
                 suffixIcon: TextButton(
                   onPressed: () {
                     _copyText(context, apiError.errorMessage);
@@ -150,12 +150,12 @@ class _DioResponseSection extends StatelessWidget {
               const SizedBox(height: 10),
             if (apiLogData.responseLogData != null &&
                 apiLogData.responseLogData!.responseHeaders.isNotEmpty)
-              const IconLabelText(
-                icon: Icon(Icons.topic, size: defaultIconSize),
+              IconLabelText(
+                icon: const Icon(Icons.topic, size: defaultIconSize),
                 label: 'Headers: ',
                 text: '',
-                labelStyle: defaultLabelStyle,
-                textStyle: defaultTextStyle,
+                labelStyle: defaultLabelStyle(context),
+                textStyle: defaultTextStyle(context),
               ),
             if (apiLogData.responseLogData != null &&
                 apiLogData.responseLogData!.responseHeaders.isNotEmpty)
@@ -163,7 +163,8 @@ class _DioResponseSection extends StatelessWidget {
             if (apiLogData.responseLogData != null &&
                 apiLogData.responseLogData!.responseHeaders.isNotEmpty)
               _MapKeyValueView(
-                  map: apiLogData.responseLogData!.responseHeaders),
+                map: apiLogData.responseLogData!.responseHeaders,
+              ),
           ],
         ),
       ),

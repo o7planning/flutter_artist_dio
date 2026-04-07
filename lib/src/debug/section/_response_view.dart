@@ -20,7 +20,11 @@ class _ResponseView extends StatefulWidget {
   }
 }
 
+// _response_view.dart
+
 class _ResponseViewState extends State<_ResponseView> {
+  // AdvancedSwitch cần một ValueNotifier để hoạt động mượt mà
+  late ValueNotifier<bool> _switchController;
   bool showTree = true;
   late ApiLogData _apiLogData;
 
@@ -28,6 +32,20 @@ class _ResponseViewState extends State<_ResponseView> {
   void initState() {
     super.initState();
     _apiLogData = widget.apiLogData;
+    _switchController = ValueNotifier<bool>(showTree);
+
+    // Lắng nghe thay đổi từ switch
+    _switchController.addListener(() {
+      setState(() {
+        showTree = _switchController.value;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _switchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -42,28 +60,30 @@ class _ResponseViewState extends State<_ResponseView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       padding: widget.padding,
-      child: Stack(
+      child: Column(
         children: [
-          Visibility(
-            visible: !showTree,
-            child: _ResponseTextView(
-              key: Key("ResponseTextView-${_apiLogData.apiLogId}"),
-              apiLogData: _apiLogData,
+          _buildControlBar(),
+          const SizedBox(height: 8),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: showTree
+                  ? _ResponseJsonTreeView(
+                      key: Key("ResponseJsonTree-${_apiLogData.apiLogId}"),
+                      apiLogData: _apiLogData,
+                    )
+                  : _ResponseTextView(
+                      key: Key("ResponseTextView-${_apiLogData.apiLogId}"),
+                      apiLogData: _apiLogData,
+                    ),
             ),
-          ),
-          Visibility(
-            visible: showTree,
-            child: _ResponseJsonTreeView(
-              key: Key("_ResponseJsonTreeView-${_apiLogData.apiLogId}"),
-              apiLogData: _apiLogData,
-            ),
-          ),
-          Positioned(
-            top: 5,
-            right: 0,
-            child: _buildControlBar(),
           ),
         ],
       ),
@@ -71,58 +91,55 @@ class _ResponseViewState extends State<_ResponseView> {
   }
 
   Widget _buildControlBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        AdvancedSwitch(
-          initialValue: showTree,
-          activeColor: Colors.indigo,
-          inactiveColor: Colors.grey,
-          activeChild: const Text(
-            'JSON Tree View',
-            style: TextStyle(fontSize: 12),
-          ),
-          inactiveChild: const Text(
-            'Response Text',
-            style: TextStyle(fontSize: 12),
-          ),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          width: 130.0,
-          height: 18.0,
-          enabled: true,
-          onChanged: (dynamic checked) {
-            showTree = !showTree;
-            setState(() {});
-          },
-        ),
-        SizedBox(width: 10),
-        TextButton(
-          onPressed: _copy,
-          style: TextButton.styleFrom(
-            minimumSize: Size.zero,
-            padding: EdgeInsets.zero,
-          ),
-          child: Icon(
-            Icons.copy,
-            size: 16,
-          ),
-        ),
-        if (widget.onFullScreenPressed != null) SizedBox(width: 10),
-        if (widget.onFullScreenPressed != null)
-          TextButton(
-            onPressed: widget.onFullScreenPressed,
-            style: TextButton.styleFrom(
-              minimumSize: Size.zero,
-              padding: EdgeInsets.zero,
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return _CustomAppContainer.bar(
+      child: Row(
+        children: [
+          AdvancedSwitch(
+            controller: _switchController,
+            activeColor: colorScheme.primary,
+            inactiveColor: colorScheme.surfaceContainerHigh,
+            activeChild: Text(
+              'JSON TREE',
+              style: TextStyle(
+                  fontSize: 9,
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onPrimary,
+                  letterSpacing: 0.5),
             ),
-            child: Icon(
-              widget.fullView ? Icons.fullscreen_exit : Icons.fullscreen,
-              size: 22,
+            inactiveChild: Text(
+              'RAW TEXT',
+              style: TextStyle(
+                  fontSize: 9,
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onSurfaceVariant),
             ),
+            // borderRadius: const BorderRadius.all(Radius.circular(20)),
+            width: 85.0,
+            height: 16.0,
           ),
-      ],
+          const Spacer(),
+          SimpleSmallIconButton(
+            iconData: Icons.copy_all_rounded,
+            iconSize: 15,
+            iconColor: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
+            onPressed: _copy,
+          ),
+          if (widget.onFullScreenPressed != null) ...[
+            const SizedBox(width: 4),
+            SimpleSmallIconButton(
+              iconData: widget.fullView
+                  ? Icons.fullscreen_exit_rounded
+                  : Icons.fullscreen_rounded,
+              iconSize: 18,
+              iconColor: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
+              onPressed: widget.onFullScreenPressed,
+            ),
+          ],
+        ],
+      ),
     );
   }
 

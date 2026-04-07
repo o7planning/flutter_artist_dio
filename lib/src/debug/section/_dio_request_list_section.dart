@@ -15,15 +15,38 @@ class _DioRequestListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     List<ApiLogData> infos = apiLogger.getApiLogDatas();
-    //
+
     return _CustomAppContainer.transparent(
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
       width: double.infinity,
       child: infos.isEmpty
-          ? SizedBox() 
+          ? Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.api_outlined,
+                    size: 14,
+                    color: theme.colorScheme.onSurfaceVariant
+                        .withValues(alpha: 0.5),
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    "No API Logs",
+                    style: TextStyle(
+                      color: theme.colorScheme.onSurfaceVariant
+                          .withValues(alpha: 0.7),
+                      fontSize: 12,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
+              ),
+            )
           : BreadCrumb(
-              divider: const SizedBox(width: 5),
+              divider: const SizedBox(width: 8),
               overflow: ScrollableOverflow(
                 keepLastDivider: false,
                 reverse: false,
@@ -32,8 +55,8 @@ class _DioRequestListSection extends StatelessWidget {
               items: infos
                   .map(
                     (e) => BreadCrumbItem(
-                      padding: EdgeInsets.all(2),
-                      content: _buildItemWidget(e),
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
+                      content: _buildItemWidget(context, e),
                     ),
                   )
                   .toList(),
@@ -48,40 +71,66 @@ class _DioRequestListSection extends StatelessWidget {
     return "";
   }
 
-  Widget _buildItemWidget(ApiLogData info) {
+  Widget _buildItemWidget(BuildContext context, ApiLogData info) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     final ErrorLogData? dioErrorData = info.errorLogData;
     ApiError? conversationError = info.conversationError;
-
     final ApiErrorType? apiErrorType =
         dioErrorData?.apiErrorType ?? conversationError?.errorType;
 
+    final bool isSelected = info.apiLogId == apiLogger.selectedDioRequestID;
+
+    final Color statusColor = apiErrorType != null
+        ? colorScheme.error
+        : (isSelected
+            ? colorScheme.primary
+            : colorScheme.onSurface.withValues(alpha: 0.7));
+
     return Tooltip(
       message: info.conversationError == null
-          ? ""
+          ? "Request ${info.apiLogId}"
           : _toTooltip(info.conversationError!),
-      child: ElevatedButton.icon(
-        onPressed: () {
-          onSelectRequestId(info.apiLogId);
-        },
-        style: ElevatedButton.styleFrom(
-          minimumSize: Size.zero,
-          padding: EdgeInsets.symmetric(
-            vertical: _verticalPadding,
-            horizontal: _horizontalPadding,
+      child: InkWell(
+        onTap: () => onSelectRequestId(info.apiLogId),
+        borderRadius: BorderRadius.circular(20), // Bo tròn dạng viên thuốc
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+          decoration: BoxDecoration(
+            // CHIÊU 2: Nền mờ ảo, hít màu primary khi chọn
+            color: isSelected
+                ? colorScheme.primary.withValues(alpha: 0.15)
+                : colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isSelected
+                  ? colorScheme.primary
+                  : theme.dividerColor.withValues(alpha: 0.1),
+              width: 1,
+            ),
           ),
-          backgroundColor: info.apiLogId == apiLogger.selectedDioRequestID
-              ? Colors.blue.withAlpha(60)
-              : null,
-        ),
-        icon: Icon(
-          apiErrorType != null ? _getErrorIconData(apiErrorType) : Icons.check,
-          color: apiErrorType != null ? Colors.redAccent : Colors.blue,
-          size: _iconSize,
-        ),
-        label: Text(
-          "${info.apiLogId}",
-          style: TextStyle(
-            fontSize: _fontSize,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                apiErrorType != null
+                    ? _getErrorIconData(apiErrorType)
+                    : Icons.check_circle_outline,
+                color: statusColor,
+                size: _iconSize,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                "${info.apiLogId}",
+                style: TextStyle(
+                  fontSize: _fontSize,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                  color: statusColor,
+                ),
+              ),
+            ],
           ),
         ),
       ),

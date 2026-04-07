@@ -93,7 +93,9 @@ class __RestJsonTreeViewDialogState extends State<_RestJsonTreeViewDialog> {
             'Response Text',
             style: TextStyle(fontSize: 12),
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
           width: 130.0,
           height: 20.0,
           enabled: true,

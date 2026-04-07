@@ -11,11 +11,11 @@ dependencies:
   flutter:
     sdk: flutter
 
-  tabbed_view: ^2.1.0
+  tabbed_view: ^3.1.0 # ^2.1.0
   animated_tree_view: ^2.3.0
   dio: ^5.9.2 # ^5.9.1 # ^5.7.0
   fresh_dio: ^0.6.0 # ^0.4.5 # ^0.4.4
-  flutter_advanced_switch: ^3.1.0
+  flutter_advanced_switch: ^3.2.0 # ^3.1.0
   hovering: ^1.0.4
   flutter_breadcrumb: ^1.0.1
 

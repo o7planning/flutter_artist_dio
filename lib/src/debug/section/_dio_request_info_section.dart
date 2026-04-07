@@ -12,107 +12,136 @@ class _DioRequestInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _CustomAppContainer(
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return _CustomAppContainer.transparent(
       width: double.infinity,
+      padding: const EdgeInsets.all(10),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconLabelSelectableText(
-              icon: const Icon(
-                Icons.language,
-                size: defaultIconSize,
-              ),
-              label: 'Base URL: ',
-              text: apiLogData.requestLogData.baseUrl,
-              labelStyle: defaultLabelStyle,
-              textStyle: defaultTextStyle,
+            _buildInfoRow(
+              context,
+              Icons.language,
+              'Base URL: ',
+              apiLogData.requestLogData.baseUrl,
             ),
             const SizedBox(height: 10),
-            IconLabelSelectableText(
-              icon: const Icon(
-                Icons.link,
-                size: defaultIconSize,
-              ),
-              label: 'Path: ',
-              text: apiLogData.requestLogData.uri.path,
-              labelStyle: defaultLabelStyle,
-              textStyle: defaultTextStyle,
+            _buildInfoRow(
+              context,
+              Icons.link,
+              'Path: ',
+              apiLogData.requestLogData.uri.path,
+              textColor: colorScheme.primary, // Nhấn mạnh Path bằng màu Primary
             ),
             const SizedBox(height: 10),
-            IconLabelSelectableText(
-              icon: const Icon(
-                Icons.tonality_outlined,
-                size: defaultIconSize,
-              ),
-              label: 'Method: ',
-              text: apiLogData.requestLogData.method,
-              labelStyle: defaultLabelStyle,
-              textStyle: defaultTextStyle,
+            _buildInfoRow(
+              context,
+              Icons.tonality_outlined,
+              'Method: ',
+              apiLogData.requestLogData.method,
+              textColor:
+                  colorScheme.tertiary, // Method dùng màu Tertiary cho chất
             ),
-            if (apiLogData.authorization != null) const SizedBox(height: 10),
-            if (apiLogData.authorization != null)
-              IconLabelSelectableText(
-                icon: const Icon(
-                  Icons.token,
-                  size: defaultIconSize,
-                ),
-                label: 'Authorization: ',
-                text: showAuthorization
-                    ? _truncate(apiLogData.authorization!, 30)
-                    : '[Not Show]',
-                labelStyle: defaultLabelStyle,
-                textStyle: defaultTextStyle,
-                suffixIcon: SimpleSmallIconButton(
-                  iconData: Icons.copy,
-                  iconSize: defaultIconSize,
-                  onPressed: showAuthorization
-                      ? () {
-                          Clipboard.setData(
-                              ClipboardData(text: apiLogData.authorization!));
-                          _closeAllSnackBars(context);
-                          _showSnackBar(
-                            context,
-                            "Copied",
-                          );
-                        }
-                      : null,
-                ),
-              ),
-            //
-            if (apiLogData.requestLogData.queryParameters.isNotEmpty)
+
+            if (apiLogData.authorization != null) ...[
               const SizedBox(height: 10),
-            if (apiLogData.requestLogData.queryParameters.isNotEmpty)
-              const IconLabelText(
-                icon: Icon(Icons.color_lens_outlined, size: defaultIconSize),
-                label: 'Query Parameters:',
-                text: '',
-                labelStyle: defaultLabelStyle,
-                textStyle: defaultTextStyle,
-              ),
-            if (apiLogData.requestLogData.queryParameters.isNotEmpty)
-              const SizedBox(height: 10),
-            if (apiLogData.requestLogData.queryParameters.isNotEmpty)
+              _buildAuthorizationRow(context, colorScheme),
+            ],
+
+            // ... Phần Query Parameters và Data bên dưới ...
+            if (apiLogData.requestLogData.queryParameters.isNotEmpty) ...[
+              const SizedBox(height: 15),
+              _buildSectionHeader(
+                  context, Icons.manage_search, 'Query Parameters'),
+              const SizedBox(height: 8),
               _MapKeyValueView(map: apiLogData.requestLogData.queryParameters),
-            //
-            //
-            if (apiLogData.requestLogData.mapData.isNotEmpty)
-              const SizedBox(height: 10),
-            if (apiLogData.requestLogData.mapData.isNotEmpty)
-              const IconLabelText(
-                icon: Icon(Icons.topic, size: defaultIconSize),
-                label: 'Data: ',
-                text: '',
-                labelStyle: defaultLabelStyle,
-                textStyle: defaultTextStyle,
-              ),
-            if (apiLogData.requestLogData.mapData.isNotEmpty)
-              const SizedBox(height: 10),
-            if (apiLogData.requestLogData.mapData.isNotEmpty)
-              _MapKeyValueView(map: apiLogData.requestLogData.mapData),
+            ],
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSectionHeader(
+      BuildContext context, IconData icon, String title) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Row(
+      children: [
+        Icon(icon, size: 16, color: colorScheme.primary),
+        const SizedBox(width: 8),
+        Text(
+          title.toUpperCase(),
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.bold,
+            color: colorScheme.primary,
+            letterSpacing: 1.1,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+            child: Divider(color: colorScheme.primary.withValues(alpha: 0.1))),
+      ],
+    );
+  }
+
+  Widget _buildAuthorizationRow(BuildContext context, ColorScheme colorScheme) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        // CHIÊU: Tạo một vùng riêng cho Auth với màu sắc hơi khác biệt một chút
+        color: colorScheme.secondaryContainer.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: colorScheme.secondary.withValues(alpha: 0.1)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.enhanced_encryption_outlined,
+                  size: 14, color: colorScheme.secondary),
+              const SizedBox(width: 8),
+              Text(
+                "Authorization",
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.secondary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          SelectableText(
+            apiLogData.authorization ?? '',
+            style: TextStyle(
+              fontSize: 12,
+              fontFamily: 'Courier',
+              color: colorScheme.onSurface.withValues(alpha: 0.8),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(
+      BuildContext context, IconData icon, String label, String text,
+      {Color? textColor}) {
+    return IconLabelSelectableText(
+      icon: Icon(icon,
+          size: defaultIconSize,
+          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.7)),
+      label: label,
+      text: text,
+      labelStyle: defaultLabelStyle(context),
+      textStyle: defaultTextStyle(context).copyWith(
+          color: textColor,
+          fontWeight: textColor != null ? FontWeight.bold : null),
     );
   }
 

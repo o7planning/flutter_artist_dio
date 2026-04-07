@@ -17,11 +17,12 @@ class _JsonTreeView extends StatelessWidget {
       showRootNode: false,
       expansionBehavior: ExpansionBehavior.snapToTop,
       expansionIndicatorBuilder: (context, node) {
+        final theme = Theme.of(context);
         // PlusMinusIndicator
         // ChevronIndicator.upDown
         return PlusMinusIndicator(
           tree: node,
-          color: Colors.grey[600],
+          color: theme.hintColor.withValues(alpha: 0.7),
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.zero,
           // icon: Icons.keyboard_arrow_down_outlined,
@@ -39,42 +40,58 @@ class _JsonTreeView extends StatelessWidget {
         // controller.expandAllChildren(rootTreeNode);
       },
       builder: (context, node) {
+        final theme = Theme.of(context);
+        final colorScheme = theme.colorScheme;
+
         _NodeDataWrap nodeDataWrap = node.data;
         String title = nodeDataWrap.title;
         String? value;
 
         dynamic nodeData = nodeDataWrap.data;
-        Widget icon;
+        String iconPath;
+        Color iconColor;
+
         if (nodeData is Map) {
-          icon = Image.asset(
-            "statics-rs/object.gif",
-            package: 'flutter_artist_dio',
-          );
+          iconPath = "statics-rs/object.gif";
         } else if (nodeData is List) {
-          icon = Image.asset(
-            "statics-rs/array.gif",
-            package: 'flutter_artist_dio',
-          );
+          iconPath = "statics-rs/array.gif";
         } else {
-          if (nodeData == null) {
-            icon = Image.asset(
-              "statics-rs/red.gif",
-              package: 'flutter_artist_dio',
-            );
-          } else if (nodeData is String) {
-            icon = Image.asset(
-              "statics-rs/blue.gif",
-              package: 'flutter_artist_dio',
-            );
-          } else {
-            icon = Image.asset(
-              "statics-rs/green.gif",
-              package: 'flutter_artist_dio',
-            );
-          }
+          iconPath = nodeData is num
+              ? "statics-rs/blue.gif"
+              : nodeData is bool
+                  ? "statics-rs/red.gif"
+                  : "statics-rs/green.gif";
           value = nodeData.toString();
         }
-        //
+
+        Color semanticIconColor;
+        if (nodeData == null) {
+          semanticIconColor = Colors.redAccent;
+        } else if (nodeData is Map) {
+          semanticIconColor = colorScheme.primary;
+        } else if (nodeData is List) {
+          semanticIconColor = colorScheme.secondary;
+        } else if (nodeData is String) {
+          semanticIconColor = Colors.blueAccent;
+        } else {
+          semanticIconColor = Colors.greenAccent;
+        }
+
+        Widget styledIcon = ColorFiltered(
+          colorFilter: ColorFilter.mode(
+            theme.brightness == Brightness.dark
+                ? Color.lerp(semanticIconColor, Colors.white, 0.2)!
+                : semanticIconColor,
+            BlendMode.srcIn,
+          ),
+          child: Image.asset(
+            iconPath,
+            width: 16,
+            height: 16,
+            package: 'flutter_artist_dio',
+          ),
+        );
+
         return ListTile(
           dense: true,
           visualDensity: const VisualDensity(
@@ -89,7 +106,7 @@ class _JsonTreeView extends StatelessWidget {
           title: HoverWidget(
             hoverChild: _buildTextNode(
               context: context,
-              icon: icon,
+              icon: styledIcon,
               label: title,
               text: value,
               isHovering: true,
@@ -97,7 +114,7 @@ class _JsonTreeView extends StatelessWidget {
             onHover: (_) {},
             child: _buildTextNode(
               context: context,
-              icon: icon,
+              icon: styledIcon,
               label: title,
               text: value,
               isHovering: false,
