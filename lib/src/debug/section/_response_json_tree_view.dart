@@ -36,6 +36,9 @@ class _ResponseJsonTreeView extends StatelessWidget {
         ),
       );
     }
-    return _JsonTreeView(jsonObjOrArray: jsonObjOrArray);
+    return _JsonTreeView(
+      jsonObjOrArray: jsonObjOrArray,
+      isTree: true,
+    );
   }
 }

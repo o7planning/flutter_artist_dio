@@ -13,7 +13,8 @@ class TabThemeUtils {
     final Color borderColor = theme.dividerColor;
     final Color selectedTabColor = colorScheme.primary;
 
-    final borderSide = BorderSide(color: borderColor, width: 0.7);
+    final borderSide = BorderSide(color: borderColor, width: 1);
+
     final borderSideSelected = BorderSide(color: selectedTabColor, width: 2.0);
     final borderSideNone = BorderSide(color: Colors.transparent, width: 0);
 
@@ -89,7 +90,7 @@ class TabThemeUtils {
     themeData.contentArea
       ..color = contentAreaColor
       ..padding = const EdgeInsets.all(8)
-      ..border = borderSide;
+      ..border = BorderSide.none;
 
     return themeData;
   }

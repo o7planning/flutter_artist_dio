@@ -2,15 +2,19 @@ part of '../../../rest_debug_screen.dart';
 
 class _JsonTreeView extends StatelessWidget {
   final Object jsonObjOrArray;
+  final bool isTree;
 
   const _JsonTreeView({
     super.key,
     required this.jsonObjOrArray,
+    required this.isTree,
   });
 
   @override
   Widget build(BuildContext context) {
-    TreeNode rootTreeNode = _getRootWithChildren(jsonObjOrArray);
+    TreeNode rootTreeNode = isTree
+        ? _getRootWithChildren(jsonObjOrArray)
+        : _getFlatRootWithChildren(jsonObjOrArray);
     //
     return TreeView.simple(
       tree: rootTreeNode,
@@ -18,18 +22,16 @@ class _JsonTreeView extends StatelessWidget {
       expansionBehavior: ExpansionBehavior.snapToTop,
       expansionIndicatorBuilder: (context, node) {
         final theme = Theme.of(context);
-        // PlusMinusIndicator
-        // ChevronIndicator.upDown
         return PlusMinusIndicator(
           tree: node,
           color: theme.hintColor.withValues(alpha: 0.7),
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.zero,
-          // icon: Icons.keyboard_arrow_down_outlined,
           curve: Curves.linear,
         );
       },
-      indentation: const Indentation(
+      indentation: Indentation(
+        width: isTree ? Indentation.DEF_INDENT_WIDTH : 0,
         style: IndentStyle.roundJoint,
         thickness: 1,
       ),
@@ -102,7 +104,10 @@ class _JsonTreeView extends StatelessWidget {
           minVerticalPadding: 2,
           minLeadingWidth: 20,
           minTileHeight: 20,
-          contentPadding: const EdgeInsets.only(left: 25),
+          contentPadding: EdgeInsets.only(
+            left: isTree ? 25 : 0,
+            right: 10,
+          ),
           title: HoverWidget(
             hoverChild: _buildTextNode(
               context: context,
@@ -134,6 +139,12 @@ class _JsonTreeView extends StatelessWidget {
     TreeNode rootTreeNode = TreeNode.root()..add(treeNode);
     //
     _addChildNodesCascade(currentNode: treeNode, nodeData: rootData);
+    return rootTreeNode;
+  }
+
+  TreeNode _getFlatRootWithChildren(Object rootData) {
+    TreeNode rootTreeNode = TreeNode.root();
+    _addChildNodesCascade(currentNode: rootTreeNode, nodeData: rootData);
     return rootTreeNode;
   }
 

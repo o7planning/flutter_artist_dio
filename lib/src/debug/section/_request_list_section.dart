@@ -1,6 +1,6 @@
 part of '../../../rest_debug_screen.dart';
 
-class _DioRequestListSection extends StatelessWidget {
+class _RequestListSection extends StatelessWidget {
   final void Function(int requestId) onSelectRequestId;
 
   final double _fontSize = 13;
@@ -8,7 +8,7 @@ class _DioRequestListSection extends StatelessWidget {
   final double _verticalPadding = 10;
   final double _horizontalPadding = 6;
 
-  const _DioRequestListSection({
+  const _RequestListSection({
     required this.onSelectRequestId,
     super.key,
   });

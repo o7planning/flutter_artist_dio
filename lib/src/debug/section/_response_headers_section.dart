@@ -1,12 +1,12 @@
 part of '../../../rest_debug_screen.dart';
 
-class _DioResponseSection extends StatelessWidget {
+class _ResponseHeadersSection extends StatelessWidget {
   final ApiLogData apiLogData;
   final bool showJson;
   final Function() onFullScreenPressed;
   final bool fullView;
 
-  const _DioResponseSection({
+  const _ResponseHeadersSection({
     super.key,
     required this.apiLogData,
     required this.showJson,

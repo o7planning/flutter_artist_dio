@@ -1,10 +1,10 @@
 part of '../../../rest_debug_screen.dart';
 
-class _DioPathSection extends StatelessWidget {
+class _PathSection extends StatelessWidget {
   final ApiLogData info;
   final Function() onFullScreenPressed;
 
-  const _DioPathSection({
+  const _PathSection({
     super.key,
     required this.info,
     required this.onFullScreenPressed,

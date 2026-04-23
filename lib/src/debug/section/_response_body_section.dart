@@ -1,12 +1,12 @@
 part of '../../../rest_debug_screen.dart';
 
-class _ResponseView extends StatefulWidget {
+class _ResponseBodySection extends StatefulWidget {
   final bool fullView;
   final EdgeInsets padding;
   final ApiLogData apiLogData;
   final Function()? onFullScreenPressed;
 
-  const _ResponseView({
+  const _ResponseBodySection({
     super.key,
     required this.apiLogData,
     required this.onFullScreenPressed,
@@ -16,14 +16,11 @@ class _ResponseView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ResponseViewState();
+    return _ResponseBodySectionState();
   }
 }
 
-// _response_view.dart
-
-class _ResponseViewState extends State<_ResponseView> {
-  // AdvancedSwitch cần một ValueNotifier để hoạt động mượt mà
+class _ResponseBodySectionState extends State<_ResponseBodySection> {
   late ValueNotifier<bool> _switchController;
   bool showTree = true;
   late ApiLogData _apiLogData;
@@ -34,7 +31,6 @@ class _ResponseViewState extends State<_ResponseView> {
     _apiLogData = widget.apiLogData;
     _switchController = ValueNotifier<bool>(showTree);
 
-    // Lắng nghe thay đổi từ switch
     _switchController.addListener(() {
       setState(() {
         showTree = _switchController.value;
@@ -49,7 +45,7 @@ class _ResponseViewState extends State<_ResponseView> {
   }
 
   @override
-  void didUpdateWidget(_ResponseView oldWidget) {
+  void didUpdateWidget(_ResponseBodySection oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (_apiLogData.apiLogId != widget.apiLogData.apiLogId) {
       setState(() {
@@ -116,7 +112,6 @@ class _ResponseViewState extends State<_ResponseView> {
                   fontWeight: FontWeight.bold,
                   color: colorScheme.onSurfaceVariant),
             ),
-            // borderRadius: const BorderRadius.all(Radius.circular(20)),
             width: 85.0,
             height: 16.0,
           ),

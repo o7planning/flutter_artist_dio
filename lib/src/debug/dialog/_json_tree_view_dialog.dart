@@ -62,6 +62,7 @@ class __RestJsonTreeViewDialogState extends State<_RestJsonTreeViewDialog> {
               if (showTree)
                 _JsonTreeView(
                   jsonObjOrArray: widget.jsonObjOrArray,
+                  isTree: true,
                 ),
               if (!showTree)
                 _TextView(

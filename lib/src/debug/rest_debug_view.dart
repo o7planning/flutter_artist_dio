@@ -33,12 +33,12 @@ class _RestDebugViewState extends State<RestDebugView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _DioRequestListSection(
+        _RequestListSection(
           onSelectRequestId: _onSelectRequestId,
         ),
         if (apiLogData != null) const Divider(height: 6),
         if (apiLogData != null)
-          _DioPathSection(
+          _PathSection(
             info: apiLogData!,
             onFullScreenPressed: _onFullScreenPressed,
           ),
@@ -50,7 +50,7 @@ class _RestDebugViewState extends State<RestDebugView> {
         if (fullView && apiLogData != null) Divider(height: 6),
         if (fullView && apiLogData != null)
           Expanded(
-            child: _ResponseView(
+            child: _ResponseBodySection(
               apiLogData: apiLogData!,
               onFullScreenPressed: _onFullScreenPressed,
               fullView: fullView,
@@ -66,22 +66,50 @@ class _RestDebugViewState extends State<RestDebugView> {
     if (apiLogData != null) {
       tabs.add(
         TabData(
-          id: "Request",
-          text: ' Request',
+          id: "RequestHeaders",
+          text: ' Request Headers',
           closable: false,
           leading: (context, status) => Icon(
             Icons.request_page,
             color: TabThemeUtils.getTabIconColor(context, status),
             size: 16,
           ),
-          view: _DioRequestInfoSection(
+          view: _RequestHeadersSection(
             apiLogData: apiLogData!,
             showAuthorization: widget.showToken,
           ),
         ),
       );
-    }
-    if (apiLogData != null) {
+      tabs.add(
+        TabData(
+          id: "RequestQueryParams",
+          text: ' Query Params',
+          closable: false,
+          leading: (context, status) => Icon(
+            Icons.request_page,
+            color: TabThemeUtils.getTabIconColor(context, status),
+            size: 16,
+          ),
+          view: _RequestQueryParamsSection(
+            apiLogData: apiLogData!,
+          ),
+        ),
+      );
+      tabs.add(
+        TabData(
+          id: "RequestBody",
+          text: ' Request Body',
+          closable: false,
+          leading: (context, status) => Icon(
+            Icons.request_page,
+            color: TabThemeUtils.getTabIconColor(context, status),
+            size: 16,
+          ),
+          view: _RequestBodySection(
+            apiLogData: apiLogData!,
+          ),
+        ),
+      );
       tabs.add(
         TabData(
           id: "Response Headers",
@@ -94,7 +122,7 @@ class _RestDebugViewState extends State<RestDebugView> {
                 : TabThemeUtils.getTabIconColor(context, status),
             size: 16,
           ),
-          view: _DioResponseSection(
+          view: _ResponseHeadersSection(
             apiLogData: apiLogData!,
             showJson: widget.showJson,
             onFullScreenPressed: _onFullScreenPressed,
@@ -102,8 +130,6 @@ class _RestDebugViewState extends State<RestDebugView> {
           ),
         ),
       );
-    }
-    if (apiLogData != null) {
       tabs.add(
         TabData(
           id: "Response Body",
@@ -114,7 +140,7 @@ class _RestDebugViewState extends State<RestDebugView> {
             color: TabThemeUtils.getTabIconColor(context, status),
             size: 16,
           ),
-          view: _ResponseView(
+          view: _ResponseBodySection(
             key: Key("_ResponseView-${apiLogData!.apiLogId}"),
             apiLogData: apiLogData!,
             onFullScreenPressed: _onFullScreenPressed,

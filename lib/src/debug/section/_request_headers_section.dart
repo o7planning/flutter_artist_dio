@@ -1,10 +1,10 @@
 part of '../../../rest_debug_screen.dart';
 
-class _DioRequestInfoSection extends StatelessWidget {
+class _RequestHeadersSection extends StatelessWidget {
   final ApiLogData apiLogData;
   final bool showAuthorization;
 
-  const _DioRequestInfoSection({
+  const _RequestHeadersSection({
     super.key,
     required this.apiLogData,
     required this.showAuthorization,
@@ -34,7 +34,7 @@ class _DioRequestInfoSection extends StatelessWidget {
               Icons.link,
               'Path: ',
               apiLogData.requestLogData.uri.path,
-              textColor: colorScheme.primary, // Nhấn mạnh Path bằng màu Primary
+              textColor: colorScheme.primary,
             ),
             const SizedBox(height: 10),
             _buildInfoRow(
@@ -42,16 +42,12 @@ class _DioRequestInfoSection extends StatelessWidget {
               Icons.tonality_outlined,
               'Method: ',
               apiLogData.requestLogData.method,
-              textColor:
-                  colorScheme.tertiary, // Method dùng màu Tertiary cho chất
+              textColor: colorScheme.tertiary,
             ),
-
             if (apiLogData.authorization != null) ...[
               const SizedBox(height: 10),
               _buildAuthorizationRow(context, colorScheme),
             ],
-
-            // ... Phần Query Parameters và Data bên dưới ...
             if (apiLogData.requestLogData.queryParameters.isNotEmpty) ...[
               const SizedBox(height: 15),
               _buildSectionHeader(
@@ -92,7 +88,6 @@ class _DioRequestInfoSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        // CHIÊU: Tạo một vùng riêng cho Auth với màu sắc hơi khác biệt một chút
         color: colorScheme.secondaryContainer.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(6),
         border: Border.all(color: colorScheme.secondary.withValues(alpha: 0.1)),
