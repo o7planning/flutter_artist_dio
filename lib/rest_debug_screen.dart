@@ -11,11 +11,12 @@ import 'package:flutter_artist_commons_ui/flutter_artist_commons_ui.dart';
 import 'package:flutter_artist_core/flutter_artist_core.dart';
 import 'package:flutter_artist_dio/src/debug/_constants.dart';
 import 'package:flutter_artist_dio/src/utils/_tab_theme_utils.dart';
-import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:hovering/hovering.dart';
 import 'package:tabbed_view/tabbed_view.dart';
 
 import 'flutter_artist_dio.dart';
+import 'src/debug/widget/_custom_checked_popup_menu_item.dart'
+    show CustomCheckedPopupMenuItem;
 
 part 'src/debug/_utils.dart';
 part 'src/debug/dialog/_json_tree_view_dialog.dart';
@@ -34,6 +35,7 @@ part 'src/debug/section/_response_json_tree_view.dart';
 part 'src/debug/section/_response_text_view.dart';
 part 'src/debug/section/_text_view.dart';
 part 'src/debug/widget/_custom_app_container.dart';
+part 'src/debug/widget/_log_item_chip.dart';
 part 'src/debug/widget/_map_key_value_view.dart';
 
 class RestDebugScreen extends StatelessWidget {

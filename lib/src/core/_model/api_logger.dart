@@ -3,45 +3,117 @@ part of '../../../flutter_artist_dio.dart';
 final apiLogger = ApiLogger();
 
 class ApiLogger {
-  final Map<int, ApiLogData> _map = SplayTreeMap((int a, int b) {
-    return b - a;
-  });
-
+  final Map<int, ApiLogData> _map = SplayTreeMap((int a, int b) => b - a);
   int? _selectedDioRequestID;
+  int? _comparisonDioRequestID;
+
+  // Multi-filter logic
+  final Set<String> selectedMethods = {};
+  bool showOnlyErrors = false;
+
+  bool splitMode = false;
+  bool syncMode = true;
 
   int? get selectedDioRequestID {
-    if (_selectedDioRequestID == null && _map.isNotEmpty) {
-      _selectedDioRequestID = _map.keys.first;
+    var logs = getApiLogDatas();
+    if (logs.isEmpty) {
+      _selectedDioRequestID = null;
+    } else if (_selectedDioRequestID == null ||
+        !_contains(_selectedDioRequestID!)) {
+      _selectedDioRequestID = logs.first.apiLogId;
     }
     return _selectedDioRequestID;
   }
 
-  int get requestCount => _map.length;
+  int? get comparisonDioRequestID {
+    if (_comparisonDioRequestID == null ||
+        !_contains(_comparisonDioRequestID!)) {
+      _comparisonDioRequestID = selectedDioRequestID;
+    }
+    return _comparisonDioRequestID;
+  }
+
+  bool _contains(int id) {
+    var logs = getApiLogDatas();
+    for (ApiLogData log in logs) {
+      if (log.apiLogId == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  void resetFilters() {
+    selectedMethods.clear();
+    showOnlyErrors = false;
+  }
 
   void _addApiLogData(ApiLogData apiLogData) {
     _map[apiLogData.apiLogId] = apiLogData;
   }
 
-  void setSelectedDioRequestID(int selectedDioRequestID) {
-    _selectedDioRequestID = selectedDioRequestID;
+  void clearLogs() {
+    _map.clear();
+    _selectedDioRequestID = null;
+    resetFilters();
   }
 
-  ApiLogData? getApiLogData(int dioRequestId) {
-    return _map[dioRequestId];
+  void toggleSplitMode() {
+    splitMode = !splitMode;
+    if (splitMode && syncMode) {
+      _comparisonDioRequestID = _selectedDioRequestID;
+    }
   }
 
-  ApiLogData? getSelectedApiLogData() {
-    return _map[selectedDioRequestID];
+  void toggleSyncMode() {
+    syncMode = !syncMode;
+    if (syncMode) {
+      _comparisonDioRequestID = _selectedDioRequestID;
+    }
   }
+
+  void setSelectedDioRequestID(int id) {
+    _selectedDioRequestID = id;
+    if (syncMode) {
+      _comparisonDioRequestID = id;
+    }
+  }
+
+  void setComparisonDioRequestID(int? id) {
+    _comparisonDioRequestID = id;
+  }
+
+  List<String> getAvailableMethods() {
+    return _map.values.map((e) => e.requestLogData.method).toSet().toList();
+  }
+
+  List<ApiLogData> getApiLogDatas() {
+    return _map.values.where((log) {
+      bool matchMethod = selectedMethods.isEmpty ||
+          selectedMethods.contains(log.requestLogData.method);
+      bool matchError = !showOnlyErrors || log.hasError;
+      return matchMethod && matchError;
+    }).toList();
+  }
+
+  int get requestCount => _map.length;
+
+  ApiLogData? getApiLogData(int dioRequestId) => _map[dioRequestId];
+
+  ApiLogData? getSelectedApiLogData() => _map[selectedDioRequestID];
+
+  ApiLogData? getComparisonApiLogData() {
+    return _map[comparisonDioRequestID];
+  }
+
+  // Helper to get only error logs
+  List<ApiLogData> getErrorLogs() =>
+      _map.values.where((e) => e.hasError).toList();
 
   ApiLogData? getLastApiLogData() {
     if (_map.isEmpty) {
       return null;
     }
     return _map[_map.keys.first];
-  }
-
-  List<ApiLogData> getApiLogDatas() {
-    return _map.entries.map((e) => e.value).toList();
   }
 }

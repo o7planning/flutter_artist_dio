@@ -97,6 +97,7 @@ class _ResponseBodySectionState extends State<_ResponseBodySection> {
             controller: _switchController,
             activeColor: colorScheme.primary,
             inactiveColor: colorScheme.surfaceContainerHigh,
+            initialValue: showTree,
             activeChild: Text(
               'JSON TREE',
               style: TextStyle(

@@ -1,8 +1,5 @@
 part of '../../../rest_debug_screen.dart';
 
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-
 class _RestDebugDialog extends StatelessWidget {
   final bool showJson;
   final bool showToken;
@@ -17,26 +14,22 @@ class _RestDebugDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = calculatePreferredDialogSize(
+    final Size preferContentSize = calculatePreferredDialogSize(
       context,
-      preferredWidth: 1000,
+      preferredWidth: 1200,
       preferredHeight: 620,
     );
 
-    FaAlertDialog alert = FaAlertDialog(
-      icon: Icon(
-        Icons.bug_report,
-        size: 20,
-        color: Colors.indigo,
-      ),
+    FaDialog alert = FaDialog(
+      iconData: Icons.bug_report,
       titleText: "Rest Debug Viewer",
-      content: Container(
-        padding: const EdgeInsets.all(2),
-        width: size.width,
-        height: size.height,
-        child: _buildMainWidget(),
-      ),
-      contentPadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.all(5),
+      allowFullScreen: true,
+      preferredContentWidth: preferContentSize.width,
+      preferredContentHeight: preferContentSize.height,
+      content: _buildMainWidget(),
+       enableFullscreenAnimation: true,
+       resizable: false,
     );
     return alert;
   }
@@ -65,5 +58,7 @@ Future<void> showRestDebugDialog(
         onHelpPressed: onHelpPressed,
       );
     },
-  );
+  ).then((_) {
+    apiLogger.resetFilters();
+  });
 }

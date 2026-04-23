@@ -1,139 +1,175 @@
 part of '../../../rest_debug_screen.dart';
 
 class _RequestListSection extends StatelessWidget {
+  final VoidCallback onRefresh;
+  final VoidCallback onClear;
   final void Function(int requestId) onSelectRequestId;
-
-  final double _fontSize = 13;
-  final double _iconSize = 16;
-  final double _verticalPadding = 10;
-  final double _horizontalPadding = 6;
 
   const _RequestListSection({
     required this.onSelectRequestId,
+    required this.onRefresh,
+    required this.onClear,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    List<ApiLogData> infos = apiLogger.getApiLogDatas();
+    final List<ApiLogData> infos = apiLogger.getApiLogDatas();
 
-    return _CustomAppContainer.transparent(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-      width: double.infinity,
-      child: infos.isEmpty
-          ? Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.api_outlined,
-                    size: 14,
-                    color: theme.colorScheme.onSurfaceVariant
-                        .withValues(alpha: 0.5),
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
-                    "No API Logs",
-                    style: TextStyle(
-                      color: theme.colorScheme.onSurfaceVariant
-                          .withValues(alpha: 0.7),
-                      fontSize: 12,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : BreadCrumb(
-              divider: const SizedBox(width: 8),
-              overflow: ScrollableOverflow(
-                keepLastDivider: false,
-                reverse: false,
-                direction: Axis.horizontal,
-              ),
-              items: infos
-                  .map(
-                    (e) => BreadCrumbItem(
-                      padding: const EdgeInsets.symmetric(horizontal: 2),
-                      content: _buildItemWidget(context, e),
-                    ),
-                  )
-                  .toList(),
+    return Container(
+      height: 60,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        border: Border(
+            bottom: BorderSide(
+                color: theme.dividerColor.withValues(alpha: 0.2), width: 1)),
+      ),
+      child: Row(
+        children: [
+          _buildFilterButton(context, theme),
+          const VerticalDivider(width: 1, indent: 12, endIndent: 12),
+          Expanded(
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              itemCount: infos.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 8),
+              itemBuilder: (context, index) {
+                final info = infos[index];
+                return _LogItemChip(
+                  info: info,
+                  isSelected: info.apiLogId == apiLogger.selectedDioRequestID,
+                  onRefresh: onRefresh,
+                );
+              },
             ),
+          ),
+          const VerticalDivider(width: 1, indent: 12, endIndent: 12),
+          _buildActionButtons(context, theme),
+        ],
+      ),
     );
   }
 
-  String _toTooltip(ApiError apiError) {
-    if (apiError.errorType != null) {
-      return apiError.errorType!.description;
-    }
-    return "";
-  }
-
-  Widget _buildItemWidget(BuildContext context, ApiLogData info) {
-    final theme = Theme.of(context);
+  Widget _buildActionButtons(BuildContext context, ThemeData theme) {
     final colorScheme = theme.colorScheme;
 
-    final ErrorLogData? dioErrorData = info.errorLogData;
-    ApiError? conversationError = info.conversationError;
-    final ApiErrorType? apiErrorType =
-        dioErrorData?.apiErrorType ?? conversationError?.errorType;
-
-    final bool isSelected = info.apiLogId == apiLogger.selectedDioRequestID;
-
-    final Color statusColor = apiErrorType != null
-        ? colorScheme.error
-        : (isSelected
-            ? colorScheme.primary
-            : colorScheme.onSurface.withValues(alpha: 0.7));
-
-    return Tooltip(
-      message: info.conversationError == null
-          ? "Request ${info.apiLogId}"
-          : _toTooltip(info.conversationError!),
-      child: InkWell(
-        onTap: () => onSelectRequestId(info.apiLogId),
-        borderRadius: BorderRadius.circular(20), // Bo tròn dạng viên thuốc
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-          decoration: BoxDecoration(
-            // CHIÊU 2: Nền mờ ảo, hít màu primary khi chọn
-            color: isSelected
-                ? colorScheme.primary.withValues(alpha: 0.15)
-                : colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: isSelected
-                  ? colorScheme.primary
-                  : theme.dividerColor.withValues(alpha: 0.1),
-              width: 1,
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                apiErrorType != null
-                    ? _getErrorIconData(apiErrorType)
-                    : Icons.check_circle_outline,
-                color: statusColor,
-                size: _iconSize,
-              ),
-              const SizedBox(width: 6),
-              Text(
-                "${info.apiLogId}",
-                style: TextStyle(
-                  fontSize: _fontSize,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  color: statusColor,
-                ),
-              ),
-            ],
+    return Row(
+      children: [
+        SimpleSmallIconButton(
+          iconData: apiLogger.splitMode
+              ? Icons.vertical_split
+              : Icons.horizontal_rule,
+          iconColor: apiLogger.splitMode
+              ? colorScheme.primary
+              : colorScheme.onSurfaceVariant,
+          onPressed: () {
+            apiLogger.toggleSplitMode();
+            onRefresh();
+          },
+          tooltip: "Toggle Split Mode",
+        ),
+        Opacity(
+          opacity: apiLogger.splitMode ? 1.0 : 0.3,
+          child: SimpleSmallIconButton(
+            iconData: apiLogger.syncMode ? Icons.link : Icons.link_off,
+            iconColor: (apiLogger.splitMode && apiLogger.syncMode)
+                ? colorScheme.secondary
+                : colorScheme.onSurfaceVariant,
+            onPressed: apiLogger.splitMode
+                ? () {
+                    apiLogger.toggleSyncMode();
+                    onRefresh();
+                  }
+                : null,
+            tooltip: "Sync Logs",
           ),
         ),
+        const VerticalDivider(width: 1, indent: 15, endIndent: 15),
+        SimpleSmallIconButton(
+          iconData: Icons.delete_sweep_outlined,
+          iconColor: colorScheme.error,
+          onPressed: onClear,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFilterButton(BuildContext context, ThemeData theme) {
+    final availableMethods = apiLogger.getAvailableMethods();
+    final colorScheme = theme.colorScheme;
+
+    return PopupMenuButton(
+      icon: Icon(
+        Icons.filter_alt_outlined,
+        color:
+            (apiLogger.selectedMethods.isNotEmpty || apiLogger.showOnlyErrors)
+                ? colorScheme.primary
+                : colorScheme.onSurfaceVariant,
       ),
+      constraints: const BoxConstraints(minWidth: 200),
+      onSelected: (value) {
+        if (value == "ERRORS") {
+          apiLogger.showOnlyErrors = !apiLogger.showOnlyErrors;
+        } else if (value is String) {
+          if (apiLogger.selectedMethods.contains(value)) {
+            apiLogger.selectedMethods.remove(value);
+          } else {
+            apiLogger.selectedMethods.add(value);
+          }
+        }
+        onRefresh();
+      },
+      itemBuilder: (context) {
+        return <PopupMenuEntry>[
+          PopupMenuItem(
+            enabled: false,
+            child: Row(
+              children: [
+                Icon(Icons.tune, size: 16, color: colorScheme.primary),
+                const SizedBox(width: 8),
+                Text(
+                  "FILTER METHODS",
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: colorScheme.primary,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const PopupMenuDivider(),
+          ...availableMethods.map(
+            (m) => CustomCheckedPopupMenuItem(
+              value: m,
+              checked: apiLogger.selectedMethods.contains(m),
+              child: Text(
+                m,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: apiLogger.selectedMethods.contains(m)
+                      ? colorScheme.primary
+                      : null,
+                ),
+              ),
+            ),
+          ),
+          const PopupMenuDivider(),
+          CustomCheckedPopupMenuItem(
+            value: "ERRORS",
+            checked: apiLogger.showOnlyErrors,
+            child: Text(
+              "Errors Only",
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colorScheme.error,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ];
+      },
     );
   }
 }

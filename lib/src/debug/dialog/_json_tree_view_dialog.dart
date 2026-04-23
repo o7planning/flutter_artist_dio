@@ -22,25 +22,18 @@ class __RestJsonTreeViewDialogState extends State<_RestJsonTreeViewDialog> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = calculatePreferredDialogSize(
+    final Size preferContentSize = calculatePreferredDialogSize(
       context,
       preferredWidth: 800,
       preferredHeight: 520,
     );
-    FaAlertDialog alert = FaAlertDialog(
-      icon: Icon(
-        Icons.bug_report,
-        size: 20,
-        color: Colors.indigo,
-      ),
+    FaDialog alert = FaDialog(
+      iconData: Icons.bug_report,
       titleText: "Find data conversion errors.",
-      content: Container(
-        width: size.width,
-        height: size.height,
-        padding: EdgeInsets.all(5),
-        child: _buildMainWidget(),
-      ),
-      contentPadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.all(5),
+      preferredContentWidth: preferContentSize.width,
+      preferredContentHeight: preferContentSize.height,
+      content: _buildMainWidget(),
     );
     return alert;
   }

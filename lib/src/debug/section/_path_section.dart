@@ -1,11 +1,13 @@
 part of '../../../rest_debug_screen.dart';
 
 class _PathSection extends StatelessWidget {
+  final String? label; // TODO: Show label in the GUI.
   final ApiLogData info;
   final Function() onFullScreenPressed;
 
   const _PathSection({
     super.key,
+    this.label,
     required this.info,
     required this.onFullScreenPressed,
   });
@@ -14,44 +16,70 @@ class _PathSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    const double iconSize = 16;
 
-    return _CustomAppContainer.transparent(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      width: double.infinity,
+    final isComparison = label == "COMPARISON";
+    final labelColor =
+        isComparison ? colorScheme.secondary : colorScheme.primary;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      decoration: BoxDecoration(
+        color: labelColor.withValues(alpha: 0.05),
+        border: Border(
+            bottom:
+                BorderSide(color: theme.dividerColor.withValues(alpha: 0.1))),
+      ),
       child: Row(
         children: [
+          // Hiển thị Nhãn và ID (Ví dụ: [PRIMARY #21])
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            decoration: BoxDecoration(
+              color: labelColor,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (isComparison) ...[
+                  const Icon(Icons.flag_rounded, size: 12, color: Colors.white),
+                  const SizedBox(width: 4),
+                ],
+                Text(
+                  "${label ?? 'LOG'} #${info.apiLogId}",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
           Expanded(
             child: IconLabelSelectableText(
-              icon: Icon(
-                Icons.api_rounded,
-                size: iconSize,
-                color: colorScheme.primary.withValues(alpha: 0.7),
-              ),
+              icon: Icon(Icons.api_rounded, size: 16, color: labelColor),
               label: '${info.requestLogData.method}: ',
               labelStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: colorScheme.primary,
-                fontSize: 13,
-              ),
+                  fontWeight: FontWeight.bold, color: labelColor, fontSize: 12),
               text: info.requestLogData.uri.path,
               textStyle: TextStyle(
-                color: colorScheme.onSurface.withValues(alpha: 0.9),
+                color: colorScheme.onSurface,
                 fontFamily: 'Courier',
-                fontSize: 13,
+                fontSize: 12,
               ),
             ),
           ),
+          // Nút Copy
           SimpleSmallIconButton(
-            iconData: Icons.copy_rounded,
+            iconData: Icons.copy_all_rounded,
             iconSize: 14,
-            iconColor: colorScheme.onSurfaceVariant,
             onPressed: () {
-              String text =
-                  "${info.requestLogData.baseUrl}${info.requestLogData.uri.path}";
-              Clipboard.setData(ClipboardData(text: text));
-              _closeAllSnackBars(context);
-              _showSnackBar(context, "URL Copied");
+              Clipboard.setData(
+                  ClipboardData(text: info.requestLogData.uri.toString()));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("URL Copied"), duration: Duration(seconds: 1)));
             },
           ),
         ],
