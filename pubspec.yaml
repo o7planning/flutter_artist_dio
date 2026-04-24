@@ -13,11 +13,10 @@ dependencies:
 
   tabbed_view: ^3.1.0 # ^2.1.0
   animated_tree_view: ^2.3.0
-  dio: ^5.9.2 # ^5.9.1 # ^5.7.0
-  fresh_dio: ^0.6.0 # ^0.4.5 # ^0.4.4
+  dio: ^5.9.2 # ^5.9.1
+  fresh_dio: ^0.6.0 # ^0.4.5
   flutter_advanced_switch: ^3.2.0 # ^3.1.0
   hovering: ^1.0.4
-  flutter_breadcrumb: ^1.0.1
 
   flutter_artist_core:
     path: ../flutter_artist_core
