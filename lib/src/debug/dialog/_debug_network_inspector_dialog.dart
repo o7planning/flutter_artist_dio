@@ -1,11 +1,11 @@
 part of '../../../rest_debug_screen.dart';
 
-class _RestDebugDialog extends StatelessWidget {
+class _DebugNetworkInspectorDialog extends StatelessWidget {
   final bool showJson;
   final bool showToken;
   final Function()? onHelpPressed;
 
-  const _RestDebugDialog({
+  const _DebugNetworkInspectorDialog({
     super.key,
     required this.showJson,
     required this.showToken,
@@ -22,20 +22,20 @@ class _RestDebugDialog extends StatelessWidget {
 
     FaDialog alert = FaDialog(
       iconData: Icons.bug_report,
-      titleText: "Rest Debug Viewer",
+      titleText: "Debug Network Inspector",
       contentPadding: EdgeInsets.all(5),
       allowFullScreen: true,
       preferredContentWidth: preferContentSize.width,
       preferredContentHeight: preferContentSize.height,
       content: _buildMainWidget(),
-       enableFullscreenAnimation: true,
-       resizable: false,
+      enableFullscreenAnimation: true,
+      resizable: false,
     );
     return alert;
   }
 
   Widget _buildMainWidget() {
-    return RestDebugView(
+    return DebugNetworkInspectorView(
       showJson: showJson,
       showToken: showToken,
       showInScrollView: true,
@@ -43,7 +43,7 @@ class _RestDebugDialog extends StatelessWidget {
   }
 }
 
-Future<void> showRestDebugDialog(
+Future<void> showDebugNetworkInspectorDialog(
   BuildContext context, {
   required bool showJson,
   required bool showToken,
@@ -52,7 +52,7 @@ Future<void> showRestDebugDialog(
   await showDialog(
     context: context,
     builder: (BuildContext context) {
-      return _RestDebugDialog(
+      return _DebugNetworkInspectorDialog(
         showJson: showJson,
         showToken: showToken,
         onHelpPressed: onHelpPressed,

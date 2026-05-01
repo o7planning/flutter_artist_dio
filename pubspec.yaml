@@ -18,10 +18,8 @@ dependencies:
   flutter_advanced_switch: ^3.2.0 # ^3.1.0
   hovering: ^1.0.4
 
-  flutter_artist_core:
-    path: ../flutter_artist_core
-  flutter_artist_commons_ui:
-    path: ../flutter_artist_commons_ui
+  flutter_artist_core: ^0.0.1
+  flutter_artist_commons_ui: ^0.0.1
 
 
 dev_dependencies:
@@ -68,3 +66,9 @@ flutter:
   #
   # For details regarding fonts in packages, see
   # https://flutter.dev/to/font-from-package
+
+dependency_overrides:
+  flutter_artist_core:
+    path: ../flutter_artist_core
+  flutter_artist_commons_ui:
+    path: ../flutter_artist_commons_ui

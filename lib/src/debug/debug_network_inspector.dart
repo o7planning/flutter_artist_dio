@@ -1,11 +1,11 @@
 part of '../../rest_debug_screen.dart';
 
-class RestDebugView extends StatefulWidget {
+class DebugNetworkInspectorView extends StatefulWidget {
   final bool showJson;
   final bool showToken;
   final bool showInScrollView;
 
-  const RestDebugView({
+  const DebugNetworkInspectorView({
     super.key,
     required this.showJson,
     required this.showToken,
@@ -13,10 +13,10 @@ class RestDebugView extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => _RestDebugViewState();
+  State<StatefulWidget> createState() => _DebugNetworkInspectorViewState();
 }
 
-class _RestDebugViewState extends State<RestDebugView> {
+class _DebugNetworkInspectorViewState extends State<DebugNetworkInspectorView> {
   ApiLogData? primaryLog;
   ApiLogData? comparisonLog;
 

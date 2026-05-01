@@ -20,9 +20,9 @@ import 'src/debug/widget/_custom_checked_popup_menu_item.dart'
 
 part 'src/debug/_utils.dart';
 part 'src/debug/dialog/_json_tree_view_dialog.dart';
-part 'src/debug/dialog/_rest_debug_dialog.dart';
+part 'src/debug/dialog/_debug_network_inspector_dialog.dart';
 part 'src/debug/json_tree/_node_data.dart';
-part 'src/debug/rest_debug_view.dart';
+part 'src/debug/debug_network_inspector.dart';
 part 'src/debug/section/_json_tree_view.dart';
 part 'src/debug/section/_path_section.dart';
 part 'src/debug/section/_request_body_section.dart';
@@ -47,9 +47,9 @@ class RestDebugScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Rest Debug"),
+        title: const Text("Network Inspector"),
       ),
-      body: const RestDebugView(
+      body: const DebugNetworkInspectorView(
         showJson: true,
         showInScrollView: false,
         showToken: false,
