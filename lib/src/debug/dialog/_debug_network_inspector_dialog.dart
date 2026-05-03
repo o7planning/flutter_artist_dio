@@ -43,7 +43,7 @@ class _DebugNetworkInspectorDialog extends StatelessWidget {
   }
 }
 
-Future<void> showDebugNetworkInspectorDialog(
+Future<void> showDebugNetworkInspector(
   BuildContext context, {
   required bool showJson,
   required bool showToken,
