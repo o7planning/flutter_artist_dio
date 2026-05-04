@@ -1,4 +1,4 @@
-part of '../../rest_debug_screen.dart';
+part of '../../flutter_artist_dio.dart';
 
 class DebugNetworkInspectorView extends StatefulWidget {
   final bool showJson;

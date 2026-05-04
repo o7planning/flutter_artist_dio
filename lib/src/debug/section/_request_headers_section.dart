@@ -1,4 +1,4 @@
-part of '../../../rest_debug_screen.dart';
+part of '../../../flutter_artist_dio.dart';
 
 class _RequestHeadersSection extends StatelessWidget {
   final ApiLogData apiLogData;
@@ -48,39 +48,16 @@ class _RequestHeadersSection extends StatelessWidget {
               const SizedBox(height: 10),
               _buildAuthorizationRow(context, colorScheme),
             ],
-            if (apiLogData.requestLogData.queryParameters.isNotEmpty) ...[
-              const SizedBox(height: 15),
-              _buildSectionHeader(
-                  context, Icons.manage_search, 'Query Parameters'),
-              const SizedBox(height: 8),
-              _MapKeyValueView(map: apiLogData.requestLogData.queryParameters),
-            ],
+            // if (apiLogData.requestLogData.queryParameters.isNotEmpty) ...[
+            //   const SizedBox(height: 15),
+            //   _buildSectionHeader(
+            //       context, Icons.manage_search, 'Query Parameters'),
+            //   const SizedBox(height: 8),
+            //   _MapKeyValueView(map: apiLogData.requestLogData.queryParameters),
+            // ],
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildSectionHeader(
-      BuildContext context, IconData icon, String title) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Row(
-      children: [
-        Icon(icon, size: 16, color: colorScheme.primary),
-        const SizedBox(width: 8),
-        Text(
-          title.toUpperCase(),
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-            color: colorScheme.primary,
-            letterSpacing: 1.1,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-            child: Divider(color: colorScheme.primary.withValues(alpha: 0.1))),
-      ],
     );
   }
 

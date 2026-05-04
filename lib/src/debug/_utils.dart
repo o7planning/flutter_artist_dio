@@ -1,4 +1,4 @@
-part of '../../rest_debug_screen.dart';
+part of '../../flutter_artist_dio.dart';
 
 void _showSnackBar(BuildContext context, String value) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value)));
