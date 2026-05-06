@@ -8,8 +8,8 @@ class FlutterArtistDioLoggerInterceptor extends QueuedInterceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.extra[_timeStampKey] = DateTime.timestamp().millisecondsSinceEpoch;
-    final apiLogData = ApiLogUtils.createApiLogData(options);
-    apiLogger._addApiLogData(apiLogData);
+    final apiLogData = _ApiLogHelper.createApiLogData(options);
+    ApiLogger.instance._addApiLogData(apiLogData);
     handler.next(options);
   }
 
@@ -21,7 +21,7 @@ class FlutterArtistDioLoggerInterceptor extends QueuedInterceptor {
       responseTime = DateTime.timestamp().millisecondsSinceEpoch - triggerTime;
     }
     final ApiLogData? apiLogData =
-        ApiLogUtils.getApiLogData(err.requestOptions);
+        _ApiLogHelper.getApiLogData(err.requestOptions);
     final errorInfo = ErrorLogData(err, responseTime);
     apiLogData?._setErrorInfo(errorInfo);
     handler.next(err);
@@ -30,7 +30,7 @@ class FlutterArtistDioLoggerInterceptor extends QueuedInterceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     final ApiLogData? apiLogData =
-        ApiLogUtils.getApiLogData(response.requestOptions);
+        _ApiLogHelper.getApiLogData(response.requestOptions);
     final triggerTime = response.requestOptions.extra[_timeStampKey];
 
     int responseTime = 0;

@@ -78,7 +78,7 @@ ApiResult<D> _handleDioException<D>(
     );
   }
   //
-  ApiLogData? apiLogData = ApiLogUtils.getApiLogData(error.requestOptions);
+  ApiLogData? apiLogData = _ApiLogHelper.getApiLogData(error.requestOptions);
   apiLogData?._setApiError(apiError);
   //
   ApiResult<D> apiResult = ApiResult<D>.fromError(apiError);

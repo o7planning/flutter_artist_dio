@@ -28,7 +28,7 @@ class DebugNetworkInspectorDialog extends StatelessWidget {
         );
       },
     ).then((_) {
-      apiLogger.resetFilters();
+      ApiLogger.instance.resetFilters();
     });
   }
 

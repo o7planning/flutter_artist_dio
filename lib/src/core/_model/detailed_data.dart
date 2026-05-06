@@ -38,7 +38,7 @@ class DetailedData {
     else if (data is List) {
       return DetailedData(
         jsonObjOrArray: data,
-        text: toBeautifulJson(data!),
+        text: toBeautifulJson(data),
         noResponse: false,
       );
     }
@@ -46,7 +46,7 @@ class DetailedData {
     else if (data is Map) {
       return DetailedData(
         jsonObjOrArray: data,
-        text: toBeautifulJson(data!),
+        text: toBeautifulJson(data),
         noResponse: false,
       );
     }

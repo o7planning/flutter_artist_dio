@@ -15,7 +15,7 @@ class _RequestListSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final List<ApiLogData> infos = apiLogger.getApiLogDatas();
+    final List<ApiLogData> infos = ApiLogger.instance.getApiLogDatas();
 
     return Container(
       height: 60,
@@ -39,7 +39,8 @@ class _RequestListSection extends StatelessWidget {
                 final info = infos[index];
                 return _LogItemChip(
                   info: info,
-                  isSelected: info.apiLogId == apiLogger.selectedDioRequestID,
+                  isSelected:
+                      info.apiLogId == ApiLogger.instance.selectedDioRequestID,
                   onRefresh: onRefresh,
                 );
               },
@@ -58,28 +59,29 @@ class _RequestListSection extends StatelessWidget {
     return Row(
       children: [
         SimpleSmallIconButton(
-          iconData: apiLogger.splitMode
+          iconData: ApiLogger.instance.splitMode
               ? Icons.vertical_split
               : Icons.horizontal_rule,
-          iconColor: apiLogger.splitMode
+          iconColor: ApiLogger.instance.splitMode
               ? colorScheme.primary
               : colorScheme.onSurfaceVariant,
           onPressed: () {
-            apiLogger.toggleSplitMode();
+            ApiLogger.instance.toggleSplitMode();
             onRefresh();
           },
           tooltip: "Toggle Split Mode",
         ),
         Opacity(
-          opacity: apiLogger.splitMode ? 1.0 : 0.3,
+          opacity: ApiLogger.instance.splitMode ? 1.0 : 0.3,
           child: SimpleSmallIconButton(
-            iconData: apiLogger.syncMode ? Icons.link : Icons.link_off,
-            iconColor: (apiLogger.splitMode && apiLogger.syncMode)
-                ? colorScheme.secondary
-                : colorScheme.onSurfaceVariant,
-            onPressed: apiLogger.splitMode
+            iconData: ApiLogger.instance.syncMode ? Icons.link : Icons.link_off,
+            iconColor:
+                (ApiLogger.instance.splitMode && ApiLogger.instance.syncMode)
+                    ? colorScheme.secondary
+                    : colorScheme.onSurfaceVariant,
+            onPressed: ApiLogger.instance.splitMode
                 ? () {
-                    apiLogger.toggleSyncMode();
+                    ApiLogger.instance.toggleSyncMode();
                     onRefresh();
                   }
                 : null,
@@ -97,26 +99,27 @@ class _RequestListSection extends StatelessWidget {
   }
 
   Widget _buildFilterButton(BuildContext context, ThemeData theme) {
-    final availableMethods = apiLogger.getAvailableMethods();
+    final availableMethods = ApiLogger.instance.getAvailableMethods();
     final colorScheme = theme.colorScheme;
 
     return PopupMenuButton(
       icon: Icon(
         Icons.filter_alt_outlined,
-        color:
-            (apiLogger.selectedMethods.isNotEmpty || apiLogger.showOnlyErrors)
-                ? colorScheme.primary
-                : colorScheme.onSurfaceVariant,
+        color: (ApiLogger.instance.selectedMethods.isNotEmpty ||
+                ApiLogger.instance.showOnlyErrors)
+            ? colorScheme.primary
+            : colorScheme.onSurfaceVariant,
       ),
       constraints: const BoxConstraints(minWidth: 200),
       onSelected: (value) {
         if (value == "ERRORS") {
-          apiLogger.showOnlyErrors = !apiLogger.showOnlyErrors;
+          ApiLogger.instance.showOnlyErrors =
+              !ApiLogger.instance.showOnlyErrors;
         } else if (value is String) {
-          if (apiLogger.selectedMethods.contains(value)) {
-            apiLogger.selectedMethods.remove(value);
+          if (ApiLogger.instance.selectedMethods.contains(value)) {
+            ApiLogger.instance.selectedMethods.remove(value);
           } else {
-            apiLogger.selectedMethods.add(value);
+            ApiLogger.instance.selectedMethods.add(value);
           }
         }
         onRefresh();
@@ -144,12 +147,12 @@ class _RequestListSection extends StatelessWidget {
           ...availableMethods.map(
             (m) => CustomCheckedPopupMenuItem(
               value: m,
-              checked: apiLogger.selectedMethods.contains(m),
+              checked: ApiLogger.instance.selectedMethods.contains(m),
               child: Text(
                 m,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: apiLogger.selectedMethods.contains(m)
+                  color: ApiLogger.instance.selectedMethods.contains(m)
                       ? colorScheme.primary
                       : null,
                 ),
@@ -159,7 +162,7 @@ class _RequestListSection extends StatelessWidget {
           const PopupMenuDivider(),
           CustomCheckedPopupMenuItem(
             value: "ERRORS",
-            checked: apiLogger.showOnlyErrors,
+            checked: ApiLogger.instance.showOnlyErrors,
             child: Text(
               "Errors Only",
               style: theme.textTheme.bodyMedium?.copyWith(

@@ -33,8 +33,8 @@ class _DebugNetworkInspectorViewState extends State<DebugNetworkInspectorView> {
 
   void _refreshData() {
     setState(() {
-      primaryLog = apiLogger.getSelectedApiLogData();
-      comparisonLog = apiLogger.getComparisonApiLogData();
+      primaryLog = ApiLogger.instance.getSelectedApiLogData();
+      comparisonLog = ApiLogger.instance.getComparisonApiLogData();
     });
   }
 
@@ -65,7 +65,7 @@ class _DebugNetworkInspectorViewState extends State<DebugNetworkInspectorView> {
   }
 
   Widget _buildContent(BuildContext context) {
-    if (apiLogger.splitMode) {
+    if (ApiLogger.instance.splitMode) {
       return Row(
         children: [
           Expanded(
@@ -193,12 +193,12 @@ class _DebugNetworkInspectorViewState extends State<DebugNetworkInspectorView> {
   }
 
   void _onSelectRequestId(int requestId) {
-    apiLogger.setSelectedDioRequestID(requestId);
+    ApiLogger.instance.setSelectedDioRequestID(requestId);
     _refreshData();
   }
 
   void _onClearLogs() {
-    apiLogger.clearLogs();
+    ApiLogger.instance.clearLogs();
     _refreshData();
     Navigator.of(context).pop();
   }

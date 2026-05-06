@@ -1,7 +1,5 @@
 part of '../../../flutter_artist_dio.dart';
 
-int __apiLogSequence = 1;
-
 class ApiLogData {
   late final int apiLogId;
 
@@ -23,8 +21,8 @@ class ApiLogData {
   // Conversation error:
   ApiError? _conversationError;
 
-  ApiLogData(RequestOptions options) {
-    apiLogId = __apiLogSequence++;
+  ApiLogData._(this.apiLogId, RequestOptions options) {
+    // apiLogId = __apiLogSequence++;
     requestLogData = RequestLogData(
       options: options,
     );

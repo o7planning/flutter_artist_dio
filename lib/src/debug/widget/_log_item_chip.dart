@@ -24,15 +24,16 @@ class _LogItemChip extends StatelessWidget {
     return Center(
       child: InkWell(
         onTap: () {
-          apiLogger.setSelectedDioRequestID(info.apiLogId);
+          ApiLogger.instance.setSelectedDioRequestID(info.apiLogId);
           onRefresh();
         },
-        onLongPress: apiLogger.splitMode && !apiLogger.syncMode
-            ? () {
-                apiLogger.setComparisonDioRequestID(info.apiLogId);
-                onRefresh();
-              }
-            : null,
+        onLongPress:
+            ApiLogger.instance.splitMode && !ApiLogger.instance.syncMode
+                ? () {
+                    ApiLogger.instance.setComparisonDioRequestID(info.apiLogId);
+                    onRefresh();
+                  }
+                : null,
         borderRadius: BorderRadius.circular(8),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),

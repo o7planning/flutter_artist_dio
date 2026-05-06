@@ -1,8 +1,8 @@
 part of '../../../flutter_artist_dio.dart';
 
-final apiLogger = ApiLogger();
-
 class ApiLogger {
+  int __apiLogSequence = 1;
+  final int maxLogEntryCount = 50;
   final Map<int, ApiLogData> _map = SplayTreeMap((int a, int b) => b - a);
   int? _selectedDioRequestID;
   int? _comparisonDioRequestID;
@@ -13,6 +13,14 @@ class ApiLogger {
 
   bool splitMode = false;
   bool syncMode = true;
+
+  static final ApiLogger instance = ApiLogger._();
+
+  ApiLogger._();
+
+  ApiLogData _createApiLogData(RequestOptions options) {
+    return ApiLogData._(__apiLogSequence++, options);
+  }
 
   int? get selectedDioRequestID {
     var logs = getApiLogDatas();
@@ -50,6 +58,9 @@ class ApiLogger {
 
   void _addApiLogData(ApiLogData apiLogData) {
     _map[apiLogData.apiLogId] = apiLogData;
+    if (_map.length > maxLogEntryCount) {
+      _map.remove(_map.keys.last); // remove oldest
+    }
   }
 
   void clearLogs() {
@@ -106,7 +117,6 @@ class ApiLogger {
     return _map[comparisonDioRequestID];
   }
 
-  // Helper to get only error logs
   List<ApiLogData> getErrorLogs() =>
       _map.values.where((e) => e.hasError).toList();
 

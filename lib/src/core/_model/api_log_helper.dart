@@ -1,12 +1,10 @@
-import 'package:dio/dio.dart';
+part of '../../../flutter_artist_dio.dart';
 
-import '../../../flutter_artist_dio.dart';
-
-class ApiLogUtils {
+class _ApiLogHelper {
   static const String _requestKey = "-extra-flutter-artist-request-";
 
   static ApiLogData createApiLogData(RequestOptions options) {
-    ApiLogData apiLogData = ApiLogData(options);
+    ApiLogData apiLogData = ApiLogger.instance._createApiLogData(options);
     options.extra[_requestKey] = apiLogData;
     return apiLogData;
   }

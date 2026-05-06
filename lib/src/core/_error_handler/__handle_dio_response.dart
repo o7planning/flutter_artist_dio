@@ -6,7 +6,7 @@ ApiResult<D> _handleDioResponse<D>({
   required Converter? converter,
 }) {
   final ApiLogData? apiLogData =
-      ApiLogUtils.getApiLogData(response.requestOptions);
+      _ApiLogHelper.getApiLogData(response.requestOptions);
   //
   switch (responseDataMode) {
     case ResponseDataMode.wrappedData:
