@@ -55,18 +55,18 @@ class RequestLogData {
     }
   }
 
-  // TODO:
-  void _data(RequestOptions options) {
-    // if (data != null) {
-    //   if (data is Map) _printMapAsTable(options.data as Map?, header: 'Body');
-    //   if (data is FormData) {
-    //     final dataMap = <String, dynamic>{}
-    //       ..addEntries(data.fields)
-    //       ..addEntries(data.files);
-    //     _printMapAsTable(dataMap, header: 'Form data | ${data.boundary}');
-    //   } else {
-    //     _printBlock(data.toString());
-    //   }
-    // }
-  }
+  // // TODO:
+  // void _data(RequestOptions options) {
+  //   if (data != null) {
+  //     if (data is Map) _printMapAsTable(options.data as Map?, header: 'Body');
+  //     if (data is FormData) {
+  //       final dataMap = <String, dynamic>{}
+  //         ..addEntries(data.fields)
+  //         ..addEntries(data.files);
+  //       _printMapAsTable(dataMap, header: 'Form data | ${data.boundary}');
+  //     } else {
+  //       _printBlock(data.toString());
+  //     }
+  //   }
+  // }
 }

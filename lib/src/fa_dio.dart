@@ -1,29 +1,58 @@
 part of '../flutter_artist_dio.dart';
 
+/// A production-grade HTTP networking client wrapper built on top of the [Dio] package.
+///
+/// [FlutterArtistDio] standardizes Rest API execution workflows, automatically intercepts
+/// network exceptions, flattens fragmented server validation errors via an [ErrorInfoExtractor],
+/// and exposes data payloads cleanly as strongly typed [ApiResult] instances.
 class FlutterArtistDio {
+  /// The strategic pipeline component handling multi-format remote server error bisections.
   final ErrorInfoExtractor errorInfoExtractor;
+
+  /// The underlying standard network engine executor.
   final Dio dio;
 
+  /// Creates a centralized [FlutterArtistDio] networking client.
+  ///
+  /// * [dio] The active configurations base object with target interceptors.
+  /// * [errorInfoExtractor] Custom failure parser layout (defaults to [FlexibleErrorInfoExtractor]).
   // docs: 14751.
   FlutterArtistDio({
     required this.dio,
     this.errorInfoExtractor = const FlexibleErrorInfoExtractor(),
   });
 
-  //
-  // Origin DIO Function:
-  //
-  // Future<Response<T>> get<T>(
-  //     String path, {
-  //     Object? data,
-  //     Map<String, dynamic>? queryParameters,
-  //     Options? options,
-  //     CancelToken? cancelToken,
-  //     ProgressCallback? onReceiveProgress,
-  // });
-  //
+  /// Executes a secure asynchronous JSON `GET` network payload transaction request.
+  ///
+  /// Automatically captures HTTP errors or timeout lifetimes, and formats server metrics into an [ApiResult].
+  ///
+  /// Parameters:
+  /// * [path] The specific resource target URL endpoint location.
+  /// * [responseDataMode] Legacy parsing strategy selector.
+  /// * [converter] Strongly-typed model generator function (e.g., `User.fromJson`).
+  /// * [showDebug] Toggles verbose engineering logs across consoles.
+  ///
+  /// Example:
+  /// ```dart
+  /// ApiResult<User> result = await artistDio.jsonGet('/profile', converter: User.fromJson);
+  /// ```
+  ///
+  /// Origin DIO Function:
+  ///
+  /// ```dart
+  /// Future<Response<T>> get<T>(
+  ///     String path, {
+  ///     Object? data,
+  ///     Map<String, dynamic>? queryParameters,
+  ///     Options? options,
+  ///     CancelToken? cancelToken,
+  ///     ProgressCallback? onReceiveProgress,
+  /// });
+  /// ```
+  ///
   Future<ApiResult<D>> jsonGet<D>(
     String path, {
+    @Deprecated('Legacy parameter. Will be removed soon.')
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
     required Converter<D>? converter,
     bool showDebug = false,
@@ -50,21 +79,33 @@ class FlutterArtistDio {
     );
   }
 
-  //
-  // Origin DIO Function:
-  //
-  // Future<Response<T>> post<T>(
-  //     String path, {
-  //     Object? data,
-  //     Map<String, dynamic>? queryParameters,
-  //     Options? options,
-  //     CancelToken? cancelToken,
-  //     ProgressCallback? onSendProgress,
-  //     ProgressCallback? onReceiveProgress,
-  // });
-  //
+  /// Executes a secure asynchronous JSON `POST` request payload mutation pipeline.
+  ///
+  /// Submits state modification requests to remote endpoints, wrapping exceptions into a predictable [ApiResult].
+  ///
+  /// Parameters:
+  /// * [path] The targeted modification resource URL endpoint location.
+  /// * [responseDataMode] Legacy parsing strategy selector.
+  /// * [converter] Model parser layer mapped directly to structural maps.
+  /// * [showDebug] Toggles console terminal network activity prints.
+  ///
+  /// Origin DIO Function:
+  ///
+  /// ```dart
+  /// Future<Response<T>> post<T>(
+  ///     String path, {
+  ///     Object? data,
+  ///     Map<String, dynamic>? queryParameters,
+  ///     Options? options,
+  ///     CancelToken? cancelToken,
+  ///     ProgressCallback? onSendProgress,
+  ///     ProgressCallback? onReceiveProgress,
+  /// });
+  /// ```
+  ///
   Future<ApiResult<D>> jsonPost<D>(
     String path, {
+    @Deprecated('Legacy parameter. Will be removed soon.')
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
     required Converter<D>? converter,
     bool showDebug = false,
@@ -93,21 +134,33 @@ class FlutterArtistDio {
     );
   }
 
-  //
-  // Origin DIO Function:
-  //
-  // Future<Response<T>> put<T>(
-  //     String path, {
-  //     Object? data,
-  //     Map<String, dynamic>? queryParameters,
-  //     Options? options,
-  //     CancelToken? cancelToken,
-  //     ProgressCallback? onSendProgress,
-  //     ProgressCallback? onReceiveProgress,
-  // });
-  //
+  /// Executes a secure asynchronous JSON `PUT` state replacement network request.
+  ///
+  /// Updates existing system resources securely with validation safeguards.
+  ///
+  /// Parameters:
+  /// * [path] The targeted resource URL endpoint location.
+  /// * [responseDataMode] Legacy parsing strategy selector.
+  /// * [converter] Structural conversion parsing function factory.
+  /// * [showDebug] Enforces runtime telemetry log presentation.
+  ///
+  /// Origin DIO Function:
+  ///
+  /// ```
+  /// Future<Response<T>> put<T>(
+  ///     String path, {
+  ///     Object? data,
+  ///     Map<String, dynamic>? queryParameters,
+  ///     Options? options,
+  ///     CancelToken? cancelToken,
+  ///     ProgressCallback? onSendProgress,
+  ///     ProgressCallback? onReceiveProgress,
+  /// });
+  /// ```
+  ///
   Future<ApiResult<D>> jsonPut<D>(
     String path, {
+    @Deprecated('Legacy parameter. Will be removed soon.')
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
     required Converter<D>? converter,
     bool showDebug = false,
@@ -136,19 +189,31 @@ class FlutterArtistDio {
     );
   }
 
-  //
-  // Origin DIO Function:
-  //
-  // Future<Response<T>> delete<T>(
-  //     String path, {
-  //     Object? data,
-  //     Map<String, dynamic>? queryParameters,
-  //     Options? options,
-  //     CancelToken? cancelToken,
-  // });
-  //
+  /// Executes a secure asynchronous JSON `DELETE` resource destruction request lifecycle.
+  ///
+  /// Ideal for sending data mutation commands intended for backend entity erasure.
+  ///
+  /// Parameters:
+  /// * [path] Target identifier resource URL endpoint location.
+  /// * [responseDataMode] Legacy parsing strategy selector.
+  /// * [converter] Structural validation mapping handler.
+  /// * [showDebug] Activates terminal runtime stream tracking.
+  ///
+  /// Origin DIO Function:
+  ///
+  /// ```dart
+  /// Future<Response<T>> delete<T>(
+  ///     String path, {
+  ///     Object? data,
+  ///     Map<String, dynamic>? queryParameters,
+  ///     Options? options,
+  ///     CancelToken? cancelToken,
+  /// });
+  /// ```
+  ///
   Future<ApiResult<D>> jsonDelete<D>(
     String path, {
+    @Deprecated('Legacy parameter. Will be removed soon.')
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
     required Converter<D>? converter,
     bool showDebug = false,
@@ -173,6 +238,16 @@ class FlutterArtistDio {
     );
   }
 
+  ///
+  /// Executes an asynchronous stream request to download binary byte components.
+  ///
+  /// Extracts data arrays safely as a flat [List<int>] index wrapper.
+  ///
+  /// Parameters:
+  /// * [path] Raw asset storage URL target.
+  /// * [showDebug] Prints telemetry download progression statistics.
+  /// * [onReceiveProgress] Callback function tracking precise live transfer weights.
+  ///
   Future<ApiResult<List<int>?>> binaryGet(
     String path, {
     bool showDebug = false,

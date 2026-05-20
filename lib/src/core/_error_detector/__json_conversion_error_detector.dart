@@ -75,8 +75,7 @@ class JsonConversionErrorDetector {
           return w;
         }
       }
-    } else {
-      return null;
     }
+    return null;
   }
 }
