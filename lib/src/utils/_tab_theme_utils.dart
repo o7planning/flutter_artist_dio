@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_artist_styles/flutter_artist_styles.dart';
+import 'package:tabbed_view/tabbed_view.dart';
+import 'package:flutter/material.dart';
 import 'package:tabbed_view/tabbed_view.dart';
 
 class TabThemeUtils {
   static TabbedViewThemeData getTabbedViewThemeData(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    final Color contentAreaColor = theme.brightness == Brightness.dark
-        ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5)
-        : Colors.white;
-
-    final Color borderColor = theme.dividerColor;
-    final Color selectedTabColor = colorScheme.primary;
+    // Extract immutable structural layout metrics from absolute milestones
+    final Color contentAreaColor = context.faColors.surface.standard;
+    final Color borderColor = context.faColors.stroke.subtle;
+    final Color selectedTabColor = context.faColors.stroke.strong;
 
     final borderSide = BorderSide(color: borderColor, width: 1);
-
     final borderSideSelected = BorderSide(color: selectedTabColor, width: 2.0);
-    final borderSideNone = BorderSide(color: Colors.transparent, width: 0);
+    final borderSideNone =
+        const BorderSide(color: Colors.transparent, width: 0);
 
     TabbedViewThemeData themeData = TabbedViewThemeData.underline();
 
@@ -90,42 +88,30 @@ class TabThemeUtils {
     themeData.contentArea
       ..color = contentAreaColor
       ..padding = const EdgeInsets.all(8)
-      ..border = BorderSide.none;
+      ..border = BorderSide
+          .none; // Keeps the specific layout signature for dio inspector panels
 
     return themeData;
   }
 
   static Color getTabIconColor(BuildContext context, TabStatus tabStatus) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    switch (tabStatus) {
-      case TabStatus.selected:
-        return colorScheme.primary;
-
-      case TabStatus.hovered:
-        return colorScheme.onSurface;
-
-      case TabStatus.unselected:
-      default:
-        return colorScheme.onSurface.withValues(alpha: 0.6);
-    }
+    return getTabTextColor(context, tabStatus);
   }
 
   static Color getTabTextColor(BuildContext context, TabStatus status) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     switch (status) {
       case TabStatus.selected:
-        return colorScheme.primary;
+        // High-readability active ink safely anchored by the core framework rule
+        return context.faColors.ink.primary;
 
       case TabStatus.hovered:
-        return colorScheme.onSurface;
+        // Mid-frequency secondary accompaniment ink for interactive feedback
+        return context.faColors.ink.secondary;
 
       case TabStatus.unselected:
       default:
-        return colorScheme.onSurface.withValues(alpha: 0.6);
+        // Low-frequency quiet ink optimized for background layout elements
+        return context.faColors.ink.tertiary;
     }
   }
 }
