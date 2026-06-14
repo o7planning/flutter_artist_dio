@@ -4,7 +4,6 @@ class _RequestBodySection extends StatelessWidget {
   final ApiLogData apiLogData;
 
   const _RequestBodySection({
-    super.key,
     required this.apiLogData,
   });
 

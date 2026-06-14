@@ -5,7 +5,6 @@ class _RequestHeadersSection extends StatelessWidget {
   final bool showAuthorization;
 
   const _RequestHeadersSection({
-    super.key,
     required this.apiLogData,
     required this.showAuthorization,
   });
@@ -101,6 +100,13 @@ class _RequestHeadersSection extends StatelessWidget {
     );
   }
 
+  // String _truncate(String text, int maxLength) {
+  //   if (text.length <= maxLength) {
+  //     return text;
+  //   }
+  //   return "${text.substring(0, maxLength)}...";
+  // }
+
   Widget _buildInfoRow(
       BuildContext context, IconData icon, String label, String text,
       {Color? textColor}) {
@@ -115,12 +121,5 @@ class _RequestHeadersSection extends StatelessWidget {
           color: textColor,
           fontWeight: textColor != null ? FontWeight.bold : null),
     );
-  }
-
-  String _truncate(String text, int maxLength) {
-    if (text.length <= maxLength) {
-      return text;
-    }
-    return "${text.substring(0, maxLength)}...";
   }
 }

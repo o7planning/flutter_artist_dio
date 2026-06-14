@@ -152,8 +152,8 @@ dependencies:
   fresh_dio: ^0.6.0
   json_serializable: ^6.12.0
   json_annotation: ^4.10.0
-  flutter_artist_core: ^0.9.1
-  flutter_artist_dio: ^0.9.0
-  flutter_left_right_container: ^0.9.0
+  flutter_artist_core: ^latest
+  flutter_artist_dio: ^latest
+  flutter_left_right_container: ^latest
 ```
  

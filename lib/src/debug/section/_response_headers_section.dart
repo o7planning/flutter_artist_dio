@@ -7,7 +7,6 @@ class _ResponseHeadersSection extends StatelessWidget {
   final bool fullView;
 
   const _ResponseHeadersSection({
-    super.key,
     required this.apiLogData,
     required this.showJson,
     required this.onFullScreenPressed,
@@ -18,7 +17,7 @@ class _ResponseHeadersSection extends StatelessWidget {
   Widget build(BuildContext context) {
     // Dio Error or Conversion Error.
     final ApiError? apiError = apiLogData.getApiError();
-    final String? errorMessage = apiError?.errorMessage;
+    // final String? errorMessage = apiError?.errorMessage;
     final List<String>? errorDetails = apiError?.errorDetails;
     //
     final int? statusCode = apiLogData.responseLogData?.statusCode ??
@@ -172,7 +171,7 @@ class _ResponseHeadersSection extends StatelessWidget {
   }
 
   void _copyText(BuildContext context, String text) {
-    Clipboard.setData(ClipboardData(text: text ?? ""));
+    Clipboard.setData(ClipboardData(text: text));
     _closeAllSnackBars(context);
     _showSnackBar(
       context,
@@ -188,10 +187,6 @@ class _ResponseHeadersSection extends StatelessWidget {
     }
     Object realJsonOBJ =
         apiLogData.getRealJsonObjOrArray() ?? <String, dynamic>{};
-    if (realJsonOBJ == null) {
-      print(">> realJsonOBJ is null");
-      return;
-    }
     JsonConversionErrorDetector detector = JsonConversionErrorDetector(
       converter: converter,
       realJsonOBJ: realJsonOBJ,

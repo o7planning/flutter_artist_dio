@@ -4,13 +4,11 @@ class _RequestQueryParamsSection extends StatelessWidget {
   final ApiLogData apiLogData;
 
   const _RequestQueryParamsSection({
-    super.key,
     required this.apiLogData,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     Map<String, dynamic> queryParameters =
         apiLogData.requestLogData.queryParameters;
 

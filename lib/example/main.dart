@@ -108,7 +108,8 @@ class _CurrencyDemoWidgetState extends State<CurrencyDemoWidget> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.cloud_sync_rounded, size: 48, color: Colors.deepPurple),
+          const Icon(Icons.cloud_sync_rounded,
+              size: 48, color: Colors.deepPurple),
           const SizedBox(height: 16),
           Text(
             'FlutterArtistDio Integration Check',

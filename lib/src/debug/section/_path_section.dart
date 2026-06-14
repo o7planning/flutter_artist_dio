@@ -1,12 +1,11 @@
 part of '../../../flutter_artist_dio.dart';
 
 class _PathSection extends StatelessWidget {
-  final String? label; // TODO: Show label in the GUI.
+  final String? label;
   final ApiLogData info;
   final Function() onFullScreenPressed;
 
   const _PathSection({
-    super.key,
     this.label,
     required this.info,
     required this.onFullScreenPressed,

@@ -11,28 +11,25 @@ class _CustomAppContainer extends StatelessWidget {
   static const int _typeBar = 2;
 
   const _CustomAppContainer({
-    super.key,
     this.child,
     this.width,
-    this.height,
-    this.padding = const EdgeInsets.all(10),
-  }) : type = _typeDefaullt;
+  })  : height = null,
+        padding = const EdgeInsets.all(10),
+        type = _typeDefaullt;
 
   const _CustomAppContainer.transparent({
     this.child,
     this.width,
-    this.height,
     this.padding = const EdgeInsets.all(0),
-    super.key,
-  }) : type = _typeTransparent;
+  })  : height = null,
+        type = _typeTransparent;
 
   const _CustomAppContainer.bar({
     this.child,
-    this.width,
-    this.height,
-    this.padding = const EdgeInsets.all(5),
-    super.key,
-  }) : type = _typeBar;
+  })  : padding = const EdgeInsets.all(5),
+        width = null,
+        height = null,
+        type = _typeBar;
 
   Color _color(BuildContext context) {
     switch (type) {

@@ -22,11 +22,8 @@ class __RestJsonTreeViewDialogState extends State<_RestJsonTreeViewDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final Size preferContentSize = calculatePreferredDialogSize(
-      context,
-      preferredWidth: 800,
-      preferredHeight: 520,
-    );
+    final Size preferContentSize = Size(800, 520);
+
     FaDialog alert = FaDialog(
       iconData: Icons.bug_report,
       titleText: "Find data conversion errors.",
@@ -127,12 +124,14 @@ class __RestJsonTreeViewDialogState extends State<_RestJsonTreeViewDialog> {
 
 Future<void> showJsonTreeViewDialog(
   BuildContext context, {
+  Key? key,
   required Object jsonObjOrArray,
 }) async {
   await showDialog(
     context: context,
     builder: (BuildContext context) {
       return _RestJsonTreeViewDialog(
+        key: key,
         jsonObjOrArray: jsonObjOrArray,
       );
     },

@@ -3,7 +3,11 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_artist_core/flutter_artist_core.dart';
 
+/// A specialized conversion transformer utility engineered to sanitize and map
+/// third-party [DioExceptionType] failures straight into ecosystem-pure network error profiles.
 class DioErrorUtils {
+  /// Translates concrete low-level [DioExceptionType] connection states
+  /// into a structured ecosystem-compliant [ApiErrorType] token definition value.
   static ApiErrorType toApiErrorType(DioExceptionType dioExceptionType) {
     switch (dioExceptionType) {
       case DioExceptionType.connectionTimeout:

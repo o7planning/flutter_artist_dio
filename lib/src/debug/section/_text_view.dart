@@ -4,7 +4,6 @@ class _TextView extends StatefulWidget {
   final String text;
 
   const _TextView({
-    super.key,
     required this.text,
   });
 

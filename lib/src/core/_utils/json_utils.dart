@@ -1,7 +1,13 @@
 import 'dart:convert';
 
+/// The internal shared state encoder configured with
+/// a uniform three-space indentation layout rule.
 var _encoder = const JsonEncoder.withIndent("   ");
 
+/// Standard utility mapping that converts an un-formatted generic object payload
+/// into a structured, highly human-readable formatted JSON [String].
+///
+/// Returns `null` if the incoming payload fails serialization constraints.
 String? toBeautifulJson(Object jsonObj) {
   try {
     return _encoder.convert(jsonObj);
@@ -10,6 +16,8 @@ String? toBeautifulJson(Object jsonObj) {
   }
 }
 
+/// Legacy fallback encoder utility method built to process and format loose data maps,
+/// lists, or pre-encoded dynamic JSON string layers securely.
 String toBeautifulJsonOLD(dynamic data) {
   if (data == null) {
     return "";

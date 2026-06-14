@@ -9,7 +9,6 @@ class _RequestListSection extends StatelessWidget {
     required this.onSelectRequestId,
     required this.onRefresh,
     required this.onClear,
-    super.key,
   });
 
   @override

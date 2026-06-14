@@ -3,7 +3,7 @@ part of '../../../flutter_artist_dio.dart';
 class _MapKeyValueView extends StatelessWidget {
   final Map<String, dynamic> map;
 
-  const _MapKeyValueView({super.key, required this.map});
+  const _MapKeyValueView({required this.map});
 
   @override
   Widget build(BuildContext context) {

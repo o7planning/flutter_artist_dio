@@ -5,7 +5,6 @@ class _JsonTreeView extends StatelessWidget {
   final bool isTree;
 
   const _JsonTreeView({
-    super.key,
     required this.jsonObjOrArray,
     required this.isTree,
   });
@@ -51,7 +50,7 @@ class _JsonTreeView extends StatelessWidget {
 
         dynamic nodeData = nodeDataWrap.data;
         String iconPath;
-        Color iconColor;
+        // Color iconColor;
 
         if (nodeData is Map) {
           iconPath = "statics-rs/object.gif";

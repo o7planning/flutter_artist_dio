@@ -14,6 +14,7 @@ class DebugNetworkInspectorDialog extends StatelessWidget {
 
   static Future<void> show(
     BuildContext context, {
+    Key? key,
     required bool showJson,
     required bool showToken,
     Function()? onHelpPressed,
@@ -22,6 +23,7 @@ class DebugNetworkInspectorDialog extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return DebugNetworkInspectorDialog._(
+          key: key,
           showJson: showJson,
           showToken: showToken,
           onHelpPressed: onHelpPressed,
@@ -34,11 +36,7 @@ class DebugNetworkInspectorDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size preferContentSize = calculatePreferredDialogSize(
-      context,
-      preferredWidth: 1200,
-      preferredHeight: 620,
-    );
+    final Size preferContentSize = Size(1200, 620);
 
     FaDialog alert = FaDialog(
       iconData: Icons.bug_report,

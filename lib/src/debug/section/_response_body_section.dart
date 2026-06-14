@@ -11,8 +11,7 @@ class _ResponseBodySection extends StatefulWidget {
     required this.apiLogData,
     required this.onFullScreenPressed,
     required this.fullView,
-    this.padding = const EdgeInsets.all(5),
-  });
+  }) : padding = const EdgeInsets.all(5);
 
   @override
   State<StatefulWidget> createState() {

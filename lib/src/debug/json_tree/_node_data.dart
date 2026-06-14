@@ -6,9 +6,3 @@ class _NodeDataWrap {
 
   _NodeDataWrap({required this.title, required this.data});
 }
-
-enum _NodeType {
-  map,
-  array,
-  others,
-}

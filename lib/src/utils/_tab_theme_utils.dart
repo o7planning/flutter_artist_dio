@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_artist_styles/flutter_artist_styles.dart';
 import 'package:tabbed_view/tabbed_view.dart';
-import 'package:flutter/material.dart';
-import 'package:tabbed_view/tabbed_view.dart';
 
 class TabThemeUtils {
   static TabbedViewThemeData getTabbedViewThemeData(BuildContext context) {
@@ -18,14 +16,14 @@ class TabThemeUtils {
 
     TabbedViewThemeData themeData = TabbedViewThemeData.underline();
 
-    final boxDecoTabDeselected = BoxDecoration(
-      border: Border(
-        left: borderSide,
-        right: borderSide,
-        top: borderSide,
-        bottom: borderSideNone,
-      ),
-    );
+    // final boxDecoTabDeselected = BoxDecoration(
+    //   border: Border(
+    //     left: borderSide,
+    //     right: borderSide,
+    //     top: borderSide,
+    //     bottom: borderSideNone,
+    //   ),
+    // );
 
     final boxDecoTabSelected = BoxDecoration(
       border: Border(
@@ -109,7 +107,6 @@ class TabThemeUtils {
         return context.faColors.ink.secondary;
 
       case TabStatus.unselected:
-      default:
         // Low-frequency quiet ink optimized for background layout elements
         return context.faColors.ink.tertiary;
     }
