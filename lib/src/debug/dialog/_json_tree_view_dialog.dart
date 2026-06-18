@@ -56,7 +56,7 @@ class __RestJsonTreeViewDialogState extends State<_RestJsonTreeViewDialog> {
                 ),
               if (!showTree)
                 _TextView(
-                  text: JsonUtils.toBeautifulJson(widget.jsonObjOrArray) ?? "",
+                  text: FaJsonUtils.toBeautifulJson(widget.jsonObjOrArray) ?? "",
                 ),
               Positioned(top: 5, right: 5, child: _buildControlBar()),
             ],
@@ -112,7 +112,7 @@ class __RestJsonTreeViewDialogState extends State<_RestJsonTreeViewDialog> {
   }
 
   void _copy() {
-    String? text = JsonUtils.toBeautifulJson(widget.jsonObjOrArray);
+    String? text = FaJsonUtils.toBeautifulJson(widget.jsonObjOrArray);
     Clipboard.setData(ClipboardData(text: text ?? ""));
     _closeAllSnackBars(context);
     _showSnackBar(

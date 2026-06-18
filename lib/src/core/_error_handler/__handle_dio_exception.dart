@@ -44,11 +44,11 @@ ApiResult<D> _handleDioException<D>(
   print("Error: $error");
   print(stackTrace);
   //
-  final ApiErrorType apiErrorType = DioErrorUtils.toApiErrorType(error.type);
+  final ApiErrorType apiErrorType = DioFaErrorUtils.toApiErrorType(error.type);
 
   final ApiError apiError;
   if (error.response != null) {
-    apiError = DioErrorUtils.parseErrorResponse(
+    apiError = DioFaErrorUtils.parseErrorResponse(
       errorResponse: error.response!,
       apiErrorType: apiErrorType,
       errorInfoExtractor: errorInfoExtractor,

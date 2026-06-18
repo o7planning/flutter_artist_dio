@@ -31,7 +31,7 @@ class ErrorLogData {
   ErrorLogData(DioException err, this.responseTime) {
     statusCode = err.response?.statusCode;
     statusMessage = err.response?.statusMessage;
-    apiErrorType = DioErrorUtils.toApiErrorType(err.type);
+    apiErrorType = DioFaErrorUtils.toApiErrorType(err.type);
     data = err.response?.data;
   }
 

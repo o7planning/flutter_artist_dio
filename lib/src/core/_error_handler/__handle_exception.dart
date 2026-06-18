@@ -5,7 +5,7 @@ ApiResult<D> _handleException<D>(
   required StackTrace? stackTrace,
 }) {
   print(stackTrace);
-  AppError appError = ErrorUtils.toAppError(error);
+  AppError appError = FaErrorUtils.toAppError(error);
   //
   ApiResult<D> apiResult = ApiResult<D>.fromError(
     ApiError(
