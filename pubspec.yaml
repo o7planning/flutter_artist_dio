@@ -20,7 +20,7 @@ dependencies:
   hovering: ^1.0.4
 
   flutter_artist_core: ^1.0.0
-  flutter_artist_commons_ui: ^0.9.7
+  flutter_artist_commons_ui: ^0.9.8
   flutter_artist_styles: ^2.1.0
 
 
