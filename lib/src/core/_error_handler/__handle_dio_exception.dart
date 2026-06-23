@@ -41,8 +41,12 @@ ApiResult<D> _handleDioException<D>(
   required StackTrace? stackTrace,
   required ErrorInfoExtractor errorInfoExtractor,
 }) {
-  print("Error: $error");
-  print(stackTrace);
+  if (FlutterArtistDio.printOriginDioStackTrace) {
+    print("Error: $error");
+    if (stackTrace != null) {
+      print(stackTrace);
+    }
+  }
   //
   final ApiErrorType apiErrorType = DioFaErrorUtils.toApiErrorType(error.type);
 

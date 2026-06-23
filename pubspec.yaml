@@ -1,6 +1,6 @@
 name: flutter_artist_dio
 description: A powerful HTTP networking wrapper built on top of Dio. Features standalone automated multi-format backend error parsing and comprehensive response logging telemetry.
-version: 0.9.5
+version: 1.0.0
 resolution: workspace
 homepage: https://o7planning.github.io
 
@@ -19,14 +19,15 @@ dependencies:
   flutter_advanced_switch: ^3.2.0
   hovering: ^1.0.4
 
-  flutter_artist_core: ^1.0.0
-  flutter_artist_commons_ui: ^0.9.8
-  flutter_artist_styles: ^2.1.0
+  flutter_artist_core: ^2.0.0
+  flutter_artist_commons_ui: ^0.9.9
+  flutter_artist_styles: ^2.1.1
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  http_mock_adapter: ^0.6.1
   flutter_lints: ^6.0.0
 
 flutter:

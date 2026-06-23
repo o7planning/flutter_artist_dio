@@ -43,6 +43,7 @@ ApiResult<D> __handleResponseAsDirectData<D>({
     statusMessage: response.statusMessage,
     data: response.data,
     dataConverter: converter,
+    printOriginDioStackTrace: FlutterArtistDio.printOriginDioStackTrace,
   );
   return apiResult;
 }
@@ -82,6 +83,7 @@ ApiResult<D> __handleResponseAsWrappedData<D>({
     statusMessage: response.statusMessage,
     map: data,
     dataConverter: converter,
+    printOriginDioStackTrace: FlutterArtistDio.printOriginDioStackTrace,
   );
 }
 

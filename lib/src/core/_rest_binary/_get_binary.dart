@@ -42,6 +42,9 @@ Future<ApiResult<List<int>?>> _binaryGet(
       errorInfoExtractor: errorInfoExtractor,
     );
   } catch (e, stackTrace) {
-    return _handleException(e, stackTrace: stackTrace);
+    return _handleException(
+      e,
+      stackTrace: stackTrace,
+    );
   }
 }

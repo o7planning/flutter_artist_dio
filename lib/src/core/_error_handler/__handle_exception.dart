@@ -4,7 +4,9 @@ ApiResult<D> _handleException<D>(
   dynamic error, {
   required StackTrace? stackTrace,
 }) {
-  print(stackTrace);
+  if (FlutterArtistDio.printOriginDioStackTrace && stackTrace != null) {
+    print(stackTrace);
+  }
   AppError appError = FaErrorUtils.toAppError(error);
   //
   ApiResult<D> apiResult = ApiResult<D>.fromError(

@@ -50,6 +50,9 @@ Future<ApiResult<D>> _jsonPut<D>(
       errorInfoExtractor: errorInfoExtractor,
     );
   } catch (e, stackTrace) {
-    return _handleException(e, stackTrace: stackTrace);
+    return _handleException(
+      e,
+      stackTrace: stackTrace,
+    );
   }
 }

@@ -56,7 +56,8 @@ class __RestJsonTreeViewDialogState extends State<_RestJsonTreeViewDialog> {
                 ),
               if (!showTree)
                 _TextView(
-                  text: FaJsonUtils.toBeautifulJson(widget.jsonObjOrArray) ?? "",
+                  text:
+                      FaJsonUtils.toBeautifulJson(widget.jsonObjOrArray) ?? "",
                 ),
               Positioned(top: 5, right: 5, child: _buildControlBar()),
             ],

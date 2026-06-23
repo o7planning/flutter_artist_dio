@@ -6,8 +6,11 @@ part of '../flutter_artist_dio.dart';
 /// network exceptions, flattens fragmented server validation errors via an [ErrorInfoExtractor],
 /// and exposes data payloads cleanly as strongly typed [ApiResult] instances.
 class FlutterArtistDio {
+  static bool printOriginDioStackTrace = true;
+
   /// The strategic pipeline component handling multi-format remote server error bisections.
   final ErrorInfoExtractor errorInfoExtractor;
+  final PageMapping pageMapping;
 
   /// The underlying standard network engine executor.
   final Dio dio;
@@ -19,6 +22,7 @@ class FlutterArtistDio {
   // docs: 14751.
   FlutterArtistDio({
     required this.dio,
+    required this.pageMapping,
     this.errorInfoExtractor = const FlexibleErrorInfoExtractor(),
   });
 
@@ -79,6 +83,73 @@ class FlutterArtistDio {
     );
   }
 
+  /// Public API to fetch structured pagination data seamlessly without boilerplate wrappers.
+  Future<ApiResult<PageData<ITEM>>> jsonGetPage<ITEM>(
+    String path, {
+    required Converter<ITEM> converter,
+    bool showDebug = false,
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    return _jsonGet<PageData<ITEM>>(
+      dio,
+      path,
+      responseDataMode: ResponseDataMode.realData,
+      errorInfoExtractor: errorInfoExtractor,
+      showDebug: showDebug,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onReceiveProgress: onReceiveProgress,
+
+      // Injecting the dynamic manual parser inside the converter block
+      converter: (Map<String, dynamic> rawJson) {
+        return _convertToPageData<ITEM>(
+          pageMapping: pageMapping,
+          converter: converter,
+          rawJson: rawJson,
+        );
+      },
+    );
+  }
+
+  /// Public API to fetch structured pagination data seamlessly without boilerplate wrappers.
+  Future<ApiResult<ListData<ITEM>>> jsonGetList<ITEM>(
+    String path, {
+    required Converter<ITEM> converter,
+    bool showDebug = false,
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    return _jsonGet<ListData<ITEM>>(
+      dio,
+      path,
+      responseDataMode: ResponseDataMode.realData,
+      errorInfoExtractor: errorInfoExtractor,
+      showDebug: showDebug,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onReceiveProgress: onReceiveProgress,
+      // Injecting the dynamic manual parser inside the converter block
+      converter: (Map<String, dynamic> rawJson) {
+        return _convertToListData<ITEM>(
+          pageMapping: pageMapping,
+          converter: converter,
+          rawJson: rawJson,
+        );
+      },
+    );
+  }
+
   /// Executes a secure asynchronous JSON `POST` request payload mutation pipeline.
   ///
   /// Submits state modification requests to remote endpoints, wrapping exceptions into a predictable [ApiResult].
@@ -134,6 +205,76 @@ class FlutterArtistDio {
     );
   }
 
+  /// Public API to execute a secure JSON `POST` mutation request returning structured pagination data.
+  Future<ApiResult<PageData<ITEM>>> jsonPostPage<ITEM>(
+    String path, {
+    required Converter<ITEM> converter,
+    bool showDebug = false,
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    return await _jsonPost<PageData<ITEM>>(
+      dio,
+      path,
+      responseDataMode: ResponseDataMode.realData,
+      errorInfoExtractor: errorInfoExtractor,
+      showDebug: showDebug,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+      // Injecting the dynamic manual parser inside the converter block
+      converter: (Map<String, dynamic> rawJson) {
+        return _convertToPageData<ITEM>(
+          pageMapping: pageMapping,
+          converter: converter,
+          rawJson: rawJson,
+        );
+      },
+    );
+  }
+
+  /// Public API to execute a secure JSON `POST` mutation request returning flat list data.
+  Future<ApiResult<ListData<ITEM>>> jsonPostList<ITEM>(
+    String path, {
+    required Converter<ITEM> converter,
+    bool showDebug = false,
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    return await _jsonPost<ListData<ITEM>>(
+      dio,
+      path,
+      responseDataMode: ResponseDataMode.realData,
+      errorInfoExtractor: errorInfoExtractor,
+      showDebug: showDebug,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+      // Injecting the dynamic manual parser inside the converter block
+      converter: (Map<String, dynamic> rawJson) {
+        return _convertToListData<ITEM>(
+          pageMapping: pageMapping,
+          converter: converter,
+          rawJson: rawJson,
+        );
+      },
+    );
+  }
+
   /// Executes a secure asynchronous JSON `PUT` state replacement network request.
   ///
   /// Updates existing system resources securely with validation safeguards.
@@ -186,6 +327,75 @@ class FlutterArtistDio {
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+  /// Public API to execute a secure JSON `PUT` state replacement network request returning structured pagination data.
+  Future<ApiResult<PageData<ITEM>>> jsonPutPage<ITEM>(
+    String path, {
+    required Converter<ITEM> converter,
+    bool showDebug = false,
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    return await _jsonPut<PageData<ITEM>>(
+      dio,
+      path,
+      responseDataMode: ResponseDataMode.realData,
+      errorInfoExtractor: errorInfoExtractor,
+      showDebug: showDebug,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+      // Injecting the dynamic manual parser inside the converter block
+      converter: (Map<String, dynamic> rawJson) {
+        return _convertToPageData<ITEM>(
+          pageMapping: pageMapping,
+          converter: converter,
+          rawJson: rawJson,
+        );
+      },
+    );
+  }
+
+  /// Public API to execute a secure JSON `PUT` state replacement network request returning flat list data.
+  Future<ApiResult<ListData<ITEM>>> jsonPutList<ITEM>(
+    String path, {
+    required Converter<ITEM> converter,
+    bool showDebug = false,
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    return await _jsonPut<ListData<ITEM>>(
+      dio,
+      path,
+      responseDataMode: ResponseDataMode.realData,
+      errorInfoExtractor: errorInfoExtractor,
+      showDebug: showDebug,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+      converter: (Map<String, dynamic> rawJson) {
+        return _convertToListData<ITEM>(
+          pageMapping: pageMapping,
+          converter: converter,
+          rawJson: rawJson,
+        );
+      },
     );
   }
 

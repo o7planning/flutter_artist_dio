@@ -51,6 +51,9 @@ Future<ApiResult<D>> _jsonPost<D>(
       errorInfoExtractor: errorInfoExtractor,
     );
   } catch (e, stackTrace) {
-    return _handleException(e, stackTrace: stackTrace);
+    return _handleException(
+      e,
+      stackTrace: stackTrace,
+    );
   }
 }
