@@ -180,7 +180,7 @@ class _ResponseHeadersSection extends StatelessWidget {
   }
 
   void _errorDetector(BuildContext context, ApiError apiError) {
-    Function(Map<String, dynamic>)? converter = apiError.usedConverter;
+    FaJsonConverter? converter = apiError.usedConverter;
     if (converter == null) {
       print(">> No Converter");
       return;

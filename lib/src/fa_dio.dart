@@ -58,7 +58,7 @@ class FlutterArtistDio {
     String path, {
     @Deprecated('Legacy parameter. Will be removed soon.')
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
-    required Converter<D>? converter,
+    required FaJsonConverter<D>? converter,
     bool showDebug = false,
     //
     Object? data,
@@ -86,7 +86,7 @@ class FlutterArtistDio {
   /// Public API to fetch structured pagination data seamlessly without boilerplate wrappers.
   Future<ApiResult<PageData<ITEM>>> jsonGetPage<ITEM>(
     String path, {
-    required Converter<ITEM> converter,
+    required FaDataConverter<ITEM> converter,
     bool showDebug = false,
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -107,11 +107,11 @@ class FlutterArtistDio {
       onReceiveProgress: onReceiveProgress,
 
       // Injecting the dynamic manual parser inside the converter block
-      converter: (Map<String, dynamic> rawJson) {
+      converter: (dynamic data) {
         return _convertToPageData<ITEM>(
           pageMapping: pageMapping,
           converter: converter,
-          rawJson: rawJson,
+          data: data,
         );
       },
     );
@@ -120,7 +120,7 @@ class FlutterArtistDio {
   /// Public API to fetch structured pagination data seamlessly without boilerplate wrappers.
   Future<ApiResult<ListData<ITEM>>> jsonGetList<ITEM>(
     String path, {
-    required Converter<ITEM> converter,
+    required FaDataConverter<ITEM> itemConverter,
     bool showDebug = false,
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -140,11 +140,11 @@ class FlutterArtistDio {
       cancelToken: cancelToken,
       onReceiveProgress: onReceiveProgress,
       // Injecting the dynamic manual parser inside the converter block
-      converter: (Map<String, dynamic> rawJson) {
+      converter: (dynamic data) {
         return _convertToListData<ITEM>(
           pageMapping: pageMapping,
-          converter: converter,
-          rawJson: rawJson,
+          converter: itemConverter,
+          data: data,
         );
       },
     );
@@ -178,7 +178,7 @@ class FlutterArtistDio {
     String path, {
     @Deprecated('Legacy parameter. Will be removed soon.')
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
-    required Converter<D>? converter,
+    required FaJsonConverter<D>? converter,
     bool showDebug = false,
     //
     Object? data,
@@ -208,7 +208,7 @@ class FlutterArtistDio {
   /// Public API to execute a secure JSON `POST` mutation request returning structured pagination data.
   Future<ApiResult<PageData<ITEM>>> jsonPostPage<ITEM>(
     String path, {
-    required Converter<ITEM> converter,
+    required FaDataConverter<ITEM> converter,
     bool showDebug = false,
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -230,11 +230,11 @@ class FlutterArtistDio {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
       // Injecting the dynamic manual parser inside the converter block
-      converter: (Map<String, dynamic> rawJson) {
+      converter: (dynamic data) {
         return _convertToPageData<ITEM>(
           pageMapping: pageMapping,
           converter: converter,
-          rawJson: rawJson,
+          data: data,
         );
       },
     );
@@ -243,7 +243,7 @@ class FlutterArtistDio {
   /// Public API to execute a secure JSON `POST` mutation request returning flat list data.
   Future<ApiResult<ListData<ITEM>>> jsonPostList<ITEM>(
     String path, {
-    required Converter<ITEM> converter,
+    required FaDataConverter<ITEM> converter,
     bool showDebug = false,
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -265,11 +265,11 @@ class FlutterArtistDio {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
       // Injecting the dynamic manual parser inside the converter block
-      converter: (Map<String, dynamic> rawJson) {
+      converter: (dynamic data) {
         return _convertToListData<ITEM>(
           pageMapping: pageMapping,
           converter: converter,
-          rawJson: rawJson,
+          data: data,
         );
       },
     );
@@ -303,7 +303,7 @@ class FlutterArtistDio {
     String path, {
     @Deprecated('Legacy parameter. Will be removed soon.')
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
-    required Converter<D>? converter,
+    required FaJsonConverter<D> converter,
     bool showDebug = false,
     //
     Object? data,
@@ -333,7 +333,7 @@ class FlutterArtistDio {
   /// Public API to execute a secure JSON `PUT` state replacement network request returning structured pagination data.
   Future<ApiResult<PageData<ITEM>>> jsonPutPage<ITEM>(
     String path, {
-    required Converter<ITEM> converter,
+    required FaDataConverter<ITEM> converter,
     bool showDebug = false,
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -355,11 +355,11 @@ class FlutterArtistDio {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
       // Injecting the dynamic manual parser inside the converter block
-      converter: (Map<String, dynamic> rawJson) {
+      converter: (dynamic data) {
         return _convertToPageData<ITEM>(
           pageMapping: pageMapping,
           converter: converter,
-          rawJson: rawJson,
+          data: data,
         );
       },
     );
@@ -368,7 +368,7 @@ class FlutterArtistDio {
   /// Public API to execute a secure JSON `PUT` state replacement network request returning flat list data.
   Future<ApiResult<ListData<ITEM>>> jsonPutList<ITEM>(
     String path, {
-    required Converter<ITEM> converter,
+    required FaDataConverter<ITEM> converter,
     bool showDebug = false,
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -389,11 +389,11 @@ class FlutterArtistDio {
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-      converter: (Map<String, dynamic> rawJson) {
+      converter: (dynamic data) {
         return _convertToListData<ITEM>(
           pageMapping: pageMapping,
           converter: converter,
-          rawJson: rawJson,
+          data: data,
         );
       },
     );
@@ -425,7 +425,7 @@ class FlutterArtistDio {
     String path, {
     @Deprecated('Legacy parameter. Will be removed soon.')
     ResponseDataMode responseDataMode = ResponseDataMode.realData,
-    required Converter<D>? converter,
+    required FaJsonConverter<D>? converter,
     bool showDebug = false,
     //
     Object? data,

@@ -35,7 +35,7 @@ void main() {
       final result = await artistDio.jsonPost<SampleCurrencyData>(
         path,
         data: requestBody,
-        converter: SampleCurrencyData.fromJson,
+        converter: SampleCurrencyData.fromJson.toDataConverter(),
       );
 
       expect(result.isError(), false);
@@ -70,7 +70,7 @@ void main() {
       final result = await artistDio.jsonPostPage<SampleCurrencyData>(
         path,
         data: searchFilter,
-        converter: SampleCurrencyData.fromJson,
+        converter: SampleCurrencyData.fromJson.toDataConverter(),
       );
 
       expect(result.isError(), false);
@@ -94,7 +94,7 @@ void main() {
 
       final result = await artistDio.jsonPutList<SampleCurrencyData>(
         path,
-        converter: SampleCurrencyData.fromJson,
+        converter: SampleCurrencyData.fromJson.toDataConverter(),
       );
 
       expect(result.isError(), false);

@@ -99,7 +99,7 @@ class _CurrencyDemoWidgetState extends State<CurrencyDemoWidget> {
 
     final ApiResult<SampleCurrencyData> result = await _artistDio.jsonGet(
       "/static/demo/flutter_artist_dio_demo/json/USD.json",
-      converter: SampleCurrencyData.fromJson,
+      converter: SampleCurrencyData.fromJson.toDataConverter(),
     );
 
     _processResponse(
@@ -118,7 +118,7 @@ class _CurrencyDemoWidgetState extends State<CurrencyDemoWidget> {
     final ApiResult<PageData<SampleCurrencyData>> result =
         await _artistDio.jsonGetPage(
       "/static/demo/flutter_artist_dio_demo/json/currency-infos.json",
-      converter: SampleCurrencyData.fromJson,
+      converter: SampleCurrencyData.fromJson.toDataConverter(),
     );
 
     _processResponse(
@@ -147,7 +147,7 @@ class _CurrencyDemoWidgetState extends State<CurrencyDemoWidget> {
     final ApiResult<ListData<SampleCurrencyData>> result =
         await _artistDio.jsonGetList(
       "/static/demo/flutter_artist_dio_demo/json/currency-infos.json",
-      converter: SampleCurrencyData.fromJson,
+      itemConverter: SampleCurrencyData.fromJson.toDataConverter(),
     );
 
     _processResponse(

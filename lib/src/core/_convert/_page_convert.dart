@@ -2,14 +2,20 @@ part of '../../../flutter_artist_dio.dart';
 
 PageData<ITEM> _convertToPageData<ITEM>({
   required PageMapping pageMapping,
-  required Converter<ITEM> converter,
-  required Map<String, dynamic> rawJson,
+  required FaDataConverter<ITEM> converter,
+  required dynamic data,
 }) {
+  if (data is! Map<String, dynamic>) {
+    throw ApiError(
+        errorType: ApiErrorType.invalidJson,
+        errorMessage: "Invalid JSON payload structure for PageData mapping.");
+  }
+
   PaginationInfo? paginationInfo;
   final pKey = pageMapping.paginationKey;
 
-  if (rawJson.containsKey(pKey) && rawJson[pKey] is Map<String, dynamic>) {
-    final paginationJson = rawJson[pKey] as Map<String, dynamic>;
+  if (data.containsKey(pKey) && data[pKey] is Map<String, dynamic>) {
+    final paginationJson = data[pKey] as Map<String, dynamic>;
     final dKeys = pageMapping.paginationDetailKeys;
     try {
       paginationInfo = PaginationInfo(
@@ -29,21 +35,29 @@ PageData<ITEM> _convertToPageData<ITEM>({
   final List<ITEM> parsedItems = [];
   final iKey = pageMapping.itemsKey;
 
-  if (rawJson.containsKey(iKey) && rawJson[iKey] is List) {
-    final rawList = rawJson[iKey] as List;
+  if (data.containsKey(iKey) && data[iKey] is List) {
+    final rawList = data[iKey] as List;
     for (final rawItem in rawList) {
-      rawItem as Map<String, dynamic>;
-      final ITEM? item = converter(rawItem);
-      if (item == null) {
+      try {
+        final ITEM? item = converter(rawItem);
+
+        if (item == null) {
+          throw ApiError(
+            errorType: ApiErrorType.conversion,
+            errorMessage:
+                "Item conversion returned null. Structural integrity violation for type: $ITEM.",
+          );
+        }
+        parsedItems.add(item);
+      } catch (e) {
         throw ApiError(
           errorType: ApiErrorType.conversion,
-          errorMessage:
-              "Item conversion returned null. Structural integrity violation for type: $ITEM.",
+          errorMessage: "Item conversion error inside PageData pipeline: $e",
         );
       }
-      parsedItems.add(item);
     }
   }
+
   return PageData<ITEM>(
     paginationInfo: paginationInfo,
     items: parsedItems,

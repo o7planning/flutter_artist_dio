@@ -2,25 +2,39 @@ part of '../../../flutter_artist_dio.dart';
 
 ListData<ITEM> _convertToListData<ITEM>({
   required PageMapping pageMapping,
-  required Converter<ITEM> converter,
-  required Map<String, dynamic> rawJson,
+  required FaDataConverter<ITEM> converter,
+  required dynamic data,
 }) {
+  if (data is! Map<String, dynamic>) {
+    throw ApiError(
+      errorType: ApiErrorType.invalidJson,
+      errorMessage: "Invalid JSON payload structure for ListData mapping.",
+    );
+  }
+
   final List<ITEM> parsedItems = [];
   final iKey = pageMapping.itemsKey;
 
-  if (rawJson.containsKey(iKey) && rawJson[iKey] is List) {
-    final rawList = rawJson[iKey] as List;
+  if (data.containsKey(iKey) && data[iKey] is List) {
+    final rawList = data[iKey] as List;
     for (final rawItem in rawList) {
-      rawItem as Map<String, dynamic>;
-      final ITEM? item = converter(rawItem);
-      if (item == null) {
+      try {
+        final ITEM? item = converter(rawItem);
+        if (item == null) {
+          throw ApiError(
+            errorType: ApiErrorType.conversion,
+            errorMessage:
+                "Item conversion returned null. Structural integrity violation for type: $ITEM.",
+          );
+        }
+        parsedItems.add(item);
+      } catch (e) {
+        // Intercept any serialization mapping failure and pipe safely into the ecosystem error
         throw ApiError(
           errorType: ApiErrorType.conversion,
-          errorMessage:
-              "Item conversion returned null. Structural integrity violation for type: $ITEM.",
+          errorMessage: "Item conversion error inside ListData pipeline: $e",
         );
       }
-      parsedItems.add(item);
     }
   }
 

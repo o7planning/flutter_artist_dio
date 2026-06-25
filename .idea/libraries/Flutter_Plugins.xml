@@ -27,7 +27,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/file_selector_windows-0.9.3+5" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/just_audio-0.10.5" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/package_info_plus-9.0.1" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_android-2.3.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/jni_flutter-1.0.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_secure_storage_windows-3.1.2" />
@@ -48,7 +47,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_android-0.8.13+19" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite-2.4.3" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_darwin-2.4.3" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/video_player_android-2.9.6" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.26.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-4.13.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_android-2.4.3" />
@@ -61,6 +59,8 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/pointer_interceptor_web-0.10.3" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/pointer_interceptor-0.10.1+2" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging-16.4.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.2" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/video_player_android-2.9.7" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

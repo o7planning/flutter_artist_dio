@@ -16,7 +16,7 @@ Future<ApiResult<D>> _jsonGet<D>(
   Dio dio,
   String path, {
   required ResponseDataMode responseDataMode,
-  required Converter<D>? converter,
+  required FaJsonConverter<D>? converter,
   required ErrorInfoExtractor errorInfoExtractor,
   bool showDebug = false,
   //

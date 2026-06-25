@@ -15,7 +15,7 @@ Future<ApiResult<D>> _jsonDelete<D>(
   Dio dio,
   String path, {
   ResponseDataMode responseDataMode = ResponseDataMode.realData,
-  required Converter<D>? converter,
+  required FaJsonConverter<D>? converter,
   required ErrorInfoExtractor errorInfoExtractor,
   bool showDebug = false,
   //

@@ -4,6 +4,8 @@ import 'package:flutter_artist_dio/flutter_artist_dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 
+import '_model.dart';
+
 void main() {
   FlutterArtistDio.printOriginDioStackTrace = false;
 
@@ -184,7 +186,7 @@ void main() {
 
       final result = await artistDio.jsonGetList<Map>(
         path,
-        converter: (rawJson) => null,
+        itemConverter: (rawJson) => null,
       );
 
       expect(result.isError(), true);
@@ -222,6 +224,23 @@ void main() {
       expect(result.error?.statusCode, 502);
       // Tầng xử lý lỗi phải tự động gán chuỗi thô này vào làm errorMessage hoặc originErrorText
       expect(result.error?.errorMessage, contains('502 Bad Gateway'));
+    });
+
+    test(
+        '__handleResponseAsDirectData intercepts empty plain string safely and routes to business errors instead of crashing',
+        () async {
+      const path = '/api/v1/success/empty-string-trap';
+
+      // Server returns HTTP 200 but payload is completely empty string
+      dioAdapter.onGet(path, (server) => server.reply(200, "   "));
+
+      final result = await artistDio.jsonGet<SampleCurrencyData>(
+        path,
+        converter: SampleCurrencyData.fromJson,
+      );
+
+      // It should successfully catch the anomaly and report as conversion or null error rather than crashing the thread
+      expect(result.data, isNull);
     });
   });
 }
