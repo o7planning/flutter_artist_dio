@@ -2,13 +2,13 @@ import 'package:flutter_artist_core/flutter_artist_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('FaDataConverters - Strict Primitives Element Isolation Suite', () {
+  group('FaItemConverters - Strict Primitives Element Isolation Suite', () {
     test(
         'toStringConverter maps valid raw items directly onto strict strings and rejects null boundaries',
         () {
       // ignore: prefer_function_declarations_over_variables
-      final FaDataConverter<String> converter =
-          FaDataConverters.toStringConverter;
+      final FaItemConverter<String> converter =
+          FaItemConverters.toStringConverter;
 
       expect(converter('FlutterArtist'), 'FlutterArtist');
       expect(converter(100.85), '100.85');
@@ -26,7 +26,7 @@ void main() {
         'toIntConverter parses numeric bounds and handles truncation logic accurately',
         () {
       // ignore: prefer_function_declarations_over_variables
-      final FaDataConverter<int> converter = FaDataConverters.toIntConverter;
+      final FaItemConverter<int> converter = FaItemConverters.toIntConverter;
 
       expect(converter(500), 500);
       expect(converter(45.67), 45); // Truncation decimal boundary verification
@@ -49,8 +49,8 @@ void main() {
         'toDoubleConverter resolves real float matrix metrics or numeric plain strings safely',
         () {
       // ignore: prefer_function_declarations_over_variables
-      final FaDataConverter<double> converter =
-          FaDataConverters.toDoubleConverter;
+      final FaItemConverter<double> converter =
+          FaItemConverters.toDoubleConverter;
 
       expect(converter(3.14159), 3.14159);
       expect(converter(200), 200.0);
@@ -66,7 +66,7 @@ void main() {
     test('toBoolConverter decodes versatile representation flags correctly',
         () {
       // ignore: prefer_function_declarations_over_variables
-      final FaDataConverter<bool> converter = FaDataConverters.toBoolConverter;
+      final FaItemConverter<bool> converter = FaItemConverters.toBoolConverter;
 
       expect(converter(true), true);
       expect(converter(false), false);
@@ -87,11 +87,11 @@ void main() {
         'toDateTimeConverter and toDateConverter resolve absolute timelines or patterns accurately',
         () {
       // ignore: prefer_function_declarations_over_variables
-      final FaDataConverter<DateTime> dateTimeConverter =
-          FaDataConverters.toDateTimeConverter();
+      final FaItemConverter<DateTime> dateTimeConverter =
+          FaItemConverters.toDateTimeConverter();
       // ignore: prefer_function_declarations_over_variables
-      final FaDataConverter<DateTime> dateOnlyConverter =
-          FaDataConverters.toDateConverter(pattern: 'yyyy-MM-dd');
+      final FaItemConverter<DateTime> dateOnlyConverter =
+          FaItemConverters.toDateConverter(pattern: 'yyyy-MM-dd');
 
       // Epoch Milliseconds validation pipeline
       final expectedTime = DateTime.fromMillisecondsSinceEpoch(1782397800000);
@@ -99,7 +99,7 @@ void main() {
 
       // Custom pattern formatting layout check via intl package signatures
       final customPattern =
-          FaDataConverters.toDateTimeConverter(pattern: 'dd/MM/yyyy HH:mm:ss');
+          FaItemConverters.toDateTimeConverter(pattern: 'dd/MM/yyyy HH:mm:ss');
       expect(customPattern('25/06/2026 14:30:00'),
           DateTime(2026, 6, 25, 14, 30, 0));
 

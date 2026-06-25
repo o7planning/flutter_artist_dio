@@ -2,7 +2,17 @@
 
 All notable changes to the `flutter_artist_dio` library will be documented in this file.
 
+
 ---
+
+## [2.0.0]
+
+### Added
+
+* jsonPostFetchList
+* jsonPostList
+* jsonPostPage
+* ....
 
 ## [1.0.0] - 2026-06-23
 

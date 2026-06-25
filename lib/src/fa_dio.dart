@@ -15,11 +15,38 @@ class FlutterArtistDio {
   /// The underlying standard network engine executor.
   final Dio dio;
 
-  /// Creates a centralized [FlutterArtistDio] networking client.
+  /// Creates a centralized [FlutterArtistDio] networking client instance.
   ///
   /// * [dio] The active configurations base object with target interceptors.
-  /// * [errorInfoExtractor] Custom failure parser layout (defaults to [FlexibleErrorInfoExtractor]).
-  // docs: 14751.
+  /// * [pageMapping] Custom strategy definitions for envelope list and page extraction.
+  /// * [errorInfoExtractor] Custom failure parser layout (details and examples are fully documented inside [FlexibleErrorInfoExtractor]).
+  ///
+  /// ### Example 1: Standard Default Initialization
+  /// *Uses default page key structures (`items`, `pagination`, `currentPage`, etc.)*
+  /// ```dart
+  /// final artistDio = FlutterArtistDio(
+  ///   dio: Dio(BaseOptions(baseUrl: 'https://api.leantek.com')),
+  ///   pageMapping: const PageMapping(), // Uses standard out-of-the-box key configurations
+  /// );
+  /// ```
+  ///
+  /// ### Example 2: Highly Customized Enterprise Layout Specifications
+  /// *Overriding infrastructure keys to match customized legacy remote server payload rules.*
+  /// ```dart
+  /// final customArtistDio = FlutterArtistDio(
+  ///   dio: Dio(BaseOptions(baseUrl: 'https://api.legacy-system.com')),
+  ///   pageMapping: const PageMapping(
+  ///     itemsKey: 'records',                // Custom matching node: "records" instead of "items"
+  ///     paginationKey: 'meta',              // Custom matching node: "meta" instead of "pagination"
+  ///     paginationDetailKeys: PaginationDetailKeys(
+  ///       currentPage: 'pageIndex',         // Custom sub-key conversion binding
+  ///       pageSize: 'limitCount',           // Custom sub-key conversion binding
+  ///       totalItems: 'totalRecords',       // Custom sub-key conversion binding
+  ///       totalPages: 'totalPageCount',     // Custom sub-key conversion binding
+  ///     ),
+  ///   ),
+  /// );
+  /// ```
   FlutterArtistDio({
     required this.dio,
     required this.pageMapping,
@@ -32,33 +59,28 @@ class FlutterArtistDio {
   ///
   /// Parameters:
   /// * [path] The specific resource target URL endpoint location.
-  /// * [responseDataMode] Legacy parsing strategy selector.
-  /// * [converter] Strongly-typed model generator function (e.g., `User.fromJson`).
+  /// * [jsonConverter] Strongly-typed root model mapper ([FaJsonConverter]).
   /// * [showDebug] Toggles verbose engineering logs across consoles.
   ///
-  /// Example:
-  /// ```dart
-  /// ApiResult<User> result = await artistDio.jsonGet('/profile', converter: User.fromJson);
+  /// ### Expected Root JSON Payload Layout:
+  /// ```json
+  /// {
+  ///   "id": "USD",
+  ///   "symbol": "$",
+  ///   "name": "US Dollar"
+  /// }
   /// ```
   ///
-  /// Origin DIO Function:
-  ///
+  /// ### Example:
   /// ```dart
-  /// Future<Response<T>> get<T>(
-  ///     String path, {
-  ///     Object? data,
-  ///     Map<String, dynamic>? queryParameters,
-  ///     Options? options,
-  ///     CancelToken? cancelToken,
-  ///     ProgressCallback? onReceiveProgress,
-  /// });
+  /// ApiResult<CurrencyInfo?> result = await artistDio.jsonGet(
+  ///   '/api/v1/currencies/USD',
+  ///   jsonConverter: CurrencyInfo.fromJson,
+  /// );
   /// ```
-  ///
   Future<ApiResult<D>> jsonGet<D>(
     String path, {
-    @Deprecated('Legacy parameter. Will be removed soon.')
-    ResponseDataMode responseDataMode = ResponseDataMode.realData,
-    required FaJsonConverter<D>? converter,
+    required FaJsonConverter<D>? jsonConverter,
     bool showDebug = false,
     //
     Object? data,
@@ -70,8 +92,7 @@ class FlutterArtistDio {
     return _jsonGet<D>(
       dio,
       path,
-      responseDataMode: responseDataMode,
-      converter: converter,
+      jsonConverter: jsonConverter,
       errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       //
@@ -83,10 +104,38 @@ class FlutterArtistDio {
     );
   }
 
-  /// Public API to fetch structured pagination data seamlessly without boilerplate wrappers.
+  /// Public API to fetch managed pagination data segments wrapped inside a [PageData] envelope.
+  ///
+  /// Parameters:
+  /// * [path] The paginated resource search URL endpoint location.
+  /// * [itemConverter] Strict non-nullable element processor applied sequentially on the inner array.
+  ///
+  /// ### Expected Envelope JSON Payload Layout (Based on default [PageMapping]):
+  /// ```json
+  /// {
+  ///   "pagination": {
+  ///     "currentPage": 1,
+  ///     "pageSize": 10,
+  ///     "totalItems": 45,
+  ///     "totalPages": 5
+  ///   },
+  ///   "items": [
+  ///     { "id": "USD", "symbol": "$", "name": "US Dollar" },
+  ///     { "id": "EUR", "symbol": "€", "name": "Euro" }
+  ///   ]
+  /// }
+  /// ```
+  ///
+  /// ### Example:
+  /// ```dart
+  /// ApiResult<PageData<CurrencyInfo>> result = await artistDio.jsonGetPage(
+  ///   '/api/v1/currencies/search',
+  ///   itemConverter: FaItemConverters.fromJsonConverter(CurrencyInfo.fromJson),
+  /// );
+  /// ```
   Future<ApiResult<PageData<ITEM>>> jsonGetPage<ITEM>(
     String path, {
-    required FaDataConverter<ITEM> converter,
+    required FaItemConverter<ITEM> itemConverter,
     bool showDebug = false,
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -97,7 +146,6 @@ class FlutterArtistDio {
     return _jsonGet<PageData<ITEM>>(
       dio,
       path,
-      responseDataMode: ResponseDataMode.realData,
       errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       data: data,
@@ -105,22 +153,42 @@ class FlutterArtistDio {
       options: options,
       cancelToken: cancelToken,
       onReceiveProgress: onReceiveProgress,
-
-      // Injecting the dynamic manual parser inside the converter block
-      converter: (dynamic data) {
+      jsonConverter: (dynamic data) {
         return _convertToPageData<ITEM>(
           pageMapping: pageMapping,
-          converter: converter,
+          itemConverter: itemConverter,
           data: data,
         );
       },
     );
   }
 
-  /// Public API to fetch structured pagination data seamlessly without boilerplate wrappers.
+  /// Public API to fetch flat array collections securely wrapped into a unified [ListData].
+  ///
+  /// Parameters:
+  /// * [path] The specific collection resource endpoint location.
+  /// * [itemConverter] Strict non-nullable element processor applied sequentially on the inner array.
+  ///
+  /// ### Expected Envelope JSON Payload Layout (Based on default [PageMapping]):
+  /// ```json
+  /// {
+  ///   "items": [
+  ///     { "id": "USD", "symbol": "$", "name": "US Dollar" },
+  ///     { "id": "EUR", "symbol": "€", "name": "Euro" }
+  ///   ]
+  /// }
+  /// ```
+  ///
+  /// ### Example:
+  /// ```dart
+  /// ApiResult<ListData<CurrencyInfo>> result = await artistDio.jsonGetList(
+  ///   '/api/v1/currencies/active-list',
+  ///   itemConverter: FaItemConverters.fromJsonConverter(CurrencyInfo.fromJson),
+  /// );
+  /// ```
   Future<ApiResult<ListData<ITEM>>> jsonGetList<ITEM>(
     String path, {
-    required FaDataConverter<ITEM> itemConverter,
+    required FaItemConverter<ITEM> itemConverter,
     bool showDebug = false,
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -131,7 +199,6 @@ class FlutterArtistDio {
     return _jsonGet<ListData<ITEM>>(
       dio,
       path,
-      responseDataMode: ResponseDataMode.realData,
       errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       data: data,
@@ -139,46 +206,44 @@ class FlutterArtistDio {
       options: options,
       cancelToken: cancelToken,
       onReceiveProgress: onReceiveProgress,
-      // Injecting the dynamic manual parser inside the converter block
-      converter: (dynamic data) {
+      jsonConverter: (dynamic data) {
         return _convertToListData<ITEM>(
           pageMapping: pageMapping,
-          converter: itemConverter,
+          itemConverter: itemConverter,
           data: data,
         );
       },
     );
   }
 
-  /// Executes a secure asynchronous JSON `POST` request payload mutation pipeline.
-  ///
-  /// Submits state modification requests to remote endpoints, wrapping exceptions into a predictable [ApiResult].
+  /// Executes an asynchronous JSON `POST` request payload mutation pipeline targeting a single root entity.
   ///
   /// Parameters:
   /// * [path] The targeted modification resource URL endpoint location.
-  /// * [responseDataMode] Legacy parsing strategy selector.
-  /// * [converter] Model parser layer mapped directly to structural maps.
-  /// * [showDebug] Toggles console terminal network activity prints.
+  /// * [jsonConverter] Strongly-typed root model mapper ([FaJsonConverter]).
   ///
-  /// Origin DIO Function:
-  ///
-  /// ```dart
-  /// Future<Response<T>> post<T>(
-  ///     String path, {
-  ///     Object? data,
-  ///     Map<String, dynamic>? queryParameters,
-  ///     Options? options,
-  ///     CancelToken? cancelToken,
-  ///     ProgressCallback? onSendProgress,
-  ///     ProgressCallback? onReceiveProgress,
-  /// });
+  /// ### Expected Input/Output JSON Payload Layout:
+  /// ```json
+  /// {
+  ///   "id": "JPY",
+  ///   "symbol": "¥",
+  ///   "name": "Japanese Yen"
+  /// }
   /// ```
   ///
+  /// ### Example:
+  /// ```dart
+  /// final payload = { "id": "JPY", "symbol": "¥", "name": "Japanese Yen" };
+  ///
+  /// ApiResult<CurrencyInfo?> result = await artistDio.jsonPost(
+  ///   '/api/v1/currencies/create',
+  ///   data: payload,
+  ///   jsonConverter: CurrencyInfo.fromJson,
+  /// );
+  /// ```
   Future<ApiResult<D>> jsonPost<D>(
     String path, {
-    @Deprecated('Legacy parameter. Will be removed soon.')
-    ResponseDataMode responseDataMode = ResponseDataMode.realData,
-    required FaJsonConverter<D>? converter,
+    required FaJsonConverter<D>? jsonConverter,
     bool showDebug = false,
     //
     Object? data,
@@ -191,8 +256,7 @@ class FlutterArtistDio {
     return await _jsonPost<D>(
       dio,
       path,
-      responseDataMode: responseDataMode,
-      converter: converter,
+      jsonConverter: jsonConverter,
       errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       //
@@ -206,9 +270,24 @@ class FlutterArtistDio {
   }
 
   /// Public API to execute a secure JSON `POST` mutation request returning structured pagination data.
+  ///
+  /// Parameters:
+  /// * [path] The target query resource URL endpoint location.
+  /// * [itemConverter] Strict non-nullable element processor applied sequentially on the inner array.
+  ///
+  /// ### Example:
+  /// ```dart
+  /// final searchFilter = { "searchKeyword": "dollar" };
+  ///
+  /// ApiResult<PageData<CurrencyInfo>> result = await artistDio.jsonPostPage(
+  ///   '/api/v1/currencies/search-complex',
+  ///   data: searchFilter,
+  ///   itemConverter: FaItemConverters.fromJsonConverter(CurrencyInfo.fromJson),
+  /// );
+  /// ```
   Future<ApiResult<PageData<ITEM>>> jsonPostPage<ITEM>(
     String path, {
-    required FaDataConverter<ITEM> converter,
+    required FaItemConverter<ITEM> itemConverter,
     bool showDebug = false,
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -220,7 +299,6 @@ class FlutterArtistDio {
     return await _jsonPost<PageData<ITEM>>(
       dio,
       path,
-      responseDataMode: ResponseDataMode.realData,
       errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       data: data,
@@ -229,11 +307,10 @@ class FlutterArtistDio {
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-      // Injecting the dynamic manual parser inside the converter block
-      converter: (dynamic data) {
+      jsonConverter: (dynamic data) {
         return _convertToPageData<ITEM>(
           pageMapping: pageMapping,
-          converter: converter,
+          itemConverter: itemConverter,
           data: data,
         );
       },
@@ -241,9 +318,13 @@ class FlutterArtistDio {
   }
 
   /// Public API to execute a secure JSON `POST` mutation request returning flat list data.
+  ///
+  /// Parameters:
+  /// * [path] The target resource URL endpoint location.
+  /// * [itemConverter] Strict non-nullable element processor applied sequentially on the inner array.
   Future<ApiResult<ListData<ITEM>>> jsonPostList<ITEM>(
     String path, {
-    required FaDataConverter<ITEM> converter,
+    required FaItemConverter<ITEM> itemConverter,
     bool showDebug = false,
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -255,7 +336,6 @@ class FlutterArtistDio {
     return await _jsonPost<ListData<ITEM>>(
       dio,
       path,
-      responseDataMode: ResponseDataMode.realData,
       errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       data: data,
@@ -264,46 +344,167 @@ class FlutterArtistDio {
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-      // Injecting the dynamic manual parser inside the converter block
-      converter: (dynamic data) {
+      jsonConverter: (dynamic data) {
         return _convertToListData<ITEM>(
           pageMapping: pageMapping,
-          converter: converter,
+          itemConverter: itemConverter,
           data: data,
         );
       },
     );
   }
 
-  /// Executes a secure asynchronous JSON `PUT` state replacement network request.
+  /// Public API to execute a secure JSON `POST` request designed specifically
+  /// to fetch a flat dataset without pagination constraints (e.g., querying by IDs).
   ///
-  /// Updates existing system resources securely with validation safeguards.
+  /// This bridges the semantic gap when a query requires a large body payload
+  /// (such as a massive array of target IDs) that would otherwise overflow standard HTTP GET URL limits.
+  ///
+  /// Parameters:
+  /// * [path] The specific collection resource endpoint location.
+  /// * [itemConverter] Strict non-nullable element processor applied sequentially on the inner array.
+  ///
+  /// ### Expected Envelope JSON Payload Layout:
+  /// ```json
+  /// {
+  ///   "items": [
+  ///     { "id": 1, "code": "A1", "name": "Favorite English Songs" },
+  ///     { "id": 2, "code": "A2", "name": "Uncategorized" }
+  ///   ]
+  /// }
+  /// ```
+  ///
+  /// ### Example:
+  /// ```dart
+  /// final payload = {
+  ///   "ids": [1, 2, 3, 4, 5]
+  /// };
+  ///
+  /// ApiResult<ListData<AlbumInfo>> result = await artistDio.jsonPostFetchList(
+  ///   '/rest/list/album-info/fetch-by-ids',
+  ///   data: payload,
+  ///   itemConverter: FaItemConverters.fromJsonConverter(AlbumInfo.fromJson),
+  /// );
+  /// ```
+  Future<ApiResult<ListData<ITEM>>> jsonPostFetchList<ITEM>(
+    String path, {
+    required FaItemConverter<ITEM> itemConverter,
+    bool showDebug = false,
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    return await _jsonPost<ListData<ITEM>>(
+      dio,
+      path,
+      errorInfoExtractor: errorInfoExtractor,
+      showDebug: showDebug,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+      jsonConverter: (dynamic data) {
+        return _convertToListData<ITEM>(
+          pageMapping: pageMapping,
+          itemConverter: itemConverter,
+          data: data,
+        );
+      },
+    );
+  }
+
+  /// Public API to execute a secure JSON `POST` request designed specifically
+  /// to fetch managed pagination data segments using a heavy body payload filter structure.
+  ///
+  /// Parameters:
+  /// * [path] The paginated resource search URL endpoint location.
+  /// * [itemConverter] Strict non-nullable element processor applied sequentially on the inner array.
+  ///
+  /// ### Expected Envelope JSON Payload Layout:
+  /// ```json
+  /// {
+  ///   "pagination": {
+  ///     "currentPage": 1,
+  ///     "pageSize": 20,
+  ///     "totalItems": 2,
+  ///     "totalPages": 1
+  ///   },
+  ///   "items": [
+  ///     { "id": 1, "code": "A1", "name": "Favorite English Songs" },
+  ///     { "id": 2, "code": "A2", "name": "Uncategorized" }
+  ///   ]
+  /// }
+  /// ```
+  ///
+  /// ### Example:
+  /// ```dart
+  /// final heavyCriteria = {
+  ///   "targetDepartmentIds": [1, 5, 9, 12, 45],
+  ///   "exclusionFlags": ["archived", "temporary"]
+  /// };
+  ///
+  /// ApiResult<PageData<EmployeeInfo>> result = await artistDio.jsonPostFetchPage(
+  ///   '/rest/page/employee-info/fetch-by-complex-criteria',
+  ///   data: heavyCriteria,
+  ///   itemConverter: FaItemConverters.fromJsonConverter(EmployeeInfo.fromJson),
+  /// );
+  /// ```
+  Future<ApiResult<PageData<ITEM>>> jsonPostFetchPage<ITEM>(
+    String path, {
+    required FaItemConverter<ITEM> itemConverter,
+    bool showDebug = false,
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    return await _jsonPost<PageData<ITEM>>(
+      dio,
+      path,
+      errorInfoExtractor: errorInfoExtractor,
+      showDebug: showDebug,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+      jsonConverter: (dynamic data) {
+        return _convertToPageData<ITEM>(
+          pageMapping: pageMapping,
+          itemConverter: itemConverter,
+          data: data,
+        );
+      },
+    );
+  }
+
+  /// Executes a secure asynchronous JSON `PUT` state replacement network request targeting a single root entity.
   ///
   /// Parameters:
   /// * [path] The targeted resource URL endpoint location.
-  /// * [responseDataMode] Legacy parsing strategy selector.
-  /// * [converter] Structural conversion parsing function factory.
-  /// * [showDebug] Enforces runtime telemetry log presentation.
+  /// * [jsonConverter] Strongly-typed root model mapper ([FaJsonConverter]).
   ///
-  /// Origin DIO Function:
+  /// ### Example:
+  /// ```dart
+  /// final updatePayload = { "name": "US Dollar Updated Version" };
   ///
+  /// ApiResult<CurrencyInfo?> result = await artistDio.jsonPut(
+  ///   '/api/v1/currencies/USD',
+  ///   data: updatePayload,
+  ///   jsonConverter: CurrencyInfo.fromJson,
+  /// );
   /// ```
-  /// Future<Response<T>> put<T>(
-  ///     String path, {
-  ///     Object? data,
-  ///     Map<String, dynamic>? queryParameters,
-  ///     Options? options,
-  ///     CancelToken? cancelToken,
-  ///     ProgressCallback? onSendProgress,
-  ///     ProgressCallback? onReceiveProgress,
-  /// });
-  /// ```
-  ///
   Future<ApiResult<D>> jsonPut<D>(
     String path, {
-    @Deprecated('Legacy parameter. Will be removed soon.')
-    ResponseDataMode responseDataMode = ResponseDataMode.realData,
-    required FaJsonConverter<D> converter,
+    required FaJsonConverter<D> jsonConverter,
     bool showDebug = false,
     //
     Object? data,
@@ -316,8 +517,7 @@ class FlutterArtistDio {
     return _jsonPut<D>(
       dio,
       path,
-      responseDataMode: responseDataMode,
-      converter: converter,
+      jsonConverter: jsonConverter,
       errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       //
@@ -330,10 +530,10 @@ class FlutterArtistDio {
     );
   }
 
-  /// Public API to execute a secure JSON `PUT` state replacement network request returning structured pagination data.
+  /// Public API to execute a JSON `PUT` mutation returning structured pagination data wrappers.
   Future<ApiResult<PageData<ITEM>>> jsonPutPage<ITEM>(
     String path, {
-    required FaDataConverter<ITEM> converter,
+    required FaItemConverter<ITEM> itemConverter,
     bool showDebug = false,
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -345,7 +545,6 @@ class FlutterArtistDio {
     return await _jsonPut<PageData<ITEM>>(
       dio,
       path,
-      responseDataMode: ResponseDataMode.realData,
       errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       data: data,
@@ -354,21 +553,20 @@ class FlutterArtistDio {
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-      // Injecting the dynamic manual parser inside the converter block
-      converter: (dynamic data) {
+      jsonConverter: (dynamic data) {
         return _convertToPageData<ITEM>(
           pageMapping: pageMapping,
-          converter: converter,
+          itemConverter: itemConverter,
           data: data,
         );
       },
     );
   }
 
-  /// Public API to execute a secure JSON `PUT` state replacement network request returning flat list data.
+  /// Public API to execute a JSON `PUT` mutation returning flat list data containers.
   Future<ApiResult<ListData<ITEM>>> jsonPutList<ITEM>(
     String path, {
-    required FaDataConverter<ITEM> converter,
+    required FaItemConverter<ITEM> itemConverter,
     bool showDebug = false,
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -380,7 +578,6 @@ class FlutterArtistDio {
     return await _jsonPut<ListData<ITEM>>(
       dio,
       path,
-      responseDataMode: ResponseDataMode.realData,
       errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       data: data,
@@ -389,10 +586,10 @@ class FlutterArtistDio {
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-      converter: (dynamic data) {
+      jsonConverter: (dynamic data) {
         return _convertToListData<ITEM>(
           pageMapping: pageMapping,
-          converter: converter,
+          itemConverter: itemConverter,
           data: data,
         );
       },
@@ -401,31 +598,20 @@ class FlutterArtistDio {
 
   /// Executes a secure asynchronous JSON `DELETE` resource destruction request lifecycle.
   ///
-  /// Ideal for sending data mutation commands intended for backend entity erasure.
-  ///
   /// Parameters:
   /// * [path] Target identifier resource URL endpoint location.
-  /// * [responseDataMode] Legacy parsing strategy selector.
-  /// * [converter] Structural validation mapping handler.
-  /// * [showDebug] Activates terminal runtime stream tracking.
+  /// * [jsonConverter] Strongly-typed root model mapper ([FaJsonConverter]).
   ///
-  /// Origin DIO Function:
-  ///
+  /// ### Example:
   /// ```dart
-  /// Future<Response<T>> delete<T>(
-  ///     String path, {
-  ///     Object? data,
-  ///     Map<String, dynamic>? queryParameters,
-  ///     Options? options,
-  ///     CancelToken? cancelToken,
-  /// });
+  /// ApiResult<void> result = await artistDio.jsonDelete(
+  ///   '/api/v1/currencies/USD',
+  ///   jsonConverter: null, // Pass null if the endpoint returns an empty plain body context
+  /// );
   /// ```
-  ///
   Future<ApiResult<D>> jsonDelete<D>(
     String path, {
-    @Deprecated('Legacy parameter. Will be removed soon.')
-    ResponseDataMode responseDataMode = ResponseDataMode.realData,
-    required FaJsonConverter<D>? converter,
+    required FaJsonConverter<D>? jsonConverter,
     bool showDebug = false,
     //
     Object? data,
@@ -436,8 +622,7 @@ class FlutterArtistDio {
     return _jsonDelete<D>(
       dio,
       path,
-      responseDataMode: responseDataMode,
-      converter: converter,
+      jsonConverter: jsonConverter,
       errorInfoExtractor: errorInfoExtractor,
       showDebug: showDebug,
       //
@@ -448,16 +633,14 @@ class FlutterArtistDio {
     );
   }
 
+  /// Executes an asynchronous stream request to download binary asset byte components.
   ///
-  /// Executes an asynchronous stream request to download binary byte components.
-  ///
-  /// Extracts data arrays safely as a flat [List<int>] index wrapper.
+  /// Extracts data arrays safely as a flat non-nullable index wrapper [List<int>?].
   ///
   /// Parameters:
-  /// * [path] Raw asset storage URL target.
+  /// * [path] Raw asset network storage file URL location.
   /// * [showDebug] Prints telemetry download progression statistics.
   /// * [onReceiveProgress] Callback function tracking precise live transfer weights.
-  ///
   Future<ApiResult<List<int>?>> binaryGet(
     String path, {
     bool showDebug = false,

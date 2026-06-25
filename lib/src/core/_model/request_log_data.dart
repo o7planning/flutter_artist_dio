@@ -67,21 +67,47 @@ class RequestLogData {
     data = options.data;
     //
     mapData = {};
+
     if (data != null) {
       if (data is FormData) {
-        for (MapEntry<String, String> e in data.fields) {
-          mapData[e.key] = e.value;
+        for (final e in data.fields) {
+          if (mapData.containsKey(e.key)) {
+            if (mapData[e.key] is List) {
+              mapData[e.key].add(e.value);
+            } else {
+              mapData[e.key] = [
+                mapData[e.key],
+                e.value,
+              ];
+            }
+          } else {
+            mapData[e.key] = e.value;
+          }
+        }
+        for (final e in data.files) {
+          mapData[e.key] = "<MultipartFile>";
         }
       } else if (data is Map<String, dynamic>) {
         mapData.addAll(data);
       } else if (data is Map<dynamic, dynamic>) {
-        mapData.addAll({});
+        mapData.addAll(Map<String, dynamic>.from(data));
       } else if (data is String) {
-        mapData.addAll(jsonDecode(data));
+        final json = jsonDecode(data);
+        if (json is Map<String, dynamic>) {
+          mapData.addAll(json);
+        } else {
+          mapData["data"] = json;
+        }
+      } else if (data is List) {
+        mapData["data"] = data;
+      } else if (data is Uint8List) {
+        mapData["data"] = "<Uint8List length=${data.length}>";
+      } else if (data is List<int>) {
+        mapData["data"] = "<List<int> length=${data.length}>";
+      } else if (data is Stream<List<int>>) {
+        mapData["data"] = "<Stream<List<int>>>";
       } else {
-        // Log diagnostic information to developer consoles before breaking execution flows cleanly
-        print(">>>>>>>>> TODO: $data --> type: ${data.runtimeType}");
-        throw Error();
+        mapData["data"] = "<${data.runtimeType}>";
       }
     }
   }

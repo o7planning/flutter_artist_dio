@@ -47,7 +47,7 @@ void main() {
 
       final result = await artistDio.jsonGet<SampleCurrencyData>(
         path,
-        converter: SampleCurrencyData.fromJson.toDataConverter(),
+        jsonConverter: SampleCurrencyData.fromJson ,
       );
 
       expect(result.isError(), false);
@@ -72,7 +72,7 @@ void main() {
 
       final result = await artistDio.jsonGetList<SampleCurrencyData>(
         path,
-        itemConverter: SampleCurrencyData.fromJson.toDataConverter(),
+        itemConverter:FaItemConverters.fromJsonConverter(  SampleCurrencyData.fromJson ),
       );
 
       expect(result.isError(), false);
@@ -103,7 +103,7 @@ void main() {
 
       final result = await artistDio.jsonGetPage<SampleCurrencyData>(
         path,
-        converter: SampleCurrencyData.fromJson.toDataConverter(),
+        itemConverter: FaItemConverters.fromJsonConverter( SampleCurrencyData.fromJson ),
       );
 
       expect(result.isError(), false);
@@ -138,7 +138,7 @@ void main() {
 
       final result = await artistDio.jsonGetPage<SampleCurrencyData>(
         path,
-        converter: SampleCurrencyData.fromJson.toDataConverter(),
+        itemConverter:FaItemConverters.fromJsonConverter(  SampleCurrencyData.fromJson ),
       );
 
       expect(result.isError(), false);

@@ -181,7 +181,7 @@ Every transaction yields an `ApiResult<D>` instance, splitting payloads cleanly 
 Future<void> fetchCurrencies(FlutterArtistDio artistDio) async {
   final ApiResult<PageData<SampleCurrencyData>> result = await artistDio.jsonGetPage(
     "/api/v1/currencies/search",
-    converter: SampleCurrencyData.fromJson.toDataConverter(), // Explicit model converter mapping a SINGLE element
+    converter: SampleCurrencyData.fromJson.toItemConverter(), // Explicit model converter mapping a SINGLE element
   );
 
   if (result.isError()) {

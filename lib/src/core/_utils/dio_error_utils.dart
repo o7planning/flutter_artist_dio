@@ -16,6 +16,8 @@ class DioFaErrorUtils {
         return ApiErrorType.sendTimeout;
       case DioExceptionType.receiveTimeout:
         return ApiErrorType.receiveTimeout;
+      case DioExceptionType.transformTimeout:
+        return ApiErrorType.transformTimeout;
       case DioExceptionType.badCertificate:
         return ApiErrorType.badCertificate;
       case DioExceptionType.badResponse:

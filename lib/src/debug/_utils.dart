@@ -16,6 +16,7 @@ IconData _getErrorIconData(ApiErrorType? apiErrorType) {
   switch (apiErrorType) {
     case ApiErrorType.connectionTimeout:
     case ApiErrorType.sendTimeout:
+    case ApiErrorType.transformTimeout:
     case ApiErrorType.receiveTimeout:
     case ApiErrorType.badCertificate:
     case ApiErrorType.badResponse:

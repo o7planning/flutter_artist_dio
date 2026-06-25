@@ -88,8 +88,8 @@ void main() {
           (map) => map['statusMessage'] as String;
 
       // ignore: prefer_function_declarations_over_variables
-      final FaDataConverter<String?> integratedConverter =
-          FaDataConverters.fromJsonConverter(mockModelMapper);
+      final FaItemConverter<String?> integratedConverter =
+          FaItemConverters.fromJsonConverter(mockModelMapper);
 
       expect(integratedConverter(mockRootPayload), 'Ecosystem Operational');
       expect(

@@ -58,7 +58,7 @@ void main() {
         ),
       );
 
-      final result = await artistDio.jsonGet<Map>(path, converter: null);
+      final result = await artistDio.jsonGet<Map>(path, jsonConverter: null);
 
       expect(result.isError(), true);
       expect(result.error?.statusCode, 400);
@@ -108,7 +108,7 @@ void main() {
         ),
       );
 
-      final result = await artistDio.jsonGet<Map>(path, converter: null);
+      final result = await artistDio.jsonGet<Map>(path, jsonConverter: null);
 
       expect(result.isError(), true);
       expect(result.error?.statusCode, 422);
@@ -154,7 +154,7 @@ void main() {
         ),
       );
 
-      final result = await artistDio.jsonGet<Map>(path, converter: null);
+      final result = await artistDio.jsonGet<Map>(path, jsonConverter: null);
 
       expect(result.isError(), true);
       expect(result.error?.errorMessage,
@@ -218,7 +218,7 @@ void main() {
         ),
       );
 
-      final result = await artistDio.jsonGet<Map>(path, converter: null);
+      final result = await artistDio.jsonGet<Map>(path, jsonConverter: null);
 
       expect(result.isError(), true);
       expect(result.error?.statusCode, 502);
@@ -236,7 +236,7 @@ void main() {
 
       final result = await artistDio.jsonGet<SampleCurrencyData>(
         path,
-        converter: SampleCurrencyData.fromJson,
+        jsonConverter: SampleCurrencyData.fromJson,
       );
 
       // It should successfully catch the anomaly and report as conversion or null error rather than crashing the thread

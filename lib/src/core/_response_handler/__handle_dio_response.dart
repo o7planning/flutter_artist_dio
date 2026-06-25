@@ -1,42 +1,28 @@
 part of '../../../flutter_artist_dio.dart';
 
 ApiResult<D> _handleDioResponse<D>({
-  required ResponseDataMode responseDataMode,
   required Response response,
-  required FaJsonConverter<D>? converter,
+  required FaJsonConverter<D>? jsonConverter,
 }) {
   final ApiLogData? apiLogData =
       _ApiLogHelper.getApiLogData(response.requestOptions);
   //
-  switch (responseDataMode) {
-    case ResponseDataMode.wrappedData:
-      ApiResult<D> apiResult = __handleResponseAsWrappedData<D>(
-        response: response,
-        converter: converter,
-      );
-      //
-      if (apiResult.isError()) {
-        apiLogData?._setConversationError(apiResult.error);
-      }
-      return apiResult;
-    case ResponseDataMode.realData:
-      ApiResult<D> apiResult = __handleResponseAsDirectData<D>(
-        response: response,
-        converter: converter,
-      );
-      //
-      if (apiResult.isError()) {
-        apiLogData?._setConversationError(apiResult.error);
-      }
-      return apiResult;
+  ApiResult<D> apiResult = __handleResponseAsDirectData<D>(
+    response: response,
+    jsonConverter: jsonConverter,
+  );
+  //
+  if (apiResult.isError()) {
+    apiLogData?._setConversationError(apiResult.error);
   }
+  return apiResult;
 }
 
 // *****************************************************************************
 
 ApiResult<D> __handleResponseAsDirectData<D>({
   required Response response,
-  required FaJsonConverter<D>? converter,
+  required FaJsonConverter<D>? jsonConverter,
 }) {
   final dynamic data = response.data;
 
@@ -51,11 +37,11 @@ ApiResult<D> __handleResponseAsDirectData<D>({
 
   // Case 2: Standard structured JSON Map parsed automatically by Dio
   if (data is Map<String, dynamic>) {
-    return ApiResult<D>.fromJson(
+    return _fromJson<D>(
       statusCode: response.statusCode,
       statusMessage: response.statusMessage,
       map: data,
-      jsonConverter: converter,
+      jsonConverter: jsonConverter,
       printOriginDioStackTrace: FlutterArtistDio.printOriginDioStackTrace,
     );
   }
@@ -76,11 +62,11 @@ ApiResult<D> __handleResponseAsDirectData<D>({
       try {
         final dynamic decoded = jsonDecode(standardized);
         if (decoded is Map<String, dynamic>) {
-          return ApiResult<D>.fromJson(
+          return _fromJson<D>(
             statusCode: response.statusCode,
             statusMessage: response.statusMessage,
             map: decoded,
-            jsonConverter: converter,
+            jsonConverter: jsonConverter,
             printOriginDioStackTrace: FlutterArtistDio.printOriginDioStackTrace,
           );
         }
@@ -131,41 +117,35 @@ ApiResult<D> __handleResponseAsDirectData<D>({
 
 // *****************************************************************************
 
-ApiResult<D> __handleResponseAsWrappedData<D>({
-  required Response response,
-  required FaJsonConverter<D>? converter,
+ApiResult<D> _fromJson<D>({
+  required int? statusCode,
+  required String? statusMessage,
+  required Map<String, dynamic> map,
+  required FaJsonConverter<D>? jsonConverter,
+  bool printOriginDioStackTrace = true,
 }) {
-  WrapApiResult? rawResult = WrapApiResult.fromDynamicData(
-    statusCode: response.statusCode,
-    statusMessage: response.statusMessage,
-    data: response.data,
-  );
-  if (rawResult == null) {
-    return ApiResult<D>.success(
-      statusCode: response.statusCode,
-      statusMessage: response.statusMessage,
-      data: null,
+  D? retData;
+  try {
+    retData = jsonConverter?.call(map);
+  } catch (e, stackTrace) {
+    if (printOriginDioStackTrace) {
+      print(stackTrace);
+    }
+    return ApiResult<D>.fromError(
+      ApiError(
+        statusCode: statusCode,
+        statusMessage: statusMessage,
+        errorType: ApiErrorType.conversion,
+        errorMessage: "Data Convert error: $e",
+        originErrorText: FaJsonUtils.jsonEncodeMap(map: map),
+        usedConverter: jsonConverter,
+      ),
     );
   }
-  ApiError? apiError = rawResult.error;
-  if (apiError != null) {
-    return ApiResult<D>.fromError(apiError);
-  }
-  Map<String, dynamic>? data = rawResult.data;
-  if (data == null) {
-    return ApiResult<D>.success(
-      statusCode: response.statusCode,
-      statusMessage: response.statusMessage,
-      data: null,
-    );
-  }
-  return ApiResult.fromJson(
-    statusCode: response.statusCode,
-    statusMessage: response.statusMessage,
-    map: data,
-    jsonConverter: converter,
-    printOriginDioStackTrace: FlutterArtistDio.printOriginDioStackTrace,
+//
+  return ApiResult<D>.success(
+    statusCode: statusCode,
+    statusMessage: statusMessage,
+    data: retData,
   );
 }
-
-// *****************************************************************************

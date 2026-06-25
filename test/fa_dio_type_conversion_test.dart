@@ -25,7 +25,7 @@ void main() {
 
       // Execute container transformation macro pipeline
       final ApiResult<PageData<SampleCurrencyData>> pageResult =
-          ApiResult.createPageDataResult(sourceListResult);
+          ApiResult.createPageDataResultFromListDataResult(sourceListResult);
 
       expect(pageResult.isError(), false);
       expect(pageResult.statusCode, 200);
@@ -57,7 +57,7 @@ void main() {
 
       // Trigger flattening transformation sequence across error states
       final ApiResult<ListData<SampleCurrencyData>> listResult =
-          ApiResult.createListDataResult(failedPageResult);
+          ApiResult.createListDataResultFromPageDataResult(failedPageResult);
 
       expect(listResult.isError(), true);
       //  Should yield null data bound to container specs

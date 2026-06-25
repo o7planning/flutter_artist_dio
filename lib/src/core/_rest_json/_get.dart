@@ -15,8 +15,7 @@ part of '../../../flutter_artist_dio.dart';
 Future<ApiResult<D>> _jsonGet<D>(
   Dio dio,
   String path, {
-  required ResponseDataMode responseDataMode,
-  required FaJsonConverter<D>? converter,
+  required FaJsonConverter<D>? jsonConverter,
   required ErrorInfoExtractor errorInfoExtractor,
   bool showDebug = false,
   //
@@ -37,9 +36,8 @@ Future<ApiResult<D>> _jsonGet<D>(
     );
     //
     return _handleDioResponse<D>(
-      responseDataMode: responseDataMode,
       response: response,
-      converter: converter,
+      jsonConverter: jsonConverter,
     );
   } on DioException catch (e, stackTrace) {
     return _handleDioException(

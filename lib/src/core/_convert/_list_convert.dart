@@ -2,7 +2,7 @@ part of '../../../flutter_artist_dio.dart';
 
 ListData<ITEM> _convertToListData<ITEM>({
   required PageMapping pageMapping,
-  required FaDataConverter<ITEM> converter,
+  required FaItemConverter<ITEM> itemConverter,
   required dynamic data,
 }) {
   if (data is! Map<String, dynamic>) {
@@ -19,7 +19,7 @@ ListData<ITEM> _convertToListData<ITEM>({
     final rawList = data[iKey] as List;
     for (final rawItem in rawList) {
       try {
-        final ITEM? item = converter(rawItem);
+        final ITEM? item = itemConverter(rawItem);
         if (item == null) {
           throw ApiError(
             errorType: ApiErrorType.conversion,

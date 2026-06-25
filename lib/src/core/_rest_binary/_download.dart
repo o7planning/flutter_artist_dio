@@ -47,7 +47,6 @@ part of '../../../flutter_artist_dio.dart';
 //     );
 //     //
 //     return _handleDioResponse(
-//       responseDataMode: ResponseDataMode.realData,
 //       response: response,
 //       converter: null,
 //     );
